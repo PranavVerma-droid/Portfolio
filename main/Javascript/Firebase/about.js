@@ -10,6 +10,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const realdb = firebase.database();
+
 
 
   
@@ -29,6 +31,7 @@ const db = firebase.firestore();
         mounted() {
           this.loadProjects();
           this.loadSkillz();
+          this.loadAboutMe();
         },
         methods: {
           loadProjects() {
@@ -63,7 +66,21 @@ const db = firebase.firestore();
                           console.error(error);
                           alert("Failed to load skills.");
                         });         
-              }
+              },
+              loadAboutMe() {
+                const aboutMeRef = realdb.ref('info/about-me');
+            
+                aboutMeRef.on('value', (snapshot) => {
+                    const aboutMeText = snapshot.val();
+                    const aboutMePlaceholder = document.getElementById('about-me-placeholder');
+            
+                    if (aboutMeText) {
+                        aboutMePlaceholder.textContent = aboutMeText;
+                    } else {
+                        aboutMePlaceholder.textContent = 'No about me information available.';
+                    }
+                });
+            }
         }
       });
   
