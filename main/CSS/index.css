@@ -64,8 +64,8 @@ a {
     display:none;
 }
 #menu a {
-    margin:0px 6%;
-    font-size:19px;
+    margin:0px 5%;
+    font-size:15px;
     color:#fff;
     text-decoration:underline;
 }
@@ -139,6 +139,29 @@ a {
     z-index:4;
     transition:0.4s ease-in-out;
     border-radius:100px 100px 0px 0px;
+}
+#blogs {
+    width: 10vw;
+    height: 10vw;
+    text-align: center;
+    font-size: 25px;
+    background: transparent;
+    color: #fff;
+    position: fixed;
+    left: 45vw;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 4;
+    transition: 0.4s ease-in-out;
+    transform: rotate(180deg); /* Rotate the element */
+    border-radius: 100px 100px 0px 0px;
+}
+
+#blogs:hover {
+    background: rgba(255, 50, 50, 0.9) !important;
+    cursor: pointer !important;
 }
 #about:hover {
     background:rgba(255,50,50,0.9);
@@ -283,6 +306,79 @@ a {
 .container form textarea:focus {
     outline:none;
     border-bottom:3px solid rgba(255, 255, 255,1);
+}
+
+.scaling {
+    max-width: 100%;
+    height: auto;
+}
+
+.blog-form {
+    max-width: 300px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #00BFFF; /* Use a light blue border */
+    border-radius: 5px;
+}
+
+.blog-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+@media (max-width: 800px) {
+    .md-centering {
+        text-align: center;
+    }
+
+    .test {
+        display: none !important;
+    }
+}
+
+.blog-button {
+    background-color: #FF4136; /* Red background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Josefin Sans', sans-serif; /* Use the specified font */
+    text-transform: uppercase; /* Make text uppercase */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a drop shadow */
+}
+
+.blog-button:hover {
+    background-color: #D40000; /* Darker red on hover */
+}
+#login-button {
+    background-color: #FF4136; /* Red background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Josefin Sans', sans-serif; /* Use the specified font */
+    text-transform: uppercase; /* Make text uppercase */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add a drop shadow */
+  }
+  
+  #login-button:hover {
+    background-color: #D40000; /* Darker red on hover */
+  }
+  
+  
+.boxshadow {
+    border: 5px solid transparent;
+                background-origin: border-box;
+                background-clip: content-box, border-box;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 ::placeholder {
     color:#fff;

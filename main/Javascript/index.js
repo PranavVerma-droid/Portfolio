@@ -40,6 +40,23 @@ function closecontact(){
         $("#contact_container").css("display","none");
     },800);
 }
+
+function showblogs() {
+    $("#blogs_container").css("display", "inherit");
+    $("#blogs_container").addClass("slideInDown animated");
+    setTimeout(function () {
+        $("#blogs_container").removeClass("slideInDown animated");
+    }, 800);
+}
+
+function closeblogs() {
+    $("#blogs_container").addClass("slideOutUp animated");
+    setTimeout(function () {
+        $("#blogs_container").css("display", "none");
+        $("#blogs_container").removeClass("slideOutUp animated");
+    }, 800);
+}
+
 setTimeout(function(){
     $("#loading").addClass("animated fadeOut");
     setTimeout(function(){
@@ -49,5 +66,6 @@ setTimeout(function(){
       $("#about").removeClass("animated fadeIn");
       $("#contact").removeClass("animated fadeIn");
       $("#work").removeClass("animated fadeIn");
+      $("#blogs").removeClass("animated fadeIn");
     },1000);
 },1500);

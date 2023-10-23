@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pranav Verma.</title>
-    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/source/945b0225337909.563440870421b.png" type="image/icon type">
+    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/source/945b0225337909.563440870421b.png"
+        type="image/icon type">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/index.css">
 </head>
+
 <body>
     <div id="loading">
         <div id="spinner"></div>
@@ -25,59 +30,52 @@
         <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.8s;"></div>
         <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.7s;"></div>
     </div>
+    <!-- Desktop Menu -->
     <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s;">about</a>
     <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s;">work</a>
     <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s;">contact</a>
+    <a id="blogs" onclick="showblogs()" class="animated fadeIn test" style="animation-delay:2.2s;">blogs</a>
     <div id="middle" class="animated slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
         <h2>Software Developer / Photographer / Human (i think)</h2>
-        <div id="menu">
+        <div id="menu"> <!-- Mobile Menu -->
             <a onclick="showabout()">about</a>
             <a onclick="showwork()">work</a>
             <a onclick="showcontact()">contact</a>
+            <a onclick="showblogs()">blogs</a>
         </div>
         <table>
-                <tr>
-                    <td class="animated zoomIn" style="animation-delay:2.2s;"><a class="social" href="https://web.craftingrealm.tk">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-world-code" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <tr>
+                <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"
+                        href="https://web.craftingrealm.tk/mcserver.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad-2"
+                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M20.942 13.02a9 9 0 1 0 -9.47 7.964"></path>
-                            <path d="M3.6 9h16.8"></path>
-                            <path d="M3.6 15h9.9"></path>
-                            <path d="M11.5 3a17 17 0 0 0 0 18"></path>
-                            <path d="M12.5 3c2 3.206 2.837 6.913 2.508 10.537"></path>
-                            <path d="M20 21l2 -2l-2 -2"></path>
-                            <path d="M17 17l-2 2l2 2"></path>
-                         </svg></a></td>
-                    <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social" href="https://web.craftingrealm.tk/mcserver.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M12 5h3.5a5 5 0 0 1 0 10h-5.5l-4.015 4.227a2.3 2.3 0 0 1 -3.923 -2.035l1.634 -8.173a5 5 0 0 1 4.904 -4.019h3.4z"></path>
+                            <path
+                                d="M12 5h3.5a5 5 0 0 1 0 10h-5.5l-4.015 4.227a2.3 2.3 0 0 1 -3.923 -2.035l1.634 -8.173a5 5 0 0 1 4.904 -4.019h3.4z">
+                            </path>
                             <path d="M14 15l4.07 4.284a2.3 2.3 0 0 0 3.925 -2.023l-1.6 -8.232"></path>
                             <path d="M8 9v2"></path>
                             <path d="M7 10h2"></path>
                             <path d="M14 10h2"></path>
-                         </svg>
+                        </svg>
                     </a></td>
-                    <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social" href="https://twitter.com/PranavVermaXD">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"
+                        href="https://twitter.com/PranavVermaXD">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-x" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
                             <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
-                         </svg>
+                        </svg>
                     </a></td>
-                    <td class="animated zoomIn" style="animation-delay:2.6s;"><a class="social" href="https://instagram.com/pranavv.404"><i class="fab fa-instagram"></i></a></td>
-                    <td class="animated zoomIn" style="animation-delay:2.8s;"><a class="social" href="https://github.com/PranavVerma-droid"><i class="fab fa-github"></i></a></td>
-                    <td class="animated zoomIn" style="animation-delay:3s;"><a class="social" href="https://web.craftingrealm.tk/blogs.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-article" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
-                            <path d="M7 8h10"></path>
-                            <path d="M7 12h10"></path>
-                            <path d="M7 16h10"></path>
-                         </svg>
-                    </a></td>
-                </tr>
+                <td class="animated zoomIn" style="animation-delay:2.6s;"><a class="social"
+                        href="https://instagram.com/pranavv.404"><i class="fab fa-instagram"></i></a></td>
+                <td class="animated zoomIn" style="animation-delay:2.8s;"><a class="social"
+                        href="https://github.com/PranavVerma-droid"><i class="fab fa-github"></i></a></td>
+            </tr>
         </table>
     </div>
     <div id="work_container" class="container">
@@ -87,50 +85,113 @@
             <section v-for="project in projects" :key="project.id">
                 <h2>{{ project.projectName }}</h2>
                 <p>{{ project.projectDescription }}</p>
-                    
+
                 <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
             </section>
         </div>
     </div>
     <div id="about_container" class="container">
-            <div onclick="closeabout()"><i class="fas fa-angle-left"></i></div>
-            <h1>about.</h1>
-            <section>
-                <h2>about me</h2>
-                <p id="about-me-placeholder">
-                    Loading...
-                </p>
-            </section>
-            <section id="about-vue">
-                <h2>skills</h2>
-                <ul>
-                    <li v-for="skill in skillz" :key="skill.id"><p>{{skill.skillzName}}</p></li>
-                </ul>
+        <div onclick="closeabout()"><i class="fas fa-angle-left"></i></div>
+        <h1>about.</h1>
+        <section>
+            <h2>about me</h2>
+            <p id="about-me-placeholder">
+                Loading...
+            </p>
+        </section>
+        <section id="about-vue">
+            <h2>skills</h2>
+            <ul>
+                <li v-for="skill in skillz" :key="skill.id">
+                    <p>{{skill.skillzName}}</p>
+                </li>
+            </ul>
 
-                <h2>tools</h2>
-                <ul>
-                    <li v-for="project in projects" :key="project.id"><p>{{ project.projectName }}: {{ project.projectDescription }}</li>
-                </ul>
-            </section>
+            <h2>tools (that i know how to use)</h2>
+            <ul>
+                <li v-for="project in projects" :key="project.id">
+                    <p>{{ project.projectName }}: {{ project.projectDescription }}
+                </li>
+            </ul>
+        </section>
+    </div>
+    <div id="contact_container" class="container">
+        <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
+        <h1>contact.</h1>
+        <section>
+            <h2>contact me</h2>
+            <p>
+            <form id="contactForm">
+                <input type="text" placeholder="name" id="name" required>
+                <input type="email" placeholder="email" id="email" required><br>
+                <textarea placeholder="your message" id="message" required rows="5"></textarea><br>
+                <button class="btn_one" type="submit">send</button>
+            </form>
+            </p>
+        </section>
+    </div>
+    <div id="blogs_container" class="container">
+        <div onclick="closeblogs()"><i class="fas fa-angle-up"></i></div>
+        <h1>InfinityX Blogs</h1>
+
+        <div id="app4">
+
+            <!-- Display Blogs -->
+            <div class="mt-8 center">
+                <h2 class="text-xl font-bold mb-4">Public Blogs</h2>
+                <button v-if="selectedCategory" @click="clearCategorySelection"><strong>Clear
+                        Selection</strong></button>
+
+                <div v-if="blogs.length === 0" class="text-gray-500">No blogs yet.</div>
+
+                <div v-else>
+                    <div v-for="blog in blogs" :key="blog.id" class="boxshadow">
+                        <h3 class="md-centering">{{ blog.title }}</h3>
+                        <p class="md-centering"><span v-html="blog.content"></span></p>
+                        <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} | Published on {{
+                            formatDate(blog.publication_date) }}</small>
+                        <!-- Show edit and delete buttons to the author -->
+                        <div v-if="user && blog.author === user.email">
+                            <button @click="editBlog(blog)"
+                                id="login-button">Edit</button>&nbsp
+                            <button @click="deleteBlog(blog.id)"
+                            id="login-button">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+            <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
+                            <!-- Blog Writing Form -->
+            <div v-if="user" class="boxshadow">
+                <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button" style="margin-bottom: 10px;">Sign Out</button>
+                <form @submit.prevent="submitBlog" class="boxshadow">
+                    <h2>Create Blog:</h2>
+                    <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
+                    <textarea v-model="content" class="blog-input" placeholder="Blog Content - Supports HTML!" required></textarea>
+                    <button type="submit" class="blog-button">Submit</button>
+                </form>
+            </div>
+            
+            
+            <!-- Login Form -->
+            <div v-else class="boxshadow">
+                <p><b>Login to Create Blogs:</b></p>
+                <form @submit.prevent="login" class="center">
+                    <input type="email" v-model="email" class="border p-2 mb-2" placeholder="Email" required>
+                    <input type="password" v-model="password" class="border p-2 mb-2" placeholder="Password" required>
+                    <button type="submit" id="login-button">Login</button>
+                </form>
+            </div>
+            </div>
         </div>
-          <div id="contact_container" class="container">
-            <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
-            <h1>contact.</h1>
-            <section>
-                <h2>contact me</h2>
-                <p>
-                    <form id="contactForm">
-                        <input type="text" placeholder="name" id="name" required>
-                        <input type="email" placeholder="email" id="email" required><br>
-                        <textarea placeholder="your message" id="message" required rows="5"></textarea><br>
-                        <button class="btn_one" type="submit">send</button>
-                    </form> 
-                </p>
-            </section>
-        </div>
-        <div id="footer">
-            made on earth by a human <br> <a href="https://web.craftingrealm.tk/">PranavVerma-droid</a>
-        </div>
+    </div>
+    </div>
+    </div>
+
+
+    <div id="footer">
+        made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">PranavVerma-droid</a>
+    </div>
     <script src="Javascript/index.js" type="text/javascript"></script>
     <script src="Javascript/particles.js"></script>
     <script src="Javascript/app.js"></script>
@@ -138,10 +199,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
     <script src="Javascript/Firebase/about.js"></script>
     <script src="Javascript/Firebase/works.js"></script>
+    <script src="Javascript/Firebase/blogs.js"></script>
 
     <script src="Javascript/Firebase/contact.js"></script>
 
 </body>
+
 </html>
