@@ -331,15 +331,7 @@ a {
     font-family: 'Josefin Sans', sans-serif;
 }
 
-@media (max-width: 800px) {
-    .md-centering {
-        text-align: center;
-    }
 
-    .test {
-        display: none !important;
-    }
-}
 
 .blog-button {
     background-color: #FF4136; /* Red background color */
@@ -384,18 +376,18 @@ a {
     color:#fff;
 }
 #footer {
-    color:#fff;
-    width:92vw;
-    padding:5vh 4vw;
-    text-align:right;
-    position:fixed;
-    z-index:1;
-    bottom:0;
-    font-size:16px;
-    font-weight:bold;
+    color: #fff;
+    width: 92vw;
+    padding: 5vh 4vw;
+    text-align: left; /* Change text alignment to left */
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    font-size: 16px;
+    font-weight: bold;
 }
 #footer a {
-    color:rgb(255, 50, 50) ;
+    color: rgb(255, 50, 50);
 }
 #particles-js {
     position:fixed;
@@ -420,6 +412,11 @@ a {
 	background: rgb(255, 50, 50);
 }
 
+@media (max-width: 800px) {
+
+
+}
+
 @media (max-width: 800px){ 
     #about {
         display:none;
@@ -428,6 +425,9 @@ a {
         display:none;
     }
     #work {
+        display:none;
+    }
+    #blogs {
         display:none;
     }
     #footer {
@@ -457,5 +457,11 @@ a {
     }
     #box div {
         width:100%;
+    }
+    .md-centering {
+        text-align: center;
+    }
+    .md-hide {
+        display: none !important;
     }
 }
