@@ -18,22 +18,72 @@ const realdb = firebase.database();
       const app = Vue.createApp({
         data() {
           return {
+            user: null,
+            email: "",
+            password: "",
             projectName: "",
             projectDescription: "",
             projectImg: "",
             projects: [],
-            
-            skillzName: "",
-            skillzClass: "",
-            skillz: []
           };
         },
         mounted() {
           this.loadProjects();
-          this.loadSkillz();
           this.loadAboutMe();
+
+          firebase.auth().onAuthStateChanged(user => {
+            this.user = user;
+            this.loadProjects();
+            this.loadAboutMe();
+            });
         },
         methods: {
+            login() {
+              firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                .then(userCredential => {
+                  this.user = userCredential.user;
+                  this.email = "";
+                  this.password = "";
+                  this.loadProjects();
+                })
+                .catch(error => {
+                  console.error(error);
+                  alert("Login failed. Please check your credentials.");
+                });
+              },
+          signOut() {
+            firebase.auth().signOut()
+              .then(() => {
+                this.user = null;
+              })
+              .catch(error => {
+                console.error(error);
+                alert("Sign out failed.");
+              });
+          },
+          submitProject() {
+  
+            db.collection("about").add({
+              projectName: this.projectName,
+              projectDescription: this.projectDescription,
+              projectImg: this.projectImg,
+              author: this.user ? this.user.email : "Anonymous",
+              publication_date: new Date().toISOString(),
+            })
+            .then(() => {
+              this.projectName = "";
+              this.projectDescription = "";
+              this.projectImg = "";
+              alert("Project submitted successfully!");
+              this.loadProjects();
+            })
+            .catch(error => {
+              console.error(error);
+              alert("Project to submit blog.");
+            });
+            
+            },
+            
           loadProjects() {
             db.collection("about").get()
               .then(querySnapshot => {
@@ -50,23 +100,6 @@ const realdb = firebase.database();
                 alert("Failed to load projects.");
               });         
             },
-  
-              loadSkillz() {
-                      db.collection("skillz").get()
-                        .then(querySnapshot => {
-                          const skillz = [];
-                          querySnapshot.forEach(doc => {
-                            const skill = doc.data();
-                            skill.id = doc.id;
-                            skillz.push(skill);
-                          });
-                          this.skillz = skillz;
-                        })
-                        .catch(error => {
-                          console.error(error);
-                          alert("Failed to load skills.");
-                        });         
-              },
               loadAboutMe() {
                 const aboutMeRef = realdb.ref('info/about-me');
             
@@ -84,4 +117,4 @@ const realdb = firebase.database();
         }
       });
   
-      app.mount('#about-vue');
+      app.mount('#about_container');

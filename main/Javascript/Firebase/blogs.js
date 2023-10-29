@@ -28,7 +28,7 @@ const firebaseConfig4 = {
   };
   },
   mounted() {;
-    this.fetchBlogs();
+  this.fetchBlogs();
   firebase.auth().onAuthStateChanged(user => {
   this.user = user;
   this.fetchBlogs();

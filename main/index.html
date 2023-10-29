@@ -16,9 +16,9 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/index.css">
 
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" 
-        data-id="pranavverma" data-description="Support me on Buy me a coffee!" data-message="" 
-        data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18" class="md-hide"></script>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+        data-id="pranavverma" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F"
+        data-position="Right" data-x_margin="18" data-y_margin="18" class="md-hide"></script>
 </head>
 
 <body>
@@ -103,14 +103,7 @@
                 Loading...
             </p>
         </section>
-        <section id="about-vue">
-            <h2>skills</h2>
-            <ul>
-                <li v-for="skill in skillz" :key="skill.id">
-                    <p>{{skill.skillzName}}</p>
-                </li>
-            </ul>
-
+        <section>
             <h2>tools (that i know how to use)</h2>
             <ul>
                 <li v-for="project in projects" :key="project.id">
@@ -118,6 +111,34 @@
                 </li>
             </ul>
         </section>
+        <section>
+            <h2>Login (To add Tools)</h2>
+            <div v-if="user" class="boxshadow">
+                <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
+                    style="margin-bottom: 10px;">Sign Out</button>
+                    <form @submit.prevent="submitProject" class="boxshadow">
+                        <h2>Create Project:</h2>
+                        <p>Note: To Submit a Tool, you must be signed in as a Root Account. If not, then your Tool will be Rejected.</p>
+                        <input type="text" v-model="projectName" class="border p-2 mb-2l rounded" placeholder="Tool Title" required><br>
+                        <textarea cols="22" v-model="projectDescription" class="border p-2 mb-2 mt-3 rounded" placeholder="Tool Description" required></textarea><br>
+                        <input type="text" v-model="projectImg" class="border p-2 mb-2 rounded" placeholder="Tool Image URL" required><br>
+                        <button type="submit" class="blog-button">Submit</button>
+                      </form>
+            </div>
+
+
+            <div v-else class="boxshadow">
+                <p><b>Login to Create Blogs:</b></p>
+                <form @submit.prevent="login" class="center">
+                    <input type="email" v-model="email" class="border p-2 mb-2" placeholder="Email" required>
+                    <input type="password" v-model="password" class="border p-2 mb-2" placeholder="Password"
+                        required>
+                    <button type="submit" id="login-button">Login</button>
+                </form>
+            </div>
+        </section>
+
+        
     </div>
     <div id="contact_container" class="container">
         <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
@@ -152,40 +173,42 @@
                     <div v-for="blog in blogs" :key="blog.id" class="boxshadow">
                         <h3 class="md-centering">{{ blog.title }}</h3>
                         <p class="md-centering"><span v-html="blog.content"></span></p>
-                        <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} | Published on {{
+                        <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
+                            Published on {{
                             formatDate(blog.publication_date) }}</small>
                         <!-- Show edit and delete buttons to the author -->
                         <div v-if="user && blog.author === user.email">
-                            <button @click="editBlog(blog)"
-                                id="login-button">Edit</button>&nbsp
-                            <button @click="deleteBlog(blog.id)"
-                            id="login-button">Delete</button>
+                            <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
+                            <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
                         </div>
                     </div>
                 </div>
 
-            <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
-                            <!-- Blog Writing Form -->
-            <div v-if="user" class="boxshadow">
-                <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button" style="margin-bottom: 10px;">Sign Out</button>
-                <form @submit.prevent="submitBlog" class="boxshadow">
-                    <p>Note: Only the Root User can Make Blogs, If You are logged in with a Non Root Account, Your Blog will be Rejected.</p>
-                    <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
-                    <textarea v-model="content" class="blog-input" placeholder="Blog Content - Supports HTML!" required></textarea>
-                    <button type="submit" class="blog-button">Submit</button>
-                </form>
-            </div>
-            
-            
-            <!-- Login Form -->
-            <div v-else class="boxshadow">
-                <p><b>Login to Create Blogs:</b></p>
-                <form @submit.prevent="login" class="center">
-                    <input type="email" v-model="email" class="border p-2 mb-2" placeholder="Email" required>
-                    <input type="password" v-model="password" class="border p-2 mb-2" placeholder="Password" required>
-                    <button type="submit" id="login-button">Login</button>
-                </form>
-            </div>
+                <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
+                
+                <div v-if="user" class="boxshadow">
+                    <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
+                        style="margin-bottom: 10px;">Sign Out</button>
+                    <form @submit.prevent="submitBlog" class="boxshadow">
+                        <p>Note: Only the Root User can Make Blogs, If You are logged in with a Non Root Account, Your
+                            Blog will be Rejected.</p>
+                        <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
+                        <textarea v-model="content" class="blog-input" placeholder="Blog Content - Supports HTML!"
+                            required></textarea>
+                        <button type="submit" class="blog-button">Submit</button>
+                    </form>
+                </div>
+
+
+                <div v-else class="boxshadow">
+                    <p><b>Login to Create Blogs:</b></p>
+                    <form @submit.prevent="login" class="center">
+                        <input type="email" v-model="email" class="border p-2 mb-2" placeholder="Email" required>
+                        <input type="password" v-model="password" class="border p-2 mb-2" placeholder="Password"
+                            required>
+                        <button type="submit" id="login-button">Login</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
