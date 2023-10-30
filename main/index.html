@@ -181,7 +181,7 @@
                         <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
                             Published on {{
                             formatDate(blog.publication_date) }}</small>
-                        <div v-if="user && blog.author === user.email">
+                        <div v-if="user">
                             <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
                             <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
                         </div>
