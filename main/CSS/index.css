@@ -331,6 +331,17 @@ a {
     font-family: 'Josefin Sans', sans-serif;
 }
 
+.toolImage {
+    justify-content: center; 
+    align-items: center;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    background-color: rgb(127 29 29);
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+}
+
 
 
 .blog-button {

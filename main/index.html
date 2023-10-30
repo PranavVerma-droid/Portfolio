@@ -5,20 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    
     <title>Pranav Verma.</title>
-    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/source/945b0225337909.563440870421b.png"
-        type="image/icon type">
+
+    <!-- External CSS Sheets -->
+    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/source/945b0225337909.563440870421b.png" type="image/icon type">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/index.css">
-
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-        data-id="pranavverma" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F"
-        data-position="Right" data-x_margin="18" data-y_margin="18" class="md-hide"></script>
 </head>
 
 <body>
@@ -34,7 +30,9 @@
         <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.8s;"></div>
         <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.7s;"></div>
     </div>
-    <!-- Desktop Menu -->
+
+
+
     <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s;">about</a>
     <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s;">work</a>
     <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s;">contact</a>
@@ -42,7 +40,7 @@
     <div id="middle" class="animated slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
         <h2>Software Developer / Photographer / Human (i think)</h2>
-        <div id="menu"> <!-- Mobile Menu -->
+        <div id="menu">
             <a onclick="showabout()">about</a>
             <a onclick="showwork()">work</a>
             <a onclick="showcontact()">contact</a>
@@ -105,40 +103,49 @@
         </section>
         <section>
             <h2>tools (that i know how to use)</h2>
-            <ul>
-                <li v-for="project in projects" :key="project.id">
-                    <p>{{ project.projectName }}: {{ project.projectDescription }}
-                </li>
-            </ul>
+
+            <div v-for="project in projects" :key="project.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="project.projectImg" alt="Tool Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ project.projectName }}</h3>
+                    <p v-html="project.projectDescription" />
+                </div>
+            </div>
         </section>
         <section>
             <h2>Login (To add Tools)</h2>
             <div v-if="user" class="boxshadow">
                 <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
                     style="margin-bottom: 10px;">Sign Out</button>
-                    <form @submit.prevent="submitProject" class="boxshadow">
-                        <h2>Create Project:</h2>
-                        <p>Note: To Submit a Tool, you must be signed in as a Root Account. If not, then your Tool will be Rejected.</p>
-                        <input type="text" v-model="projectName" class="border p-2 mb-2l rounded" placeholder="Tool Title" required><br>
-                        <textarea cols="22" v-model="projectDescription" class="border p-2 mb-2 mt-3 rounded" placeholder="Tool Description" required></textarea><br>
-                        <input type="text" v-model="projectImg" class="border p-2 mb-2 rounded" placeholder="Tool Image URL" required><br>
-                        <button type="submit" class="blog-button">Submit</button>
-                      </form>
+                <form @submit.prevent="submitProject" class="boxshadow">
+                    <h2>Create Project:</h2>
+                    <p>Note: To Submit a Tool, you must be signed in as a Root Account. If not, then your Tool will be
+                        Rejected.</p>
+                    <input type="text" v-model="projectName" class="border p-2 mb-2l rounded" placeholder="Tool Title"
+                        required><br>
+                    <textarea cols="22" v-model="projectDescription" class="border p-2 mb-2 mt-3 rounded"
+                        placeholder="Tool Description" required></textarea><br>
+                    <input type="text" v-model="projectImg" class="border p-2 mb-2 rounded" placeholder="Tool Image URL"
+                        required><br>
+                    <button type="submit" class="blog-button">Submit</button>
+                </form>
             </div>
 
 
             <div v-else class="boxshadow">
-                <p><b>Login to Create Blogs:</b></p>
                 <form @submit.prevent="login" class="center">
                     <input type="email" v-model="email" class="border p-2 mb-2" placeholder="Email" required>
-                    <input type="password" v-model="password" class="border p-2 mb-2" placeholder="Password"
-                        required>
+                    <input type="password" v-model="password" class="border p-2 mb-2" placeholder="Password" required>
                     <button type="submit" id="login-button">Login</button>
                 </form>
             </div>
         </section>
 
-        
+
     </div>
     <div id="contact_container" class="container">
         <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
@@ -160,8 +167,6 @@
         <h1>blogs.</h1>
 
         <div id="app4">
-
-            <!-- Display Blogs -->
             <div class="mt-8 center">
                 <h2 class="text-xl font-bold mb-4">Public Blogs</h2>
                 <button v-if="selectedCategory" @click="clearCategorySelection"><strong>Clear
@@ -176,7 +181,6 @@
                         <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
                             Published on {{
                             formatDate(blog.publication_date) }}</small>
-                        <!-- Show edit and delete buttons to the author -->
                         <div v-if="user && blog.author === user.email">
                             <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
                             <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
@@ -185,7 +189,7 @@
                 </div>
 
                 <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
-                
+
                 <div v-if="user" class="boxshadow">
                     <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
                         style="margin-bottom: 10px;">Sign Out</button>
@@ -219,19 +223,33 @@
     <div id="footer">
         made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">PranavVerma-droid</a>
     </div>
-    <script src="Javascript/index.js" type="text/javascript"></script>
-    <script src="Javascript/particles.js"></script>
-    <script src="Javascript/app.js"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="Javascript/Firebase/about.js"></script>
-    <script src="Javascript/Firebase/works.js"></script>
-    <script src="Javascript/Firebase/blogs.js"></script>
 
-    <script src="Javascript/Firebase/contact.js"></script>
+        <!-- General App Settings Javascript -->
+        <script src="Javascript/index.js" type="text/javascript"></script>
+        <script src="Javascript/particles.js"></script>
+        <script src="Javascript/app.js"></script>
+    
+        <!-- Javascript Framework (Vue.js) -->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    
+        <!-- Firebase Config Files Javascript -->
+        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    
+        <!-- Firebase Settings and Import Javascript -->
+        <script src="Javascript/Firebase/about.js"></script>
+        <script src="Javascript/Firebase/works.js"></script>
+        <script src="Javascript/Firebase/blogs.js"></script>
+        <script src="Javascript/Firebase/contact.js"></script>
+    
+        <!-- Miscellaneous Javascript -->
+        <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+        data-id="pranavverma" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F"
+        data-position="Right" data-x_margin="18" data-y_margin="18" class="md-hide"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 </body>
 
