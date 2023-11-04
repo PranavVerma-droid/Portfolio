@@ -10,6 +10,53 @@ body {
     overflow:hidden;
     font-family: 'Josefin Sans', sans-serif;
 }
+
+
+.google-button { 
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    vertical-align: middle; /* Align the logo vertically in the middle */
+    /*line-height: 1;*/
+    height: 50px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 100%;
+  }
+
+  .google-button:hover {
+    background-color: #a0a0a0; /* Slightly darker shade on hover */
+  }
+
+  #login-button {
+    background-color: #FF4136; /* Red background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Josefin Sans', sans-serif; /* Use the specified font */
+    text-transform: uppercase; /* Make text uppercase */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    height: 50px;
+    vertical-align: middle;
+    width: 100%;
+  }
+  
+  #login-button:hover {
+    background-color: #D40000; /* Darker red on hover */
+  }
+
+  .google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle; /* Align the logo vertically in the middle */
+  }
+
 a {
     text-decoration: none;
     color: white;
@@ -359,21 +406,6 @@ a {
 .blog-button:hover {
     background-color: #D40000; /* Darker red on hover */
 }
-#login-button {
-    background-color: #FF4136; /* Red background color */
-    color: #fff; /* Text color */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Josefin Sans', sans-serif; /* Use the specified font */
-    text-transform: uppercase; /* Make text uppercase */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add a drop shadow */
-  }
-  
-  #login-button:hover {
-    background-color: #D40000; /* Darker red on hover */
-  }
   
   
 .boxshadow {
