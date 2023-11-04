@@ -85,7 +85,9 @@ const realdb = firebase.database();
             },
             
           loadProjects() {
-            db.collection("about").get()
+            db.collection("about")
+            .orderBy("projectName", "asc")
+            .get()
               .then(querySnapshot => {
                 const projects = [];
                 querySnapshot.forEach(doc => {
