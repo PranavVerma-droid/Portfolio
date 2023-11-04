@@ -86,16 +86,14 @@ const realdb = firebase.database();
 
             loginWithGoogle() {
               const provider = new firebase.auth.GoogleAuthProvider();
-              firebase
-                .auth()
-                .signInWithPopup(provider)
-                .then((result) => {
+              firebase.auth().signInWithPopup(provider)
+                .then(result => {
                   this.user = result.user;
                   this.loadProjects();
                 })
-                .catch((error) => {
+                .catch(error => {
                   console.error(error);
-                  alert("Google Login failed. Please try again.");
+                  alert("Google Sign-In failed. Please try again.");
                 });
             },
             
