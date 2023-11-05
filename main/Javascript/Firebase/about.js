@@ -66,7 +66,7 @@ const realdb = firebase.database();
             })
             .catch(error => {
               console.error(error);
-              alert("Project to submit blog.");
+              alert("Failed to submit Project.");
             });
             
             },
