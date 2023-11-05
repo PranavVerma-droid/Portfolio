@@ -38,19 +38,6 @@ const realdb = firebase.database();
             });
         },
         methods: {
-            login() {
-              firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                .then(userCredential => {
-                  this.user = userCredential.user;
-                  this.email = "";
-                  this.password = "";
-                  this.loadProjects();
-                })
-                .catch(error => {
-                  console.error(error);
-                  alert("Login failed. Please check your credentials.");
-                });
-              },
           signOut() {
             firebase.auth().signOut()
               .then(() => {
@@ -85,11 +72,13 @@ const realdb = firebase.database();
             },
 
             loginWithGoogle() {
+              console.log('loginWithGoogle method called');
               const provider = new firebase.auth.GoogleAuthProvider();
               firebase.auth().signInWithPopup(provider)
                 .then(result => {
                   this.user = result.user;
                   this.loadProjects();
+                  this.loadAboutMe();
                 })
                 .catch(error => {
                   console.error(error);
