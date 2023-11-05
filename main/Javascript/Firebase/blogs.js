@@ -46,7 +46,7 @@ const app4 = Vue.createApp({
     submitBlog() {
       if (this.blogIdToEdit) {
         // Edit existing blog
-        db4.collection("posts").doc(this.blogIdToEdit).update({
+        db4.collection("blogs").doc(this.blogIdToEdit).update({
           title: this.title,
           content: this.content,
           category: this.selectedCategory // Add the selected category to the blog
@@ -64,7 +64,7 @@ const app4 = Vue.createApp({
           });
       } else {
         // Create new blog
-        db4.collection("posts").add({
+        db4.collection("blogs").add({
           title: this.title,
           content: this.content,
           author: this.user ? this.user.email : "Anonymous",
@@ -97,7 +97,7 @@ const app4 = Vue.createApp({
     },
     async fetchBlogs() {
       try {
-        let query = db4.collection("posts").orderBy("publication_date", "desc");
+        let query = db4.collection("blogs").orderBy("publication_date", "desc");
         if (this.selectedCategory) {
           query = query.where("category", "==", this.selectedCategory);
         }
@@ -130,7 +130,7 @@ const app4 = Vue.createApp({
     deleteBlog(blogId) {
       const confirmation = confirm("Are you sure you want to delete this blog?");
       if (confirmation) {
-        db4.collection("posts")
+        db4.collection("blogs")
           .doc(blogId)
           .delete()
           .then(() => {

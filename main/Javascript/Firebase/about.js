@@ -50,7 +50,7 @@ const realdb = firebase.database();
           },
           submitProject() {
   
-            db.collection("about").add({
+            db.collection("tools").add({
               projectName: this.projectName,
               projectDescription: this.projectDescription,
               projectImg: this.projectImg,
@@ -87,7 +87,7 @@ const realdb = firebase.database();
             },
             
           loadProjects() {
-            db.collection("about")
+            db.collection("tools")
             .orderBy("projectName", "asc")
             .get()
               .then(querySnapshot => {

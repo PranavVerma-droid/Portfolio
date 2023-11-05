@@ -25,7 +25,7 @@ mounted() {
 },
 methods: {
     loadProjects() {
-    db2.collection("projects").get()
+    db2.collection("works").get()
         .then(querySnapshot => {
         const projects = [];
         querySnapshot.forEach(doc => {
