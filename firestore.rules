@@ -2,19 +2,23 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-		match /blogs/{document=**} {
+		match /posts/{postId} {
       allow read;
       allow create, update, delete: if request.auth != null && request.auth.uid == "darO9l51GLUM5wVJLKdiXPymWQ12";
     }
     
-    match /works/{document=**} {
+    match /projects/{document=**} {
       allow read;
       allow create, update, delete: if request.auth != null && request.auth.uid == "darO9l51GLUM5wVJLKdiXPymWQ12";
     }
     
-    match /tools/{document=**} {
+    match /about/{document=**} {
       allow read;
       allow create, update, delete: if request.auth != null && request.auth.uid == "darO9l51GLUM5wVJLKdiXPymWQ12";
+    }
+    
+    match /skillz/{document=**} {
+      allow read;
     }
   }
 }
