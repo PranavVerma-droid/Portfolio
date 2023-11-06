@@ -1,17 +1,20 @@
 {
   "name": "portfolio",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+  "version": "1.0.0",
+  "description": "A Simple Portfolio for Pranav Verma.",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PranavVerma-droid/Portfolio.git"
   },
+  "author": "Pranav Verma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PranavVerma-droid/Portfolio/issues"
+  },
+  "homepage": "https://github.com/PranavVerma-droid/Portfolio#readme",
   "dependencies": {
-    "vue": "^3.3.4"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^4.4.0",
-    "vite": "^4.4.11"
+    "firebase": "^10.3.1",
+    "firebase-cli": "^1.2.0"
   }
 }
