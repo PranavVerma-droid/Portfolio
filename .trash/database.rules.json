@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "forms": {
+      ".read": true,
+      ".write": true
+    },
+      "info": {
+      ".read": true,
+      ".write": false
+    },
+      "chats": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
