@@ -1,5 +1,23 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
+html {
+    cursor: none !important;
+  }
+
+  #invertedcursor {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    top: var(--y, 0);
+    left: var(--x, 0);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    mix-blend-mode: difference;
+    transition: transform .2s;
+  }
+
 body {
     padding:0px;
     margin:0px;
@@ -208,7 +226,6 @@ a {
 
 #blogs:hover {
     background: rgba(255, 50, 50, 0.9) !important;
-    cursor: pointer !important;
 }
 #about:hover {
     background:rgba(255,50,50,0.9);
@@ -461,6 +478,13 @@ a {
 }
 
 @media (max-width: 800px){ 
+    html {
+        cursor: auto !important;
+    }
+    
+  #invertedcursor {
+    display: none !important;
+  }
     #about {
         display:none;
     }

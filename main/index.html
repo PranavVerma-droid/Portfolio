@@ -21,6 +21,7 @@
 </head>
 
 <body>
+    <div id="invertedcursor"></div>
     <div id="loading">
         <div id="spinner"></div>
     </div>
@@ -36,10 +37,10 @@
 
 
 
-    <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s;">about</a>
-    <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s;">work</a>
-    <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s;">contact</a>
-    <a id="blogs" onclick="showblogs()" class="animated fadeIn" style="animation-delay:2.2s;">blogs</a>
+    <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">about</a>
+    <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">work</a>
+    <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">contact</a>
+    <a id="blogs" onclick="showblogs()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">blogs</a>
     <div id="middle" class="animated slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
         <h2>Software Developer / Photographer / Human (i think)</h2>
@@ -49,7 +50,7 @@
             <a onclick="showcontact()">contact</a>
             <a onclick="showblogs()">blogs</a>
         </div>
-        <table>
+        <table style="z-index: 2;">
             <tr>
                 <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"
                         href="https://web.craftingrealm.tk/mcserver.html">
@@ -83,7 +84,7 @@
             </tr>
         </table>
     </div>
-    <div id="work_container" class="container">
+    <div id="work_container" class="container" style="cursor: pointer !important;">
         <div onclick="closework()"><i class="fas fa-angle-right"></i></div>
         <h1>works.</h1>
         <div id="work_vue">
@@ -95,7 +96,7 @@
             </section>
         </div>
     </div>
-    <div id="about_container" class="container">
+    <div id="about_container" class="container" style="cursor: pointer !important;">
         <div onclick="closeabout()"><i class="fas fa-angle-left"></i></div>
         <h1>about.</h1>
         <section>
@@ -150,7 +151,7 @@
 
 
     </div>
-    <div id="contact_container" class="container">
+    <div id="contact_container" class="container" style="cursor: pointer !important;">
         <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
         <h1>contact.</h1>
         <section>
@@ -165,7 +166,7 @@
             </p>
         </section>
     </div>
-    <div id="blogs_container" class="container">
+    <div id="blogs_container" class="container" style="cursor: pointer !important;">
         <div onclick="closeblogs()"><i class="fas fa-angle-up"></i></div>
         <h1>blogs.</h1>
 
@@ -232,14 +233,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <!-- Firebase Settings and Import Javascript -->
     <script src="Javascript/Firebase/about.js"></script>
     <script src="Javascript/Firebase/blogs.js"></script>
-    
     <script src="Javascript/Firebase/works.js"></script>
-    
     <script src="Javascript/Firebase/contact.js"></script>
+    <script src="Javascript/cursor.js"></script>
 
     <!-- Miscellaneous Javascript -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
