@@ -39,7 +39,8 @@
 
     <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">about</a>
     <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">work</a>
-    <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">contact</a>
+    <a id="contact" onclick="showcontact()" class="animated fadeIn"
+        style="animation-delay:2.2s; cursor: none;">contact</a>
     <a id="blogs" onclick="showblogs()" class="animated fadeIn" style="animation-delay:2.2s; cursor: none;">blogs</a>
     <div id="middle" class="animated slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
@@ -230,6 +231,7 @@
 
     <!-- Firebase Config Files Javascript -->
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-performance-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
@@ -241,6 +243,23 @@
     <script src="Javascript/Firebase/works.js"></script>
     <script src="Javascript/Firebase/contact.js"></script>
     <script src="Javascript/cursor.js"></script>
+
+    <script>
+        const firebaseConfigPerf = {
+            apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
+            authDomain: "contactusform-f0ec2.firebaseapp.com",
+            databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
+            projectId: "contactusform-f0ec2",
+            storageBucket: "contactusform-f0ec2.appspot.com",
+            messagingSenderId: "641931730164",
+            appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
+            measurementId: "G-1RVB7HZQWB"
+        };
+
+        const appPerf = firebase.initializeApp(firebaseConfig);
+
+        const perf = firebase.performance(appPerf);
+    </script>
 
     <!-- Miscellaneous Javascript -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
