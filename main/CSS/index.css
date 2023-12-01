@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
-html {
-    cursor: none !important;
-  }
 
   #invertedcursor {
     position: absolute;
