@@ -25,67 +25,27 @@ const realdb = firebase.database();
             projectDescription: "",
             projectImg: "",
             projects: [],
+            languageName: "",
+            languageDescription: "",
+            languageImg: "",
+            languageSource: "",
+            languages: [],
           };
         },
         mounted() {
           this.loadProjects();
           this.loadAboutMe();
+          this.loadLanguages();
 
           firebase.auth().onAuthStateChanged(user => {
             this.user = user;
-            this.loadProjects();
+
             this.loadAboutMe();
+            this.loadProjects();
+            this.loadLanguages();
             });
         },
         methods: {
-          signOut() {
-            firebase.auth().signOut()
-              .then(() => {
-                this.user = null;
-              })
-              .catch(error => {
-                console.error(error);
-                alert("Sign out failed.");
-              });
-          },
-          submitProject() {
-  
-            db.collection("tools").add({
-              projectName: this.projectName,
-              projectDescription: this.projectDescription,
-              projectImg: this.projectImg,
-              author: this.user ? this.user.email : "Anonymous",
-              publication_date: new Date().toISOString(),
-            })
-            .then(() => {
-              this.projectName = "";
-              this.projectDescription = "";
-              this.projectImg = "";
-              alert("Project submitted successfully!");
-              this.loadProjects();
-            })
-            .catch(error => {
-              console.error(error);
-              alert("Failed to submit Project.");
-            });
-            
-            },
-
-            loginWithGoogle() {
-              console.log('loginWithGoogle method called');
-              const provider = new firebase.auth.GoogleAuthProvider();
-              firebase.auth().signInWithPopup(provider)
-                .then(result => {
-                  this.user = result.user;
-                  this.loadProjects();
-                  this.loadAboutMe();
-                })
-                .catch(error => {
-                  console.error(error);
-                  alert("Google Sign-In failed. Please try again.");
-                });
-            },
-            
           loadProjects() {
             db.collection("tools")
             .orderBy("projectName", "asc")
@@ -104,6 +64,24 @@ const realdb = firebase.database();
                 alert("Failed to load projects.");
               });         
             },
+            loadLanguages() {
+              db.collection("languages")
+              .orderBy("languageName", "asc")
+              .get()
+                .then(querySnapshot => {
+                  const languages = [];
+                  querySnapshot.forEach(doc => {
+                    const language = doc.data();
+                    language.id = doc.id;
+                    languages.push(language);
+                  });
+                  this.languages = languages;
+                })
+                .catch(error => {
+                  console.error(error);
+                  alert("Failed to load languages.");
+                });         
+              },
               loadAboutMe() {
                 const aboutMeRef = realdb.ref('info/about-me');
             
@@ -117,7 +95,10 @@ const realdb = firebase.database();
                         aboutMePlaceholder.textContent = 'No about me information available.';
                     }
                 });
-            }
+            },
+            visitLink(link) {
+              window.location.href = link;
+          }
         }
       });
   

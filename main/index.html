@@ -38,49 +38,24 @@
 
     <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s;">about</a>
     <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s;">work</a>
-    <a id="contact" onclick="showcontact()" class="animated fadeIn"
-        style="animation-delay:2.2s;">contact</a>
+    <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s;">contact</a>
     <a id="blogs" onclick="showblogs()" class="animated fadeIn" style="animation-delay:2.2s;">blogs</a>
     <div id="middle" class="animated slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
         <h2>Software Developer / Photographer / Human (i think)</h2>
+        <center><button class="btn_one" style="max-width: 300px; text-align: center;" onclick="showWorkInProgressAlert()">Download Resume</button></center>
         <div id="menu">
             <a onclick="showabout()">about</a>
             <a onclick="showwork()">work</a>
             <a onclick="showcontact()">contact</a>
             <a onclick="showblogs()">blogs</a>
         </div>
-        <table style="z-index: 2;">
+        <table style="z-index: 2;" id="linksTable">
             <tr>
-                <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"
-                        href="https://web.craftingrealm.tk/mcserver.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad-2"
-                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path
-                                d="M12 5h3.5a5 5 0 0 1 0 10h-5.5l-4.015 4.227a2.3 2.3 0 0 1 -3.923 -2.035l1.634 -8.173a5 5 0 0 1 4.904 -4.019h3.4z">
-                            </path>
-                            <path d="M14 15l4.07 4.284a2.3 2.3 0 0 0 3.925 -2.023l-1.6 -8.232"></path>
-                            <path d="M8 9v2"></path>
-                            <path d="M7 10h2"></path>
-                            <path d="M14 10h2"></path>
-                        </svg>
+                <td v-for="social in socials" :key="social.id" class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"
+                    @click="visitLink(social.socialSource)">
+                        <img :src="social.socialIcon" style="filter: brightness(0) invert(1);">
                     </a></td>
-                <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"
-                        href="https://twitter.com/PranavVermaXD">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-x" width="24"
-                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
-                            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
-                        </svg>
-                    </a></td>
-                <td class="animated zoomIn" style="animation-delay:2.6s;"><a class="social"
-                        href="https://instagram.com/pranavv.404"><i class="fab fa-instagram"></i></a></td>
-                <td class="animated zoomIn" style="animation-delay:2.8s;"><a class="social"
-                        href="https://github.com/PranavVerma-droid"><i class="fab fa-github"></i></a></td>
             </tr>
         </table>
     </div>
@@ -105,6 +80,7 @@
                 Loading...
             </p>
         </section>
+        
         <section>
             <h2>tools (that i know how to use)</h2>
 
@@ -120,34 +96,27 @@
                 </div>
             </div>
         </section>
+
         <section>
-            <h2>Login (To add Tools)</h2>
-            <div v-if="user" class="boxshadow">
-                <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
-                    style="margin-bottom: 10px;">Sign Out</button>
-                <form @submit.prevent="submitProject" class="boxshadow">
-                    <h2>Create Project:</h2>
-                    <p>Note: To Submit a Tool, you must be signed in as a Root Account. If not, then your Tool will be
-                        Rejected.</p>
-                    <input type="text" v-model="projectName" class="border p-2 mb-2l rounded" placeholder="Tool Title"
-                        required><br>
-                    <textarea cols="22" v-model="projectDescription" class="border p-2 mb-2 mt-3 rounded"
-                        placeholder="Tool Description" required></textarea><br>
-                    <input type="text" v-model="projectImg" class="border p-2 mb-2 rounded" placeholder="Tool Image URL"
-                        required><br>
-                    <button type="submit" class="blog-button">Submit</button>
-                </form>
-            </div>
+            <h2>languages (learnt / learning / tried)</h2>
 
-
-            <div v-else class="boxshadow">
-                <button @click="loginWithGoogle" class="google-button">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Icons%2FAboutIcons%2FGoogle__G__Logo.svg?alt=media&token=2d3f2c46-c0ed-4511-a0a0-3027ce248ea6"
-                        alt="Google Logo" class="google-logo">
-                    Sign in with Google
-                </button>
+            <div v-for="language in languages" :key="language.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="language.languageImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ language.languageName }}</h3>
+                    <p v-html="language.languageDescription" />
+                    <div @click="visitLink(language.languageSource)" class="btn_one" style="max-width: 80px; text-align: center;">Visit</div>
+                </div>
             </div>
         </section>
+
+
+
+
 
 
     </div>
@@ -171,32 +140,36 @@
         <h1>blogs.</h1>
 
         <div id="app4">
-            <div class="mt-8 center">
-                <h2 class="text-xl font-bold mb-4">Public Blogs</h2>
+            <section>
+                <div class="mt-8 center">
+                    <h2 class="text-xl font-bold mb-4">Public Blogs</h2>
 
-                <div v-if="blogs.length === 0">No blogs yet.</div>
+                    <div v-if="blogs.length === 0">No blogs yet.</div>
 
-                <div v-else>
-                    <div v-for="blog in blogs" :key="blog.id" class="boxshadow">
-                        <h3 class="md-centering">{{ blog.title }}</h3>
-                        <p class="md-centering"><span v-html="blog.content"></span></p>
-                        <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
-                            Published on {{
-                            formatDate(blog.publication_date) }}</small>
-                        <div v-if="user">
-                            <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
-                            <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
+                    <div v-else>
+                        <div v-for="blog in blogs" :key="blog.id" class="boxshadow">
+                            <h3 class="md-centering">{{ blog.title }}</h3>
+                            <p class="md-centering"><span v-html="blog.content"></span></p>
+                            <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
+                                Published on {{
+                                formatDate(blog.publication_date) }}</small>
+                            <div v-if="user">
+                                <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
+                                <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+            </section>
 
+            <section>
                 <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
 
                 <div v-if="user" class="boxshadow">
                     <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
                         style="margin-bottom: 10px;">Sign Out</button>
                     <form @submit.prevent="submitBlog" class="boxshadow">
-                        <p>Note: Only the Root User can Make Blogs, If You are logged in with a Non Root Account, Your
+                        <p>Note: Only the Root User can Make Blogs, If You are logged in with a Non Root Account,
+                            Your
                             Blog will be Rejected.</p>
                         <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
                         <textarea v-model="content" class="blog-input" placeholder="Blog Content - Supports HTML!"
@@ -205,11 +178,14 @@
                     </form>
                 </div>
 
-
                 <div v-else class="boxshadow">
-                    <p>Login with Google Via the About Section (Go Home > Click on "about" > Scroll Down)</p>
+                    <button @click="loginWithGoogle" class="google-button">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Icons%2FAboutIcons%2FGoogle__G__Logo.svg?alt=media&token=2d3f2c46-c0ed-4511-a0a0-3027ce248ea6"
+                            alt="Google Logo" class="google-logo">
+                        Sign in with Google
+                    </button>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
     </div>
@@ -241,6 +217,7 @@
     <script src="Javascript/Firebase/blogs.js"></script>
     <script src="Javascript/Firebase/works.js"></script>
     <script src="Javascript/Firebase/contact.js"></script>
+    <script src="Javascript/Firebase/links.js"></script>
     <script src="Javascript/cursor.js"></script>
 
     <script>
@@ -258,6 +235,12 @@
         const appPerf = firebase.initializeApp(firebaseConfig);
 
         const perf = firebase.performance(appPerf);
+    </script>
+
+    <script>
+        function showWorkInProgressAlert() {
+            alert("Work in Progress! Please Check back later!");
+        }
     </script>
 
     <!-- Miscellaneous Javascript -->

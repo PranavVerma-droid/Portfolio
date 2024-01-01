@@ -31,12 +31,13 @@ const app4 = Vue.createApp({
     });
   },
   methods: {
-    loginWithGoogle2() {
-      const provider2 = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider2)
+    loginWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
         .then(result => {
           this.user = result.user;
-          this.fetchBlogs();
+          this.loadProjects();
+          this.loadAboutMe();
         })
         .catch(error => {
           console.error(error);
@@ -49,7 +50,6 @@ const app4 = Vue.createApp({
         db4.collection("blogs").doc(this.blogIdToEdit).update({
           title: this.title,
           content: this.content,
-          category: this.selectedCategory // Add the selected category to the blog
         })
           .then(() => {
             this.title = "";
@@ -63,18 +63,15 @@ const app4 = Vue.createApp({
             alert("Failed to update blog.");
           });
       } else {
-        // Create new blog
         db4.collection("blogs").add({
           title: this.title,
           content: this.content,
           author: this.user ? this.user.email : "Anonymous",
           publication_date: new Date().toISOString(),
-          category: this.selectedCategory // Add the selected category to the blog
         })
           .then(() => {
             this.title = "";
             this.content = "";
-            this.selectedCategory = null; // Clear selected category
             this.fetchBlogs();
             alert("Blog submitted successfully!");
           })
@@ -88,7 +85,6 @@ const app4 = Vue.createApp({
       firebase.auth().signOut()
         .then(() => {
           this.user = null;
-          this.fetchBlogs();
         })
         .catch(error => {
           console.error(error);
@@ -120,11 +116,9 @@ const app4 = Vue.createApp({
       });
     },
     editBlog(blog) {
-      // Set the title, content, and selected category to the current blog's values for editing
+      // Set the titleand content to the current blog's values for editing
       this.title = blog.title;
       this.content = blog.content;
-      this.selectedCategory = blog.category;
-      // Save the blog ID to know which blog is being edited
       this.blogIdToEdit = blog.id;
     },
     deleteBlog(blogId) {
