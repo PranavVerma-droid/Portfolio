@@ -36,17 +36,14 @@ const app4 = Vue.createApp({
       firebase.auth().signInWithPopup(provider)
         .then(result => {
           this.user = result.user;
-          this.loadProjects();
-          this.loadAboutMe();
         })
         .catch(error => {
           console.error(error);
-          alert("Google Sign-In failed. Please try again.");
+          alert("Google Sign-In failed. Please try again. (Check Console for Errors OR Sign in with a Root Account.)");
         });
     },
     submitBlog() {
       if (this.blogIdToEdit) {
-        // Edit existing blog
         db4.collection("blogs").doc(this.blogIdToEdit).update({
           title: this.title,
           content: this.content,
