@@ -1,21 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
-
-  #invertedcursor {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: #fff;
-    border-radius: 50%;
-    top: var(--y, 0);
-    left: var(--x, 0);
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    mix-blend-mode: difference;
-    transition: transform .2s;
-  }
-
-
 body {
     padding:0px;
     margin:0px;
@@ -218,7 +202,7 @@ a {
     justify-content: center;
     z-index: 4;
     transition: 0.4s ease-in-out;
-    transform: rotate(180deg); /* Rotate the element */
+    transform: rotate(180deg); 
     border-radius: 100px 100px 0px 0px;
 }
 
@@ -470,19 +454,7 @@ a {
 	background: rgb(255, 50, 50);
 }
 
-@media (max-width: 800px) {
-
-
-}
-
 @media (max-width: 800px){ 
-    html {
-        cursor: auto !important;
-    }
-    
-  #invertedcursor {
-    display: none !important;
-  }
     #about {
         display:none;
     }

@@ -24,6 +24,7 @@ const realdb = firebase.database();
             projectName: "",
             projectDescription: "",
             projectImg: "",
+            class: "",
             projects: [],
             languageName: "",
             languageDescription: "",
@@ -48,7 +49,7 @@ const realdb = firebase.database();
         methods: {
           loadProjects() {
             db.collection("tools")
-            .orderBy("projectName", "asc")
+            .orderBy("class", "asc")
             .get()
               .then(querySnapshot => {
                 const projects = [];

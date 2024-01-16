@@ -17,6 +17,7 @@ data() {
     projectName: "",
     projectDescription: "",
     projectSource: "",
+    class: "",
     projects: []
   };
 },
@@ -25,7 +26,9 @@ mounted() {
 },
 methods: {
     loadProjects() {
-    db2.collection("works").get()
+    db2.collection("works")
+    .orderBy("class", "asc")
+    .get()
         .then(querySnapshot => {
         const projects = [];
         querySnapshot.forEach(doc => {
