@@ -12,7 +12,7 @@ This Code is [Licensed](LICENSE)!
 To run this code via **docker**, pull the repository via:
 
 ```bash
-git clone https://github.com/PranaVerma-droid/Portfolio.git
+git clone https://github.com/PranavVerma-droid/Portfolio.git
 ```
 
 and then run this to deploy via docker:

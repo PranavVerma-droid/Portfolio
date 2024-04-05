@@ -10,9 +10,6 @@ COPY . .
 # Install all Node.js packages from package.json
 RUN npm install
 
-# Install http-server to serve your application
-RUN npm install --global http-server
-
 # Expose port 8080 for http-server
 EXPOSE 8080
 
