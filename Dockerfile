@@ -17,4 +17,4 @@ RUN npm install --global http-server
 EXPOSE 8080
 
 # Start http-server in the "main" directory
-CMD ["http-server", "main/"]
+CMD ["npm", "start"]
