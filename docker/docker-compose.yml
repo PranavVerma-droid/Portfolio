@@ -1,0 +1,7 @@
+name: pranavs-portfolio
+version: '3'
+services:
+  web:
+    image: pranavvermaxd/portfolio:latest
+    ports:
+      - "${PORT}:8080"
