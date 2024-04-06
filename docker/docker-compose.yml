@@ -2,6 +2,6 @@ name: pranavs-portfolio
 version: '3'
 services:
   web:
-    image: pranavvermaxd/portfolio:latest
+    image: ghcr.io/pranavverma-droid/portfolio:latest
     ports:
       - "${PORT}:8080"

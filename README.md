@@ -33,7 +33,12 @@ After that, you can access the website via:
  ### Update Portfolio
  Run these commands:
  ```bash
+ cd Portfolio
+
+ git pull
+
  cd docker
+ 
  docker compose pull && docker compose up -d
  ```
 
