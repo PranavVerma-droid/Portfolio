@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "http-server main/",
-    "test": "http-server main/"
+    "test": "node test.js"
   },
   "author": "Pranav Verma",
   "license": "MIT",
