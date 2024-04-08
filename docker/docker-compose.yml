@@ -5,3 +5,4 @@ services:
     image: ghcr.io/pranavverma-droid/portfolio:latest
     ports:
       - "${PORT}:8080"
+    restart: always
