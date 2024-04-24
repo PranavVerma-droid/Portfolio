@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "portfolio-pranavvv",
+    "public": "main",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
