@@ -5,4 +5,5 @@ storage.rules.json
 firestore.rules.json
 firestore.indexes.json
 firebase-debug.log
+remoteconfig.template.json
 
