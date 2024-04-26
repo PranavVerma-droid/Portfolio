@@ -7,6 +7,8 @@ https://pranavv.site <br>
 All Main Code is in Inside [main](main). <br>
 This Code is [Licensed](LICENSE)!
 
+Hosted on Firebase.
+
 
 ## Docker Deploy 🐋
 To run this code via **docker**, pull the repository via:
