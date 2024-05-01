@@ -172,9 +172,6 @@
                     <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
                         style="margin-bottom: 10px;">Sign Out</button>
                     <form @submit.prevent="submitBlog" class="boxshadow">
-                        <p>Note: Only the Root User can Make Blogs, If You are logged in with a Non Root Account,
-                            Your
-                            Blog will be Rejected.</p>
                         <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
                         <textarea v-model="content" class="blog-input" placeholder="Blog Content - Supports HTML!"
                             required></textarea>
