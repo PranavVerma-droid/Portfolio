@@ -57,6 +57,12 @@ function closeblogs() {
     }, 800);
 }
 
+function showResume() {
+    var resumeURL = "https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Resume%2FPranav%E2%80%99s%20Resume%201.pdf?alt=media&token=7018b85b-3124-48a8-92a5-ae7fc4c53f15";
+    
+    window.open(resumeURL, "_blank");
+}
+
 setTimeout(function(){
     $("#loading").addClass("animate__animated animate__fadeOut");
     setTimeout(function(){
