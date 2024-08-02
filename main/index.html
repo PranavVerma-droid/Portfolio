@@ -86,9 +86,9 @@
                 </div>
                 <div style="margin-left: 1rem;">
                     <h3>{{ certificate.certificateName }}</h3>
-                    <p v-html="certificate.certificateIssue" />
+                    <p>Issued By: {{certificate.certificateIssue}}</p>
                     <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
-                        style="max-width: 80px; text-align: center;">View Certificate</div>
+                        style="max-width: 300px; text-align: center;">View Certificate</div>
                 </div>
             </div>
         </section>

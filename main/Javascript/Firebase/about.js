@@ -21,7 +21,7 @@ const realdb = firebase.database();
             user: null,
             email: "",
             password: "",
-            
+
             projectName: "",
             projectDescription: "",
             projectImg: "",
@@ -102,7 +102,7 @@ const realdb = firebase.database();
                     querySnapshot.forEach(doc => {
                       const certificate = doc.data();
                       certificate.id = doc.id;
-                      certificate.push(certificates);
+                      certificates.push(certificate);
                     });
                     this.certificates = certificates;
                   })
