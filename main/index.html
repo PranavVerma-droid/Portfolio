@@ -36,7 +36,8 @@
     <div id="middle" class="animate__animated animate__slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
         <h2>Software Developer / Photographer / Human (i think)</h2>
-        <center><button class="btn_one" style="max-width: 300px; text-align: center; margin-bottom: -20px;"><a onclick="showResume()">Download Resume</a></button></center>
+        <center><button class="btn_one" style="max-width: 300px; text-align: center; margin-bottom: -20px;"><a
+                    onclick="showResume()">Download Resume</a></button></center>
         <div id="menu">
             <a onclick="showabout()">about</a>
             <a onclick="showwork()">work</a>
@@ -94,22 +95,6 @@
         </section>
 
         <section>
-            <h2>tools (that i know how to use)</h2>
-
-            <div v-for="project in projects" :key="project.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="project.projectImg" alt="Tool Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ project.projectName }}</h3>
-                    <p v-html="project.projectDescription" />
-                </div>
-            </div>
-        </section>
-
-        <section>
             <h2>languages (learnt / learning / tried)</h2>
 
             <div v-for="language in languages" :key="language.id"
@@ -123,6 +108,22 @@
                     <p v-html="language.languageDescription" />
                     <div @click="visitLink(language.languageSource)" class="btn_one"
                         style="max-width: 80px; text-align: center;">Visit</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>tools (that i know how to use)</h2>
+
+            <div v-for="project in projects" :key="project.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="project.projectImg" alt="Tool Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ project.projectName }}</h3>
+                    <p v-html="project.projectDescription" />
                 </div>
             </div>
         </section>
