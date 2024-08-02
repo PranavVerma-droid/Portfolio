@@ -21,22 +21,31 @@ const realdb = firebase.database();
             user: null,
             email: "",
             password: "",
+            
             projectName: "",
             projectDescription: "",
             projectImg: "",
             class: "",
             projects: [],
+
             languageName: "",
             languageDescription: "",
             languageImg: "",
             languageSource: "",
             languages: [],
+
+            certificateName: "",
+            certificateIssue: "",
+            certificateImg: "",
+            certificateUrl: "",
+            certificates: [],
           };
         },
         mounted() {
           this.loadProjects();
           this.loadAboutMe();
           this.loadLanguages();
+          this.loadCertificates();
 
           firebase.auth().onAuthStateChanged(user => {
             this.user = user;
@@ -44,6 +53,7 @@ const realdb = firebase.database();
             this.loadAboutMe();
             this.loadProjects();
             this.loadLanguages();
+            this.loadCertificates();
             });
         },
         methods: {
@@ -83,6 +93,25 @@ const realdb = firebase.database();
                   alert("Failed to load languages.");
                 });         
               },
+
+              loadCertificates() {
+                db.collection("certificates")
+                .get()
+                  .then(querySnapshot => {
+                    const certificates = [];
+                    querySnapshot.forEach(doc => {
+                      const certificate = doc.data();
+                      certificate.id = doc.id;
+                      certificate.push(certificates);
+                    });
+                    this.certificates = certificates;
+                  })
+                  .catch(error => {
+                    console.error(error);
+                    alert("Failed to load certificates.");
+                  });         
+                },
+
               loadAboutMe() {
                 const aboutMeRef = realdb.ref('info/about-me');
             

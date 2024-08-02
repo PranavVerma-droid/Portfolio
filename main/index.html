@@ -76,6 +76,24 @@
         </section>
 
         <section>
+            <h2>certificates</h2>
+
+            <div v-for="certificate in certificates" :key="certificate.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="certificate.certificateImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ certificate.certificateName }}</h3>
+                    <p v-html="certificate.certificateIssue" />
+                    <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
+                        style="max-width: 80px; text-align: center;">View Certificate</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
             <h2>tools (that i know how to use)</h2>
 
             <div v-for="project in projects" :key="project.id"
