@@ -9,7 +9,6 @@ This Code is [Licensed](LICENSE)!
 
 Hosted on Firebase.
 
-
 ## Docker Deploy 🐋
 To run this code via **docker**, pull the repository via:
 
@@ -63,5 +62,11 @@ Now, you can access the website via:
  ```
  http://127.0.0.1:8080
  ```
+
+# Certificates
+- [CSS Certificate (Basic)](https://github.com/PranavVerma-droid/Portfolio/blob/master/certification/CSS-Basic.png)
+- [JS Certificate (Basic)](https://github.com/PranavVerma-droid/Portfolio/blob/master/certification/JavaScript-Basic.png)
+
+
 
 
