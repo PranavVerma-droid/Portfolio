@@ -19,5 +19,8 @@
   "homepage": "https://github.com/PranavVerma-droid/Portfolio#readme",
   "devDependencies": {
     "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "@pranavverma-droid/portfolio-npm": "file:"
   }
 }

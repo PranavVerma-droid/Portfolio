@@ -34,7 +34,7 @@
         style="animation-delay:2.2s;">blogs</a>
     <div id="middle" class="animate__animated animate__slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav Verma.</h1>
-        <h2>Software Developer / CSE Student / Human (i think)</h2>
+        <h2>Software Developer / Future CSE Student / Human (i think)</h2>
         <center><button class="btn_one" style="max-width: 300px; text-align: center; margin-bottom: -20px;"><a
                     onclick="showResume()">Download Resume</a></button></center>
         <div id="menu">
@@ -57,12 +57,21 @@
         <div onclick="closework()" class=""><i class="fas fa-angle-right"></i></div>
         <h1>works.</h1>
         <div id="work_vue">
-            <section v-for="project in projects" :key="project.id">
-                <h2>{{ project.projectName }}</h2>
-                <p>{{ project.projectDescription }}</p>
+            <h2><u>Competitions</u></h2>
+                <section v-for="competition in competitions" :key="competition.id">
+                    <h3>{{ competition.competitionName }}</h2>
+                    <p>{{ competition.competitionDescription }}</p>
 
-                <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
-            </section>
+                    <button class="btn_one"><a :href="competition.competitionSource">Source Code</a></button>
+                </section>
+
+            <h2><u>Projects</u></h2>
+                <section v-for="project in projects" :key="project.id">
+                    <h3>{{ project.projectName }}</h2>
+                    <p>{{ project.projectDescription }}</p>
+    
+                    <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
+                </section>
         </div>
     </div>
     <div id="about_container" class="container" style="cursor: pointer !important;">

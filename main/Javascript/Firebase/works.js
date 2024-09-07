@@ -14,19 +14,28 @@ const db2 = firebase.firestore();
 const app2 = Vue.createApp({
 data() {
   return {
+    competitionName: "",
+    competitionDescription: "",
+    competitionSource: "",
+    competitions: [],
+
     projectName: "",
     projectDescription: "",
     projectSource: "",
-    class: "",
-    projects: []
+    projects: [],
+
+    class: ""
+    
+
   };
 },
 mounted() {
     this.loadProjects();
+    this.loadCompetitions();
 },
 methods: {
     loadProjects() {
-    db2.collection("works")
+    db2.collection("projects")
     .orderBy("class", "asc")
     .get()
         .then(querySnapshot => {
@@ -40,9 +49,28 @@ methods: {
         })
         .catch(error => {
         console.error(error);
-        alert("Failed to load projects.");
+        alert("Failed to load projects information.");
         });
-    }
+    }, 
+
+    loadCompetitions() {
+        db2.collection("competitions")
+        .orderBy("class", "asc")
+        .get()
+            .then(querySnapshot => {
+            const competitions = [];
+            querySnapshot.forEach(doc => {
+                const competition = doc.data();
+                competition.id = doc.id;
+                competitions.push(competition);
+            });
+            this.competitions = competitions;
+            })
+            .catch(error => {
+            console.error(error);
+            alert("Failed to load competitions information.");
+            });
+        }
 }
 });
 
