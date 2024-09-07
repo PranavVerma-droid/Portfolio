@@ -72,6 +72,14 @@
     
                     <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
                 </section>
+
+            <h2><u>Internships</u></h2>
+                <section v-for="internship in internships" :key="internship.id">
+                    <h3>{{ internship.internshipName }}</h2>
+                    <p>{{ internship.internshipDescription }}</p>
+
+                    <button class="btn_one"><a :href="internship.cinternshipSource">Source Code</a></button>
+                </section>
         </div>
     </div>
     <div id="about_container" class="container" style="cursor: pointer !important;">

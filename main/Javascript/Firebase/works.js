@@ -24,6 +24,11 @@ data() {
     projectSource: "",
     projects: [],
 
+    internshipName: "",
+    internshipDescription: "",
+    internshipSource: "",
+    internships: [],
+
     class: ""
     
 
@@ -32,6 +37,7 @@ data() {
 mounted() {
     this.loadProjects();
     this.loadCompetitions();
+    this.loadInternships();
 },
 methods: {
     loadProjects() {
@@ -70,7 +76,26 @@ methods: {
             console.error(error);
             alert("Failed to load competitions information.");
             });
-        }
+        },
+
+        loadInternships() {
+            db2.collection("internships")
+            .orderBy("class", "asc")
+            .get()
+                .then(querySnapshot => {
+                const internships = [];
+                querySnapshot.forEach(doc => {
+                    const internship = doc.data();
+                    internship.id = doc.id;
+                    internships.push(internship);
+                });
+                this.internships = internships;
+                })
+                .catch(error => {
+                console.error(error);
+                alert("Failed to load internship information.");
+                });
+            }
 }
 });
 
