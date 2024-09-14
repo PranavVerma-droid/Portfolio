@@ -134,6 +134,48 @@ const app4 = Vue.createApp({
           });
       }
     },
+        insertAtCursor(myField, myValue) {
+
+      if (document.selection) {
+        myField.focus();
+        var sel = document.selection.createRange();
+        sel.text = myValue;
+      }
+
+      else if (myField.selectionStart || myField.selectionStart === 0) {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+        myField.selectionStart = startPos + myValue.length;
+        myField.selectionEnd = startPos + myValue.length;
+      } else {
+        myField.value += myValue;
+      }
+    },
+    insertPStart() {
+      this.insertAtCursor(this.$refs.content, '<p>');
+    },
+    insertPEnd() {
+      this.insertAtCursor(this.$refs.content, '</p>');
+    },
+    insertBStart() {
+      this.insertAtCursor(this.$refs.content, '<b>');
+    },
+    insertBEnd() {
+      this.insertAtCursor(this.$refs.content, '</b>');
+    },
+    insertNextLine() {
+      this.insertAtCursor(this.$refs.content, '<br>');
+    },
+    insertAStart() {
+      this.insertAtCursor(this.$refs.content, '<a style="color:blue;" href="">');
+    },
+    insertAEnd() {
+      this.insertAtCursor(this.$refs.content, '</a>');
+    },
+    insertImage() {
+      this.insertAtCursor(this.$refs.content, '<img class="scaling" src="">');
+    }
   }
 });
 

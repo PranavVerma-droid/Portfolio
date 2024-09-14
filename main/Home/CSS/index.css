@@ -11,6 +11,14 @@ body {
     font-family: 'Josefin Sans', sans-serif;
 }
 
+.blogHeading {
+    transform: scale(1);
+}
+
+.blogHeading:hover {
+    transition: transform 0.3s;
+    transform: scale(1.05);
+}
 
 .google-button { 
     color: #000000;
@@ -298,7 +306,7 @@ a {
 }
 .btn_one:hover {
     cursor:pointer;
-    color:rgb(255, 50, 50);
+    color:black;
     background:#fff;
 }
 .btn_two {
@@ -442,14 +450,14 @@ a {
     background: #fff; 
 }
 ::-webkit-scrollbar-thumb {
-    background: rgb(255, 50, 50); 
+    background: rgb(118, 19, 19); 
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 50, 50,0.8); 
+    background: rgba(118, 19, 19, 0.8); 
 }
 ::selection {
 	color: #fff;
-	background: rgb(255, 50, 50);
+	background: rgb(118, 19, 19); 
 }
 
 @media (max-width: 800px){ 

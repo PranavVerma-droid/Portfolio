@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.85">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/disp/945b0225337909.563440870421b.png" type="image/icon type">
+    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/disp/945b0225337909.563440870421b.png"
+        type="image/icon type">
     <title>Pranav Verma.</title>
 </head>
 
@@ -58,28 +59,28 @@
         <h1>works.</h1>
         <div id="work_vue">
             <h2><u>Competitions</u></h2>
-                <section v-for="competition in competitions" :key="competition.id">
-                    <h3>{{ competition.competitionName }}</h2>
+            <section v-for="competition in competitions" :key="competition.id">
+                <h3>{{ competition.competitionName }}</h2>
                     <p>{{ competition.competitionDescription }}</p>
 
                     <button class="btn_one"><a :href="competition.competitionSource">Source Code</a></button>
-                </section>
+            </section>
 
             <h2><u>Projects</u></h2>
-                <section v-for="project in projects" :key="project.id">
-                    <h3>{{ project.projectName }}</h2>
+            <section v-for="project in projects" :key="project.id">
+                <h3>{{ project.projectName }}</h2>
                     <p>{{ project.projectDescription }}</p>
-    
+
                     <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
-                </section>
+            </section>
 
             <h2><u>Internships</u></h2>
-                <section v-for="internship in internships" :key="internship.id">
-                    <h3>{{ internship.internshipName }}</h2>
+            <section v-for="internship in internships" :key="internship.id">
+                <h3>{{ internship.internshipName }}</h2>
                     <p>{{ internship.internshipDescription }}</p>
 
                     <button class="btn_one"><a :href="internship.cinternshipSource">Source Code</a></button>
-                </section>
+            </section>
         </div>
     </div>
     <div id="about_container" class="container" style="cursor: pointer !important;">
@@ -176,30 +177,27 @@
 
                     <div class="animate__animated animate__fadeIn" style="animation-duration: 1s;">
                         <h1>blogs.</h1>
-
-                        <h2 class="text-xl font-bold mb-4">Pranav's Blogs</h2>
                     </div>
 
                     <div v-if="blogs.length === 0">No blogs yet.</div>
 
 
                     <div v-else>
-                        <div v-for="blog in blogs" :key="blog.id" class="boxshadow animate__animated animate__fadeIn"
+                        <div v-for="blog in blogs" :key="blog.id"
+                            class="boxshadow animate__animated animate__fadeIn blogHeading"
                             style="animation-duration: 3s;">
-                            <h3 class="md-centering">{{ blog.title }}</h3>
-                            <p class="md-centering"><span v-html="blog.content"></span></p>
-                            <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
-                                Published on {{
-                                formatDate(blog.publication_date) }}</small>
-                            <!-- <div v-if="user">
+                            <a :href="'blog.html?id=' + blog.id" style="color: #000;">
+                                <h3 class="md-centering">{{ blog.title }}</h3>
+                            </a>
+                            <div v-if="user">
                                 <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
                                 <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
             </section>
 
-           <!-- <section>
+            <section>
                 <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
 
                 <div v-if="user" class="boxshadow">
@@ -207,11 +205,19 @@
                         style="margin-bottom: 10px;">Sign Out</button>
                     <form @submit.prevent="submitBlog" class="boxshadow">
                         <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
-                        <textarea v-model="content" class="blog-input" placeholder="Blog Content - Supports HTML!"
-                            required></textarea>
+                        <textarea v-model="content" ref="content" class="blog-input" placeholder="Blog Content - Supports HTML!"
+                            required style="height: 200px;"></textarea>
                         <button type="submit" class="blog-button">Submit</button>
                     </form>
-                    <p>New Page for Writing Blogs: <a href="blogs.html" style="color: aqua;">Here</a></p>
+                    <br><br>
+                    <button @click="insertPStart" style="margin-right: 10px;" class="blog-button">Paragraph Start</button>
+                    <button @click="insertPEnd" style="margin-right: 10px;" class="blog-button">Paragraph End</button>
+                    <button @click="insertBStart" style="margin-right: 10px;" class="blog-button">Bold Start</button>
+                    <button @click="insertBEnd" style="margin-right: 10px;" class="blog-button">Bold End</button>
+                    <button @click="insertAStart" style="margin-right: 10px;" class="blog-button">Link Start</button>
+                    <button @click="insertAEnd" style="margin-right: 10px;" class="blog-button">Link End</button>
+                    <button @click="insertImage" style="margin-right: 10px;" class="blog-button">Image</button>
+                    <button @click="insertNextLine" style="margin-right: 10px;" class="blog-button">Next Line</button>
                 </div>
 
                 <div v-else class="boxshadow">
@@ -221,7 +227,7 @@
                         Sign in with Google
                     </button>
                 </div>
-            </section> -->
+            </section>
         </div>
     </div>
     </div>
