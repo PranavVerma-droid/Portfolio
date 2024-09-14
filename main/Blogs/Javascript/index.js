@@ -168,6 +168,12 @@ const app = Vue.createApp({
     },
     insertNextLine() {
       this.insertAtCursor(this.$refs.content, '<br>');
+    },
+    insertAStart() {
+      this.insertAtCursor(this.$refs.content, '<a style="color:blue";>');
+    },
+    insertAEnd() {
+      this.insertAtCursor(this.$refs.content, '</a>');
     }
   }
 });
