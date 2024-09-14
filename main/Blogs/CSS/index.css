@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
+* {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.blogBox {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.google-button { 
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    vertical-align: middle; /* Align the logo vertically in the middle */
+    /*line-height: 1;*/
+    height: 50px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 100%;
+  }
+
+  .google-button:hover {
+    background-color: #a0a0a0; /* Slightly darker shade on hover */
+  }
+
+  #middle {
+    width:100vw;
+    height:10vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    color:#fff;
+}
+#middle h1 {
+    font-size:70px;
+    color: black;
+}
