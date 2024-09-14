@@ -40,8 +40,8 @@
                     <p>Logged in as: <strong>{{ user.email }}</strong></p> 
                     <button @click="signOut">Sign Out</button> <br><br>
                     <form @submit.prevent="submitBlog"> 
-                        <input type="text" v-model="title" placeholder="Blog Title" required style="margin: 10px; width: 1000px; height: 40px; font-size:larger;"><br><br>
-                        <textarea v-model="content" ref="content" placeholder="Blog Content - Supports HTML!" required style="margin: 10px; width: 1000px; height: 200px; font-size: large;"></textarea><br><br>
+                        <input type="text" v-model="title" placeholder="Blog Title" required style="margin: 10px; width: 1000px; height: 40px; font-size:larger; padding: 10px;"><br><br>
+                        <textarea v-model="content" ref="content" placeholder="Blog Content - Supports HTML!" required style="margin: 10px; width: 1000px; height: 200px; font-size: large; padding: 10px;"></textarea><br><br>
                         
                         
                         <button type="submit" style="margin-bottom: 10px;">Submit</button>
