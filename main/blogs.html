@@ -14,6 +14,7 @@
             <div id="middle">
                 <h1>Blogs</h1>
             </div>
+            <p style="text-align: center;">Open Beautiful Blog Page: <a href="index.html#blogs">Here</a></p>
 
             <div v-if="blogs.length === 0">No blogs yet.</div>
 
@@ -53,6 +54,7 @@
                     <button @click="insertBEnd" style="margin-right: 10px;">Bold End</button>
                     <button @click="insertAStart" style="margin-right: 10px;">Link Start</button>
                     <button @click="insertAEnd" style="margin-right: 10px;">Link End</button>
+                    <button @click="insertImage" style="margin-right: 10px;">Image</button>
                     <button @click="insertNextLine" style="margin-right: 10px;">Next Line</button>
                 </div>
 

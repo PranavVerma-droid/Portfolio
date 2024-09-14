@@ -170,10 +170,13 @@ const app = Vue.createApp({
       this.insertAtCursor(this.$refs.content, '<br>');
     },
     insertAStart() {
-      this.insertAtCursor(this.$refs.content, '<a style="color:blue" href="";>');
+      this.insertAtCursor(this.$refs.content, '<a style="color:blue;" href="">');
     },
     insertAEnd() {
       this.insertAtCursor(this.$refs.content, '</a>');
+    },
+    insertImage() {
+      this.insertAtCursor(this.$refs.content, '<img class="scaling" src="">');
     }
   }
 });

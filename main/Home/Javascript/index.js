@@ -63,6 +63,30 @@ function showResume() {
     window.open(resumeURL, "_blank");
 }
 
+if (window.location.hash === '#blogs') {
+    setTimeout(function() {
+        showblogs();
+    }, 1000); 
+}
+
+if (window.location.hash === '#about') {
+    setTimeout(function() {
+        showabout();
+    }, 1000); 
+}
+
+if (window.location.hash === '#work') {
+    setTimeout(function() {
+        showwork();
+    }, 1000); 
+}
+
+if (window.location.hash === '#contact') {
+    setTimeout(function() {
+        showcontact();
+    }, 1000); 
+}
+
 setTimeout(function(){
     $("#loading").addClass("animate__animated animate__fadeOut");
     setTimeout(function(){

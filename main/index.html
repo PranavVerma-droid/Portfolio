@@ -191,15 +191,15 @@
                             <small style="color: #a70000; font-size: small;" class="md-centering">By {{ blog.author }} |
                                 Published on {{
                                 formatDate(blog.publication_date) }}</small>
-                            <div v-if="user">
+                            <!-- <div v-if="user">
                                 <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
                                 <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
             </section>
 
-            <section>
+           <!-- <section>
                 <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
 
                 <div v-if="user" class="boxshadow">
@@ -221,7 +221,7 @@
                         Sign in with Google
                     </button>
                 </div>
-            </section>
+            </section> -->
         </div>
     </div>
     </div>
