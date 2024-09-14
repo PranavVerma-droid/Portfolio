@@ -19,6 +19,8 @@ const app4 = Vue.createApp({
       user: null,
       title: "",
       content: "",
+      pinnedBlogs: [],
+      allBlogs: [],
       blogs: [],
       blogIdToEdit: null
     };
@@ -99,6 +101,9 @@ const app4 = Vue.createApp({
           id: doc.id,
           ...doc.data()
         }));
+
+        this.pinnedBlogs = this.blogs.filter(blog => blog.pinned);
+        this.allBlogs = this.blogs.filter(blog => blog.pinned);
       } catch (error) {
         console.error(error);
         alert("Failed to fetch blogs.");
@@ -113,7 +118,6 @@ const app4 = Vue.createApp({
       });
     },
     editBlog(blog) {
-      // Set the titleand content to the current blog's values for editing
       this.title = blog.title;
       this.content = blog.content;
       this.blogIdToEdit = blog.id;

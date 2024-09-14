@@ -183,11 +183,27 @@
 
 
                     <div v-else>
+                        <h2>Pinned Blogs</h2>
+                        <div v-for="blog in pinnedBlogs" :key="blog.id"
+                            class="boxshadow animate__animated animate__fadeIn blogHeading"
+                            style="animation-duration: 3s;">
+                            <a :href="'blog.html?id=' + blog.id" style="color: #000;">
+                                <h3 class="md-centering">{{ blog.title }}</h3>
+                                <small style="color: rgb(107, 23, 23);">Published on {{ formatDate(blog.publication_date) }}</small>
+                            </a>
+                            <div v-if="user">
+                                <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
+                                <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
+                            </div>
+                        </div>
+
+                        <h2>All Blogs</h2>
                         <div v-for="blog in blogs" :key="blog.id"
                             class="boxshadow animate__animated animate__fadeIn blogHeading"
                             style="animation-duration: 3s;">
                             <a :href="'blog.html?id=' + blog.id" style="color: #000;">
                                 <h3 class="md-centering">{{ blog.title }}</h3>
+                                <small style="color: rgb(107, 23, 23);">Published on {{ formatDate(blog.publication_date) }}</small>
                             </a>
                             <div v-if="user">
                                 <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
