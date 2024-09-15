@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,26 +67,40 @@
         .back-button:hover {
             background-color: #0056b3;
         }
-
     </style>
 </head>
+
 <body>
-    <div class="container" id="app4">
-        <section v-if="blog">
+    <div id="app">
+        <section v-if="blog" class="container">
             <div class="mt-8 center">
                 <h1>{{ blog.title }}</h1>
+                <button class="back-button" @click="goBack">Go Back Home</button>
                 <p v-html="blog.content" style="line-height: 1.6;"></p>
                 <small>
                     By {{ blog.author }} | Published on {{ formatDate(blog.publication_date) }}
                 </small>
             </div>
-            <button class="back-button" @click="goBack">Done Reading? Go back home</button>
         </section>
+
         <section v-else>
             <p>Loading blog data...</p>
         </section>
+
+        <section class="recent-blogs container" v-if="recentBlogs.length > 0">
+            <h2>Read Next:</h2>
+            <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
+                <h3><a :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a></h3>
+                <p>{{ recentBlog.content.substring(0, 100) }}...</p>
+            </div>
+        </section>
     </div>
+
+
+
+
 
     <script src="Blogs/blog.js"></script>
 </body>
+
 </html>

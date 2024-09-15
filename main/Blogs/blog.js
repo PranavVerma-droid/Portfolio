@@ -1,4 +1,4 @@
-const firebaseConfig4 = {
+const firebaseConfig = {
     apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
     authDomain: "contactusform-f0ec2.firebaseapp.com",
     databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
@@ -9,13 +9,14 @@ const firebaseConfig4 = {
     measurementId: "G-1RVB7HZQWB"
   };
   
-  firebase.initializeApp(firebaseConfig4);
-  const db4 = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
   
-  const app4 = Vue.createApp({
+  const app = Vue.createApp({
     data() {
       return {
         blog: null, 
+        recentBlogs: []
       };
     },
     mounted() {
@@ -23,12 +24,13 @@ const firebaseConfig4 = {
       const blogId = urlParams.get('id');
       if (blogId) {
         this.fetchBlog(blogId); 
+        this.fetchRecentBlogs(blogId);
       }
     },
     methods: {
       async fetchBlog(blogId) {
         try {
-          const blogDoc = await db4.collection('blogs').doc(blogId).get();
+          const blogDoc = await db.collection('blogs').doc(blogId).get();
           if (blogDoc.exists) {
             this.blog = blogDoc.data(); 
           } else {
@@ -37,6 +39,23 @@ const firebaseConfig4 = {
         } catch (error) {
           console.error(error);
           alert("Failed to fetch blog.");
+        }
+      },
+      async fetchRecentBlogs(currentBlogId) {
+        try {
+          const querySnapshot = await db.collection('blogs')
+            .orderBy('publication_date', 'desc')
+            .limit(3)
+            .get();
+          
+          this.recentBlogs = querySnapshot.docs
+            .filter(doc => doc.id !== currentBlogId)
+            .map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+        } catch (error) {
+          console.error("Error fetching recent blogs:", error);
         }
       },
       goBack() {
@@ -53,5 +72,5 @@ const firebaseConfig4 = {
     },
   });
   
-  app4.mount('#app4');
+  app.mount('#app');
   
