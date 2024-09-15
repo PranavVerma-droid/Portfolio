@@ -32,6 +32,15 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
+        .recent-blog-item {
+            transform: scale(1.0);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .recent-blog-item:hover {
+            transform: scale(1.025); 
+        }
+
         h1 {
             font-size: 2em;
             text-align: center;
@@ -90,7 +99,7 @@
         <section class="recent-blogs container" v-if="recentBlogs.length > 0">
             <h2>Read Next:</h2>
             <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
-                <h3><a :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a></h3>
+                <h3><a style="text-decoration: none;" :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a></h3>
                 <p>{{ recentBlog.content.substring(0, 100) }}...</p>
             </div>
         </section>

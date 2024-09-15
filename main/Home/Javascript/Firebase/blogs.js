@@ -22,7 +22,9 @@ const app4 = Vue.createApp({
       pinnedBlogs: [],
       allBlogs: [],
       blogs: [],
-      blogIdToEdit: null
+      draftBlogs: [], 
+      blogIdToEdit: null,
+      isDraft: false, 
     };
   },
   mounted() {
@@ -45,16 +47,18 @@ const app4 = Vue.createApp({
         });
     },
     submitBlog() {
+      const blogData = {
+        title: this.title,
+        content: this.content,
+        author: this.user ? this.user.email : "Anonymous",
+        publication_date: new Date().toISOString(),
+        isDraft: this.isDraft, 
+      };
+
       if (this.blogIdToEdit) {
-        db4.collection("blogs").doc(this.blogIdToEdit).update({
-          title: this.title,
-          content: this.content,
-        })
+        db4.collection("blogs").doc(this.blogIdToEdit).update(blogData)
           .then(() => {
-            this.title = "";
-            this.content = "";
-            this.blogIdToEdit = null;
-            this.fetchBlogs();
+            this.resetForm();
             alert("Blog updated successfully!");
           })
           .catch(error => {
@@ -62,16 +66,9 @@ const app4 = Vue.createApp({
             alert("Failed to update blog.");
           });
       } else {
-        db4.collection("blogs").add({
-          title: this.title,
-          content: this.content,
-          author: this.user ? this.user.email : "Anonymous",
-          publication_date: new Date().toISOString(),
-        })
+        db4.collection("blogs").add(blogData)
           .then(() => {
-            this.title = "";
-            this.content = "";
-            this.fetchBlogs();
+            this.resetForm();
             alert("Blog submitted successfully!");
           })
           .catch(error => {
@@ -92,18 +89,22 @@ const app4 = Vue.createApp({
     },
     async fetchBlogs() {
       try {
-        let query = db4.collection("blogs").orderBy("publication_date", "desc");
-        if (this.selectedCategory) {
-          query = query.where("category", "==", this.selectedCategory);
-        }
-        const querySnapshot = await query.get();
-        this.blogs = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        const querySnapshot = await db4.collection("blogs").orderBy("publication_date", "desc").get();
+        this.blogs = querySnapshot.docs
+          .filter(doc => !doc.data().isDraft) 
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+        this.draftBlogs = querySnapshot.docs
+          .filter(doc => doc.data().isDraft) 
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
 
         this.pinnedBlogs = this.blogs.filter(blog => blog.pinned);
-        this.allBlogs = this.blogs.filter(blog => blog.pinned);
       } catch (error) {
         console.error(error);
         alert("Failed to fetch blogs.");
@@ -121,13 +122,12 @@ const app4 = Vue.createApp({
       this.title = blog.title;
       this.content = blog.content;
       this.blogIdToEdit = blog.id;
+      this.isDraft = blog.isDraft; 
     },
     deleteBlog(blogId) {
       const confirmation = confirm("Are you sure you want to delete this blog?");
       if (confirmation) {
-        db4.collection("blogs")
-          .doc(blogId)
-          .delete()
+        db4.collection("blogs").doc(blogId).delete()
           .then(() => {
             this.fetchBlogs();
             alert("Blog deleted successfully!");
@@ -138,15 +138,32 @@ const app4 = Vue.createApp({
           });
       }
     },
-        insertAtCursor(myField, myValue) {
-
+    publishBlog(blogId) {
+      db4.collection("blogs").doc(blogId).update({
+        isDraft: false 
+      })
+      .then(() => {
+        this.fetchBlogs();
+        alert("Blog published successfully!");
+      })
+      .catch(error => {
+        console.error(error);
+        alert("Failed to publish blog.");
+      });
+    },
+    resetForm() {
+      this.title = "";
+      this.content = "";
+      this.isDraft = false; 
+      this.blogIdToEdit = null;
+      this.fetchBlogs();
+    },
+    insertAtCursor(myField, myValue) {
       if (document.selection) {
         myField.focus();
         var sel = document.selection.createRange();
         sel.text = myValue;
-      }
-
-      else if (myField.selectionStart || myField.selectionStart === 0) {
+      } else if (myField.selectionStart || myField.selectionStart === 0) {
         var startPos = myField.selectionStart;
         var endPos = myField.selectionEnd;
         myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
