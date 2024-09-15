@@ -18,7 +18,7 @@
     project.
 */
 
-const firebaseConfig2 = {
+const firebaseConfigWorks = {
     apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
     authDomain: "contactusform-f0ec2.firebaseapp.com",
     databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
@@ -28,8 +28,8 @@ const firebaseConfig2 = {
     appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
     measurementId: "G-1RVB7HZQWB" };
     
-firebase.initializeApp(firebaseConfig2);
-const db2 = firebase.firestore();
+firebase.initializeApp(firebaseConfigWorks);
+const dbWorks = firebase.firestore();
 
 const app2 = Vue.createApp({
 data() {
@@ -61,7 +61,7 @@ mounted() {
 },
 methods: {
     loadProjects() {
-    db2.collection("projects")
+    dbWorks.collection("projects")
     .orderBy("class", "asc")
     .get()
         .then(querySnapshot => {
@@ -80,7 +80,7 @@ methods: {
     }, 
 
     loadCompetitions() {
-        db2.collection("competitions")
+        dbWorks.collection("competitions")
         .orderBy("class", "asc")
         .get()
             .then(querySnapshot => {
@@ -99,7 +99,7 @@ methods: {
         },
 
         loadInternships() {
-            db2.collection("internships")
+            dbWorks.collection("internships")
             .orderBy("class", "asc")
             .get()
                 .then(querySnapshot => {

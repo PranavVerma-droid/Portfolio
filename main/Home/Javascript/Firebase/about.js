@@ -19,7 +19,7 @@
 */
 
 
-const firebaseConfig = {
+const firebaseConfigAbout = {
   apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
   authDomain: "contactusform-f0ec2.firebaseapp.com",
   databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
@@ -29,14 +29,14 @@ const firebaseConfig = {
   appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
   measurementId: "G-1RVB7HZQWB"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const realdb = firebase.database();
+firebase.initializeApp(firebaseConfigAbout);
+const dbAbout = firebase.firestore();
+const realdbAbout = firebase.database();
 
 
 
   
-      const app = Vue.createApp({
+      const appAbout = Vue.createApp({
         data() {
           return {
             user: null,
@@ -79,7 +79,7 @@ const realdb = firebase.database();
         },
         methods: {
           loadProjects() {
-            db.collection("tools")
+            dbAbout.collection("tools")
             .orderBy("class", "asc")
             .get()
               .then(querySnapshot => {
@@ -97,7 +97,7 @@ const realdb = firebase.database();
               });         
             },
             loadLanguages() {
-              db.collection("languages")
+              dbAbout.collection("languages")
               .orderBy("languageName", "asc")
               .get()
                 .then(querySnapshot => {
@@ -116,7 +116,7 @@ const realdb = firebase.database();
               },
 
               loadCertificates() {
-                db.collection("certificates")
+                dbAbout.collection("certificates")
                 .get()
                   .then(querySnapshot => {
                     const certificates = [];
@@ -134,7 +134,7 @@ const realdb = firebase.database();
                 },
 
               loadAboutMe() {
-                const aboutMeRef = realdb.ref('info/about-me');
+                const aboutMeRef = realdbAbout.ref('info/about-me');
             
                 aboutMeRef.on('value', (snapshot) => {
                     const aboutMeText = snapshot.val();
@@ -153,4 +153,4 @@ const realdb = firebase.database();
         }
       });
   
-      app.mount('#about_container');
+      appAbout.mount('#about_container');

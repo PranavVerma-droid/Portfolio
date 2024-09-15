@@ -18,7 +18,7 @@
     project.
 */
 
-var config = {
+var firebaseConfigContact = {
     apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
     authDomain: "contactusform-f0ec2.firebaseapp.com",
     databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
@@ -29,10 +29,10 @@ var config = {
     measurementId: "G-1RVB7HZQWB"
   };
   
-  firebase.initializeApp(config);
+  firebase.initializeApp(firebaseConfigContact);
   var messagesRef = firebase.database().ref('forms');
   
-  // Add Linstener for Form
+
   $(document).ready(function() {
       const bclick = document.getElementById('contactForm');
       bclick.addEventListener('submit', submitForm);

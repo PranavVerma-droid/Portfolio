@@ -46,6 +46,20 @@
         <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.7s;"></div>
     </div>
 
+    <div id="suggestion-box" class="suggestion-box" style="display: none;">
+        <h3>Rate Our Site</h3>
+        <div class="rating">
+          <span class="star" data-rating="1">&#9733;</span>
+          <span class="star" data-rating="2">&#9733;</span>
+          <span class="star" data-rating="3">&#9733;</span>
+          <span class="star" data-rating="4">&#9733;</span>
+          <span class="star" data-rating="5">&#9733;</span>
+        </div>
+        <textarea id="suggestion-text" placeholder="Your suggestions..." style="height: 20px;"></textarea>
+        <button id="submit-suggestion"><span style="font-family: 'Josefin Sans', sans-serif;">Submit</span></button>
+        <button id="do-not-show"><span style="font-family: 'Josefin Sans', sans-serif;">Do not show again</span></button>
+    </div>
+
 
 
     <a id="about" onclick="showabout()" class="animate__animated animate__fadeIn"
@@ -249,7 +263,7 @@
         <div onclick="closeblogs()"><i class="fas fa-angle-up"></i></div>
 
 
-        <div id="app4">
+        <div id="blogs_container_mount">
             <section>
                 <div class="mt-8 center">
 
@@ -406,10 +420,6 @@
             Verma</a>
     </div>
 
-    <!-- General App Settings Javascript -->
-    <script src="Home/Javascript/index.js" type=""></script>
-    <script src="Home/Javascript/particles.js"></script>
-    <script src="Home/Javascript/app.js"></script>
 
     <!-- Javascript Framework (Vue.js and Prism.js) -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
@@ -423,6 +433,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+        <!-- General App Settings Javascript -->
+        <script src="Home/Javascript/index.js" type=""></script>
+        <script src="Home/Javascript/particles.js"></script>
+        <script src="Home/Javascript/app.js"></script>
 
     <!-- Firebase Settings and Import Javascript -->
     <script src="Home/Javascript/Firebase/about.js"></script>
@@ -443,7 +458,7 @@
             measurementId: "G-1RVB7HZQWB"
         };
 
-        const appPerf = firebase.initializeApp(firebaseConfig);
+        const appPerf = firebase.initializeApp(firebaseConfigPerf);
 
         const perf = firebase.performance(appPerf);
     </script>
@@ -462,9 +477,6 @@
 
 
     <!-- Miscellaneous Javascript -->
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-        data-id="pranavverma" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F"
-        data-position="Right" data-x_margin="18" data-y_margin="18" class="md-hide"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 

@@ -18,6 +18,59 @@
     project.
 */
 
+const firebaseConfigIndex = {
+    apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
+    authDomain: "contactusform-f0ec2.firebaseapp.com",
+    databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
+    projectId: "contactusform-f0ec2",
+    storageBucket: "contactusform-f0ec2.appspot.com",
+    messagingSenderId: "641931730164",
+    appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
+    measurementId: "G-1RVB7HZQWB"
+  };
+  firebase.initializeApp(firebaseConfigIndex);
+
+  const suggestionBox = document.getElementById('suggestion-box');
+  const stars = document.querySelectorAll('.star');
+  const suggestionText = document.getElementById('suggestion-text');
+  const submitButton = document.getElementById('submit-suggestion');
+  const doNotShowButton = document.getElementById('do-not-show');
+
+  let rating = 0;
+
+  setTimeout(() => {
+    if (!localStorage.getItem('suggestionBoxShown')) {
+      suggestionBox.style.display = 'block';
+    }
+  }, 10000);
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      rating = parseInt(star.getAttribute('data-rating'));
+      stars.forEach((s, index) => {
+        s.classList.toggle('active', index < rating);
+      });
+    });
+  });
+
+  submitButton.addEventListener('click', () => {
+    const suggestion = suggestionText.value;
+    if (rating > 0 || suggestion.trim() !== '') {
+      firebase.database().ref('suggestions').push({
+        rating: rating,
+        suggestion: suggestion,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      });
+      
+      suggestionBox.style.display = 'none';
+      localStorage.setItem('suggestionBoxShown', 'true');
+    }
+  });
+
+  doNotShowButton.addEventListener('click', () => {
+    suggestionBox.style.display = 'none';
+    localStorage.setItem('suggestionBoxShown', 'true');
+});
+
 function showabout(){
     $("#about_container").css("display","inherit");
     $("#about_container").addClass("animate__animated animate__slideInLeft");

@@ -18,7 +18,7 @@
     project.
 */
 
-const firebaseConfig4 = {
+const firebaseConfigBlogs = {
   apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
   authDomain: "contactusform-f0ec2.firebaseapp.com",
   databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
@@ -29,11 +29,11 @@ const firebaseConfig4 = {
   measurementId: "G-1RVB7HZQWB"
 };
 
-firebase.initializeApp(firebaseConfig4);
+firebase.initializeApp(firebaseConfigBlogs);
 
-const db4 = firebase.firestore();
+const dbBlogs = firebase.firestore();
 
-const app4 = Vue.createApp({
+const appBlogs = Vue.createApp({
   data() {
     return {
       user: null,
@@ -76,7 +76,7 @@ const app4 = Vue.createApp({
       };
 
       if (this.blogIdToEdit) {
-        db4.collection("blogs").doc(this.blogIdToEdit).update(blogData)
+        dbBlogs.collection("blogs").doc(this.blogIdToEdit).update(blogData)
           .then(() => {
             this.resetForm();
             alert("Blog updated successfully!");
@@ -86,7 +86,7 @@ const app4 = Vue.createApp({
             alert("Failed to update blog.");
           });
       } else {
-        db4.collection("blogs").add(blogData)
+        dbBlogs.collection("blogs").add(blogData)
           .then(() => {
             this.resetForm();
             alert("Blog submitted successfully!");
@@ -109,7 +109,7 @@ const app4 = Vue.createApp({
     },
     async fetchBlogs() {
       try {
-        const querySnapshot = await db4.collection("blogs").orderBy("publication_date", "desc").get();
+        const querySnapshot = await dbBlogs.collection("blogs").orderBy("publication_date", "desc").get();
         this.blogs = querySnapshot.docs
           .filter(doc => !doc.data().isDraft) 
           .map(doc => ({
@@ -147,7 +147,7 @@ const app4 = Vue.createApp({
     deleteBlog(blogId) {
       const confirmation = confirm("Are you sure you want to delete this blog?");
       if (confirmation) {
-        db4.collection("blogs").doc(blogId).delete()
+        dbBlogs.collection("blogs").doc(blogId).delete()
           .then(() => {
             this.fetchBlogs();
             alert("Blog deleted successfully!");
@@ -159,7 +159,7 @@ const app4 = Vue.createApp({
       }
     },
     publishBlog(blogId) {
-      db4.collection("blogs").doc(blogId).update({
+      dbBlogs.collection("blogs").doc(blogId).update({
         isDraft: false 
       })
       .then(() => {
@@ -226,4 +226,4 @@ const app4 = Vue.createApp({
   }
 });
 
-app4.mount('#app4');
+appBlogs.mount('#blogs_container_mount');
