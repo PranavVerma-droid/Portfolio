@@ -1,3 +1,24 @@
+/* 
+    Copyright (C) 2024  Pranav Verma
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    See a more apt description in LICENSE File Attached to the root of this
+    project.
+*/
+
+
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
 body {
@@ -28,7 +49,7 @@ body {
     cursor: pointer;
     margin-top: 10px;
     font-family: 'Josefin Sans', sans-serif;
-    vertical-align: middle; /* Align the logo vertically in the middle */
+    vertical-align: middle; 
     /*line-height: 1;*/
     height: 50px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
@@ -36,18 +57,18 @@ body {
   }
 
   .google-button:hover {
-    background-color: #a0a0a0; /* Slightly darker shade on hover */
+    background-color: #a0a0a0;
   }
 
   #login-button {
-    background-color: #FF4136; /* Red background color */
-    color: #fff; /* Text color */
+    background-color: #FF4136; 
+    color: #fff; 
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Josefin Sans', sans-serif; /* Use the specified font */
-    text-transform: uppercase; /* Make text uppercase */
+    font-family: 'Josefin Sans', sans-serif; 
+    text-transform: uppercase;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     height: 50px;
     vertical-align: middle;
@@ -55,7 +76,7 @@ body {
   }
   
   #login-button:hover {
-    background-color: #D40000; /* Darker red on hover */
+    background-color: #D40000; 
   }
 
   .google-logo {
