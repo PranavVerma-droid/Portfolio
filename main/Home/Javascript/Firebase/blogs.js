@@ -214,6 +214,12 @@ const app4 = Vue.createApp({
     insertAEnd() {
       this.insertAtCursor(this.$refs.content, '</a>');
     },
+    insertCodeStart() {
+      this.insertAtCursor(this.$refs.content, '<pre><code>');
+    },
+    insertCodeEnd() {
+      this.insertAtCursor(this.$refs.content, '</code></pre>');
+    },
     insertImage() {
       this.insertAtCursor(this.$refs.content, '<img class="scaling" src="">');
     }

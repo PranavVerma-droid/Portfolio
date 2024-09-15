@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     See a more apt description in LICENSE File Attached to the root of this
-    project.
+    project. 
 -->
 
 
@@ -358,20 +358,33 @@
                         <textarea v-model="content" ref="content" class="blog-input"
                             placeholder="Blog Content - Supports HTML!" required style="height: 200px;"></textarea>
                         <label>
-                            <input type="checkbox" v-model="isDraft" style="width: 16px; height: 16px; margin: 10px; padding: 0; vertical-align: middle;"> <span style="font-size: small;">Save as Draft</span>
+                            <input type="checkbox" v-model="isDraft"
+                                style="width: 16px; height: 16px; margin: 10px; padding: 0; vertical-align: middle;">
+                            <span style="font-size: small;">Save as Draft</span>
                         </label> <br><br>
                         <button type="submit" class="blog-button">Submit</button>
                     </form>
                     <br><br>
-                    <button @click="insertPStart" style="margin-right: 10px;" class="blog-button">Paragraph
-                        Start</button>
-                    <button @click="insertPEnd" style="margin-right: 10px;" class="blog-button">Paragraph End</button>
-                    <button @click="insertBStart" style="margin-right: 10px;" class="blog-button">Bold Start</button>
-                    <button @click="insertBEnd" style="margin-right: 10px;" class="blog-button">Bold End</button>
-                    <button @click="insertAStart" style="margin-right: 10px;" class="blog-button">Link Start</button>
-                    <button @click="insertAEnd" style="margin-right: 10px;" class="blog-button">Link End</button>
-                    <button @click="insertImage" style="margin-right: 10px;" class="blog-button">Image</button>
-                    <button @click="insertNextLine" style="margin-right: 10px;" class="blog-button">Next Line</button>
+                    <div>
+                        <button @click="insertPStart" style="margin-right: 10px;" class="blog-button">Paragraph
+                            Start</button>
+                        <button @click="insertPEnd" style="margin-right: 10px;" class="blog-button">Paragraph
+                            End</button>
+                        <button @click="insertBStart" style="margin-right: 10px;" class="blog-button">Bold
+                            Start</button>
+                        <button @click="insertBEnd" style="margin-right: 10px;" class="blog-button">Bold End</button>
+                        <button @click="insertAStart" style="margin-right: 10px;" class="blog-button">Link
+                            Start</button>
+                    </div>
+                    <div style="padding-top: 10px;">
+                        <button @click="insertAEnd" style="margin-right: 10px;" class="blog-button">Link End</button>
+                        <button @click="insertCodeStart" style="margin-right: 10px;" class="blog-button">Code
+                            Start</button>
+                        <button @click="insertCodeEnd" style="margin-right: 10px;" class="blog-button">Code End</button>
+                        <button @click="insertImage" style="margin-right: 10px;" class="blog-button">Image</button>
+                        <button @click="insertNextLine" style="margin-right: 10px;" class="blog-button">Next
+                            Line</button>
+                    </div>
                 </div>
 
                 <div v-else class="boxshadow">
@@ -389,7 +402,8 @@
 
 
     <div id="footer">
-        made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">Copyright &COPY; 2024 Pranav Verma</a>
+        made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">Copyright &COPY; 2024 Pranav
+            Verma</a>
     </div>
 
     <!-- General App Settings Javascript -->
@@ -397,8 +411,10 @@
     <script src="Home/Javascript/particles.js"></script>
     <script src="Home/Javascript/app.js"></script>
 
-    <!-- Javascript Framework (Vue.js) -->
+    <!-- Javascript Framework (Vue.js and Prism.js) -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
+    <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
 
     <!-- Firebase Config Files Javascript -->
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
@@ -442,6 +458,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="Home/CSS/index.css">
+    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
 
 
     <!-- Miscellaneous Javascript -->
