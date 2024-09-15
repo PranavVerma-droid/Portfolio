@@ -460,6 +460,16 @@ a {
 	background: rgb(118, 19, 19); 
 }
 
+.heading-with-icon {
+    display: flex;
+    align-items: center;
+  }
+  
+  .heading-with-icon .icon {
+    margin-right: 8px; /* Adjust the spacing between the icon and the text */
+    vertical-align: middle;
+  }
+
 @media (max-width: 800px){ 
     #about {
         display:none;

@@ -58,7 +58,12 @@
         <div onclick="closework()" class=""><i class="fas fa-angle-right"></i></div>
         <h1>works.</h1>
         <div id="work_vue">
-            <h2><u>Competitions</u></h2>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0" />
+                <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889" />
+                <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889" />
+              </svg> Competitions</h2>
             <section v-for="competition in competitions" :key="competition.id">
                 <h3>{{ competition.competitionName }}</h2>
                     <p>{{ competition.competitionDescription }}</p>
@@ -66,7 +71,10 @@
                     <button class="btn_one"><a :href="competition.competitionSource">Source Code</a></button>
             </section>
 
-            <h2><u>Projects</u></h2>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+              </svg> Projects</h2>
             <section v-for="project in projects" :key="project.id">
                 <h3>{{ project.projectName }}</h2>
                     <p>{{ project.projectDescription }}</p>
@@ -74,7 +82,16 @@
                     <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
             </section>
 
-            <h2><u>Internships</u></h2>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-skyscraper" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M3 21l18 0" />
+                <path d="M5 21v-14l8 -4v18" />
+                <path d="M19 21v-10l-6 -4" />
+                <path d="M9 9l0 .01" />
+                <path d="M9 12l0 .01" />
+                <path d="M9 15l0 .01" />
+                <path d="M9 18l0 .01" />
+              </svg> Internships</h2>
             <section v-for="internship in internships" :key="internship.id">
                 <h3>{{ internship.internshipName }}</h2>
                     <p>{{ internship.internshipDescription }}</p>
@@ -87,14 +104,28 @@
         <div onclick="closeabout()"><i class="fas fa-angle-left"></i></div>
         <h1>about.</h1>
         <section>
-            <h2>about me</h2>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+              </svg> about me</h2>
             <p id="about-me-placeholder">
                 Loading...
             </p>
         </section>
 
         <section>
-            <h2>certificates</h2>
+            <h2 class="heading-with-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" />
+                <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" />
+                <path d="M6 9l12 0" />
+                <path d="M6 12l3 0" />
+                <path d="M6 15l2 0" />
+              </svg> certificates</h2>
 
             <div v-for="certificate in certificates" :key="certificate.id"
                 style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
@@ -112,7 +143,13 @@
         </section>
 
         <section>
-            <h2>languages (learnt / learning / tried)</h2>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-code-circle-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M8.5 13.5l-1.5 -1.5l1.5 -1.5" />
+                <path d="M15.5 10.5l1.5 1.5l-1.5 1.5" />
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M13 9.5l-2 5.5" />
+              </svg> languages (learnt / learning / tried)</h2>
 
             <div v-for="language in languages" :key="language.id"
                 style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
@@ -130,7 +167,10 @@
         </section>
 
         <section>
-            <h2>tools (that i know how to use)</h2>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tool" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
+              </svg> tools (that i know how to use)</h2>
 
             <div v-for="project in projects" :key="project.id"
                 style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
@@ -183,7 +223,12 @@
 
 
                     <div v-else>
-                        <h2>Pinned Blogs</h2>
+                        <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pin" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4" />
+                            <path d="M9 15l-4.5 4.5" />
+                            <path d="M14.5 4l5.5 5.5" />
+                          </svg> Pinned Blogs</h2>
                         <div v-for="blog in pinnedBlogs" :key="blog.id"
                             class="boxshadow animate__animated animate__fadeIn blogHeading"
                             style="animation-duration: 3s;">
@@ -197,7 +242,13 @@
                             </div>
                         </div>
 
-                        <h2>All Blogs</h2>
+                        <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-news" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
+                            <path d="M8 8l4 0" />
+                            <path d="M8 12l4 0" />
+                            <path d="M8 16l4 0" />
+                          </svg> All Blogs</h2>
                         <div v-for="blog in blogs" :key="blog.id"
                             class="boxshadow animate__animated animate__fadeIn blogHeading"
                             style="animation-duration: 3s;">
@@ -214,7 +265,11 @@
             </section>
 
             <section>
-                <h2 class="text-xl font-bold mb-4">Create Blogs:</h2>
+                <h2 class="text-xl font-bold mb-4 heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-import" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                    <path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" />
+                  </svg> Create Blogs:</h2>
 
                 <div v-if="user" class="boxshadow">
                     <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
