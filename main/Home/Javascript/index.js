@@ -29,8 +29,8 @@ const firebaseConfigIndex = {
     measurementId: "G-1RVB7HZQWB"
   };
   firebase.initializeApp(firebaseConfigIndex);
+  const perf = firebase.performance();
 
-const perf = firebase.performance(firebaseConfigIndex);
 
   const suggestionBox = document.getElementById('suggestion-box');
   const stars = document.querySelectorAll('.star');
