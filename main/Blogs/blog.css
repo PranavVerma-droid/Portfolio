@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
+* {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.recent-blog-item {
+    transform: scale(1.0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.recent-blog-item:hover {
+    transform: scale(1.025); 
+}
+
+pre {
+    border: solid 2px;
+    border-radius: 10px;
+    width: 95%;
+    padding: 10px;
+}
+
+code {
+    font-family: monospace !important;
+}
+
+h1 {
+    font-size: 2em;
+    text-align: center;
+    color: #333;
+}
+
+p {
+    font-size: 1.2em;
+    color: #555;
+    line-height: 1.6;
+}
+
+.scaling {
+    max-width: 100%;
+    height: auto;
+    min-width: 300px;
+}
+
+small {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #a70000;
+}
+
+.back-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    text-align: center;
+    transform: scale(1.0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); 
+}

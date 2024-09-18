@@ -9,6 +9,15 @@ This Code is [Licensed](LICENSE)!
 
 Hosted on Firebase.
 
+### Tools Used:
+    - HTML + CSS + JS
+    - Vue.js
+    - Prism.js
+    - Particle.js 
+    - Firebase
+    - Animate.css
+    - JQuery
+
 ## Docker Deploy 🐋
 To run this code via **docker**, pull the repository via:
 

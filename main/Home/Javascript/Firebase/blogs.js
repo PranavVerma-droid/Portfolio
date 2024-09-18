@@ -221,7 +221,7 @@ const appBlogs = Vue.createApp({
       this.insertAtCursor(this.$refs.content, '</code></pre>');
     },
     insertImage() {
-      this.insertAtCursor(this.$refs.content, '<img class="scaling" src="">');
+      this.insertAtCursor(this.$refs.content, '<img class="scaling" src=""><br>');
     }
   }
 });

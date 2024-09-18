@@ -30,6 +30,8 @@ const firebaseConfigIndex = {
   };
   firebase.initializeApp(firebaseConfigIndex);
 
+const perf = firebase.performance(firebaseConfigIndex);
+
   const suggestionBox = document.getElementById('suggestion-box');
   const stars = document.querySelectorAll('.star');
   const suggestionText = document.getElementById('suggestion-text');

@@ -49,15 +49,16 @@
     <div id="suggestion-box" class="suggestion-box" style="display: none;">
         <h3>Rate Our Site</h3>
         <div class="rating">
-          <span class="star" data-rating="1">&#9733;</span>
-          <span class="star" data-rating="2">&#9733;</span>
-          <span class="star" data-rating="3">&#9733;</span>
-          <span class="star" data-rating="4">&#9733;</span>
-          <span class="star" data-rating="5">&#9733;</span>
+            <span class="star" data-rating="1">&#9733;</span>
+            <span class="star" data-rating="2">&#9733;</span>
+            <span class="star" data-rating="3">&#9733;</span>
+            <span class="star" data-rating="4">&#9733;</span>
+            <span class="star" data-rating="5">&#9733;</span>
         </div>
         <textarea id="suggestion-text" placeholder="Your suggestions..." style="height: 20px;"></textarea>
         <button id="submit-suggestion"><span style="font-family: 'Josefin Sans', sans-serif;">Submit</span></button>
-        <button id="do-not-show"><span style="font-family: 'Josefin Sans', sans-serif;">Do not show again</span></button>
+        <button id="do-not-show"><span style="font-family: 'Josefin Sans', sans-serif;">Do not show
+                again</span></button>
     </div>
 
 
@@ -434,10 +435,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-        <!-- General App Settings Javascript -->
-        <script src="Home/Javascript/index.js" type=""></script>
-        <script src="Home/Javascript/particles.js"></script>
-        <script src="Home/Javascript/app.js"></script>
+    <!-- General App Settings Javascript -->
+    <script src="Home/Javascript/index.js" type=""></script>
+    <script src="Home/Javascript/particles.js"></script>
+    <script src="Home/Javascript/app.js"></script>
 
     <!-- Firebase Settings and Import Javascript -->
     <script src="Home/Javascript/Firebase/about.js"></script>
@@ -445,23 +446,6 @@
     <script src="Home/Javascript/Firebase/works.js"></script>
     <script src="Home/Javascript/Firebase/contact.js"></script>
     <script src="Home/Javascript/Firebase/links.js"></script>
-
-    <script>
-        const firebaseConfigPerf = {
-            apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
-            authDomain: "contactusform-f0ec2.firebaseapp.com",
-            databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
-            projectId: "contactusform-f0ec2",
-            storageBucket: "contactusform-f0ec2.appspot.com",
-            messagingSenderId: "641931730164",
-            appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
-            measurementId: "G-1RVB7HZQWB"
-        };
-
-        const appPerf = firebase.initializeApp(firebaseConfigPerf);
-
-        const perf = firebase.performance(appPerf);
-    </script>
 
 
     <!-- All CSS -->

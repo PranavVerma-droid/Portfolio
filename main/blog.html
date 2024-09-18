@@ -26,95 +26,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Details</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
-        * {
-            font-family: 'Josefin Sans', sans-serif;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .recent-blog-item {
-            transform: scale(1.0);
-            transition: transform 0.3s ease-in-out;
-        }
-        
-        .recent-blog-item:hover {
-            transform: scale(1.025); 
-        }
-
-        pre {
-            border: solid 2px;
-            border-radius: 10px;
-            width: 95%;
-            padding: 10px;
-        }
-
-        code {
-            font-family: monospace !important;
-        }
-
-        h1 {
-            font-size: 2em;
-            text-align: center;
-            color: #333;
-        }
-
-        p {
-            font-size: 1.2em;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .scaling {
-            max-width: 100%;
-            height: auto;
-            min-width: 300px;
-        }
-
-        small {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #a70000;
-        }
-
-        .back-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            cursor: pointer;
-            text-align: center;
-            transform: scale(1.0);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05); 
-        }
-    </style>
-
-    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -137,7 +49,8 @@
         <section class="recent-blogs container" v-if="recentBlogs.length > 0">
             <h2>Read Next:</h2>
             <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
-                <h3><a style="text-decoration: none;" :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a></h3>
+                <h3><a style="text-decoration: none;" :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a>
+                </h3>
                 <p>{{ recentBlog.content.substring(0, 100) }}...</p>
             </div>
         </section>
@@ -145,15 +58,25 @@
 
 
 
-
+    <!-- All CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
+    <link rel="stylesheet" href="Blogs/blog.css" />
+
+    <!-- All Firebase Config -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
+    <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+    <!-- All Javascript Frameworks -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- All Custom Javascript -->
     <script src="Blogs/blog.js"></script>
-    <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
-    <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+
 </body>
 
 </html>
