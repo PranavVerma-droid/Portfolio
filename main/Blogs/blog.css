@@ -68,7 +68,8 @@ p {
     line-height: 1.6;
 }
 
-.scaling {
+
+img {
     max-width: 100%;
     height: auto;
     min-width: 300px;
@@ -97,13 +98,20 @@ small {
 }
 
 a {
-    color: blue;
-    transition: color 0.3s ease; 
+    padding: 5px;
+    margin: 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    color: rgb(111, 185, 209);
 }
 
 a:hover {
-    color: rgb(2, 2, 114);
+    background-color: rgba(14, 79, 82, 0.738);
 }
+
+
+
 .back-button:hover {
     background-color: #0056b3;
     transform: scale(1.05); 
