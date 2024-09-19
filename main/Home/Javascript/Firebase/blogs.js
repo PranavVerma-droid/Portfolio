@@ -209,7 +209,7 @@ const appBlogs = Vue.createApp({
       this.insertAtCursor(this.$refs.content, '<br>');
     },
     insertAStart() {
-      this.insertAtCursor(this.$refs.content, '<a style="color:blue;" href="">');
+      this.insertAtCursor(this.$refs.content, '<a style="color:blue;" href="" target="_blank">');
     },
     insertAEnd() {
       this.insertAtCursor(this.$refs.content, '</a>');

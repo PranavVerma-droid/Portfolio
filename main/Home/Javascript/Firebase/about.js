@@ -148,8 +148,8 @@ const realdbAbout = firebase.database();
                 });
             },
             visitLink(link) {
-              window.location.href = link;
-          }
+              window.open(link, '_blank');
+            }
         }
       });
   

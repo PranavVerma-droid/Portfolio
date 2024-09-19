@@ -38,6 +38,10 @@ const firebaseConfigIndex = {
   const submitButton = document.getElementById('submit-suggestion');
   const doNotShowButton = document.getElementById('do-not-show');
 
+  document.querySelectorAll('a').forEach(link => {
+    link.setAttribute('target', '_blank');
+  });
+
   let rating = 0;
 
   setTimeout(() => {
