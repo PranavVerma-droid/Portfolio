@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
+:root {
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --container-bg: #ffffff;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --container-bg: #2c2c2c;
+    --container-shadow: rgba(255, 255, 255, 0.1);
+}
+
 * {
     font-family: 'Josefin Sans', sans-serif;
 }
@@ -8,15 +22,18 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
     max-width: 1000px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: var(--container-bg);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--container-shadow);
 }
 
 .recent-blog-item {
@@ -42,12 +59,12 @@ code {
 h1 {
     font-size: 2em;
     text-align: center;
-    color: #333;
+    color: var(--text-color);
 }
 
 p {
     font-size: 1.2em;
-    color: #555;
+    color: var(--text-color);
     line-height: 1.6;
 }
 
@@ -61,7 +78,7 @@ small {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #a70000;
+    color: rgb(98, 98, 185);
 }
 
 .back-button {
@@ -79,7 +96,43 @@ small {
     transition: transform 0.3s ease-in-out;
 }
 
+a {
+    color: blue;
+    transition: color 0.3s ease; 
+}
+
+a:hover {
+    color: rgb(2, 2, 114);
+}
 .back-button:hover {
     background-color: #0056b3;
     transform: scale(1.05); 
+}
+
+#darkModeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--container-bg);
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+#darkModeToggle:hover {
+    transform: scale(1.1);
+}
+
+.dark-mode #darkModeToggle {
+    background-color: var(--text-color);
+    color: var(--bg-color);
 }

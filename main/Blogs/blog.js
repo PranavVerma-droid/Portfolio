@@ -18,7 +18,6 @@
     project.
 */
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
   authDomain: "contactusform-f0ec2.firebaseapp.com",
@@ -34,63 +33,77 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const app = Vue.createApp({
-data() {
-  return {
-    blog: null, 
-    recentBlogs: []
-  };
-},
-mounted() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const blogId = urlParams.get('id');
-  if (blogId) {
-    this.fetchBlog(blogId); 
-    this.fetchRecentBlogs(blogId);
-  }
-},
-methods: {
-  async fetchBlog(blogId) {
-    try {
-      const blogDoc = await db.collection('blogs').doc(blogId).get();
-      if (blogDoc.exists) {
-        this.blog = blogDoc.data(); 
-      } else {
-        alert("Blog not found.");
+  data() {
+    return {
+      blog: null, 
+      recentBlogs: [],
+      isDarkMode: false
+    };
+  },
+  mounted() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const blogId = urlParams.get('id');
+    if (blogId) {
+      this.fetchBlog(blogId); 
+      this.fetchRecentBlogs(blogId);
+    }
+    this.initDarkMode();
+  },
+  methods: {
+    async fetchBlog(blogId) {
+      try {
+        const blogDoc = await db.collection('blogs').doc(blogId).get();
+        if (blogDoc.exists) {
+          this.blog = blogDoc.data(); 
+        } else {
+          alert("Blog not found.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Failed to fetch blog.");
       }
-    } catch (error) {
-      console.error(error);
-      alert("Failed to fetch blog.");
+    },
+    async fetchRecentBlogs(currentBlogId) {
+      try {
+        const querySnapshot = await db.collection('blogs')
+          .orderBy('publication_date', 'desc')
+          .limit(3)
+          .get();
+        
+        this.recentBlogs = querySnapshot.docs
+          .filter(doc => doc.id !== currentBlogId && !doc.data().isDraft)
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+      } catch (error) {
+        console.error("Error fetching recent blogs:", error);
+      }
+    },
+    goBack() {
+      window.location.href = "index.html#blogs";  
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    },
+    initDarkMode() {
+      const savedMode = localStorage.getItem('darkMode');
+      if (savedMode === 'true') {
+        this.isDarkMode = true;
+        document.body.classList.add('dark-mode');
+      }
+    },
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', this.isDarkMode);
     }
   },
-  async fetchRecentBlogs(currentBlogId) {
-    try {
-      const querySnapshot = await db.collection('blogs')
-        .orderBy('publication_date', 'desc')
-        .limit(3)
-        .get();
-      
-      this.recentBlogs = querySnapshot.docs
-        .filter(doc => doc.id !== currentBlogId && !doc.data().isDraft) // Filter out drafts
-        .map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-    } catch (error) {
-      console.error("Error fetching recent blogs:", error);
-    }
-  },
-  goBack() {
-    window.location.href = "index.html#blogs";  
-  },
-  formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-  },
-},
 });
 
 app.mount('#app');
