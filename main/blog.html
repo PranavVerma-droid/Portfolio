@@ -30,10 +30,16 @@
 </head>
 
 <body>
+
+    <div id="scroll-progress-container">
+        <div id="scroll-progress-bar"></div>
+    </div>
+    
     <div id="app">
+          
         <button id="darkModeToggle" @click="toggleDarkMode">
-            <span v-if="isDarkMode">☀️</span>
-            <span v-else>🌙</span>
+            <span v-if="isDarkMode">Light Mode</span>
+            <span v-else>Dark Mode</span>
         </button>
 
         <section v-if="blog" class="container">

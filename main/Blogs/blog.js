@@ -48,6 +48,7 @@ const app = Vue.createApp({
       this.fetchRecentBlogs(blogId);
     }
     this.initDarkMode();
+    this.initScrollProgress();
   },
   methods: {
     async fetchBlog(blogId) {
@@ -97,12 +98,34 @@ const app = Vue.createApp({
         this.isDarkMode = true;
         document.body.classList.add('dark-mode');
       }
+      this.$nextTick(() => {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+          themeToggle.addEventListener('click', this.toggleDarkMode);
+        } else {
+          console.warn("Theme toggle button not found");
+        }
+      });
     },
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;
       document.body.classList.toggle('dark-mode');
       localStorage.setItem('darkMode', this.isDarkMode);
-    }
+    },
+    initScrollProgress() {
+      window.addEventListener('scroll', this.updateScrollProgress);
+      window.addEventListener('resize', this.updateScrollProgress);
+      this.updateScrollProgress();
+    },
+    updateScrollProgress() {
+      const scrollProgress = document.getElementById('scroll-progress-bar');
+      if (scrollProgress) {
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollPosition / documentHeight) * 100;
+        scrollProgress.style.width = `${scrollPercentage}%`;
+      }
+    },
   },
 });
 
