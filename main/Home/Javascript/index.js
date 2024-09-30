@@ -42,41 +42,6 @@ const firebaseConfigIndex = {
     link.setAttribute('target', '_blank');
   });
 
-  let rating = 0;
-
-  setTimeout(() => {
-    if (!localStorage.getItem('suggestionBoxShown')) {
-      suggestionBox.style.display = 'block';
-    }
-  }, 10000);
-  stars.forEach(star => {
-    star.addEventListener('click', () => {
-      rating = parseInt(star.getAttribute('data-rating'));
-      stars.forEach((s, index) => {
-        s.classList.toggle('active', index < rating);
-      });
-    });
-  });
-
-  submitButton.addEventListener('click', () => {
-    const suggestion = suggestionText.value;
-    if (rating > 0 || suggestion.trim() !== '') {
-      firebase.database().ref('suggestions').push({
-        rating: rating,
-        suggestion: suggestion,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-      });
-      
-      suggestionBox.style.display = 'none';
-      localStorage.setItem('suggestionBoxShown', 'true');
-    }
-  });
-
-  doNotShowButton.addEventListener('click', () => {
-    suggestionBox.style.display = 'none';
-    localStorage.setItem('suggestionBoxShown', 'true');
-});
-
 function showabout(){
     $("#about_container").css("display","inherit");
     $("#about_container").addClass("animate__animated animate__slideInLeft");
