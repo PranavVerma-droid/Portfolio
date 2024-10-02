@@ -202,7 +202,23 @@
                     <path d="M13 9.5l-2 5.5" />
                 </svg> languages (learnt / learning / tried)</h2>
 
-            <div v-for="language in languages" :key="language.id"
+            <!--<h3>High level</h3>-->
+            <div v-for="language in highLevelLanguages" :key="language.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="language.languageImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ language.languageName }}</h3>
+                    <p v-html="language.languageDescription" />
+                    <div @click="visitLink(language.languageSource)" class="btn_one"
+                        style="max-width: 80px; text-align: center;">Visit</div>
+                </div>
+            </div>
+
+            <!--<h3>Low level</h3>-->
+            <div v-for="language in lowLevelLanguages" :key="language.id"
                 style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
                 <div class="toolImage">
                     <img :src="language.languageImg" alt="Social Icon"

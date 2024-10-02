@@ -33,8 +33,6 @@ firebase.initializeApp(firebaseConfigAbout);
 const dbAbout = firebase.firestore();
 const realdbAbout = firebase.database();
 
-
-
   
       const appAbout = Vue.createApp({
         data() {
@@ -42,19 +40,20 @@ const realdbAbout = firebase.database();
             user: null,
             email: "",
             password: "",
-
+      
             projectName: "",
             projectDescription: "",
             projectImg: "",
             class: "",
             projects: [],
-
+      
             languageName: "",
             languageDescription: "",
             languageImg: "",
             languageSource: "",
-            languages: [],
-
+            highLevelLanguages: [],
+            lowLevelLanguages: [],
+      
             certificateName: "",
             certificateIssue: "",
             certificateImg: "",
@@ -67,21 +66,21 @@ const realdbAbout = firebase.database();
           this.loadAboutMe();
           this.loadLanguages();
           this.loadCertificates();
-
+      
           firebase.auth().onAuthStateChanged(user => {
             this.user = user;
-
+      
             this.loadAboutMe();
             this.loadProjects();
             this.loadLanguages();
             this.loadCertificates();
-            });
+          });
         },
         methods: {
           loadProjects() {
             dbAbout.collection("tools")
-            .orderBy("class", "asc")
-            .get()
+              .orderBy("class", "asc")
+              .get()
               .then(querySnapshot => {
                 const projects = [];
                 querySnapshot.forEach(doc => {
@@ -94,63 +93,83 @@ const realdbAbout = firebase.database();
               .catch(error => {
                 console.error(error);
                 alert("Failed to load projects.");
-              });         
-            },
-            loadLanguages() {
-              dbAbout.collection("languages")
+              });
+          },
+      
+          loadLanguages() {
+
+            dbAbout.collection("languages/all/high-level")
+            .orderBy("languageName", "asc")
+            .get()
+            .then(querySnapshot => {
+              const highLevelLanguages = [];
+              querySnapshot.forEach(doc => {
+                const language = doc.data();
+                language.id = doc.id;
+                highLevelLanguages.push(language);
+              });
+              this.highLevelLanguages = highLevelLanguages;
+            })
+            .catch(error => {
+              console.error(error);
+              alert("Failed to load High Level Languages.");
+            });
+
+            dbAbout.collection("languages/all/low-level")
               .orderBy("languageName", "asc")
               .get()
-                .then(querySnapshot => {
-                  const languages = [];
-                  querySnapshot.forEach(doc => {
-                    const language = doc.data();
-                    language.id = doc.id;
-                    languages.push(language);
-                  });
-                  this.languages = languages;
-                })
-                .catch(error => {
-                  console.error(error);
-                  alert("Failed to load languages.");
-                });         
-              },
-
-              loadCertificates() {
-                dbAbout.collection("certificates")
-                .get()
-                  .then(querySnapshot => {
-                    const certificates = [];
-                    querySnapshot.forEach(doc => {
-                      const certificate = doc.data();
-                      certificate.id = doc.id;
-                      certificates.push(certificate);
-                    });
-                    this.certificates = certificates;
-                  })
-                  .catch(error => {
-                    console.error(error);
-                    alert("Failed to load certificates.");
-                  });         
-                },
-
-              loadAboutMe() {
-                const aboutMeRef = realdbAbout.ref('info/about-me');
-            
-                aboutMeRef.on('value', (snapshot) => {
-                    const aboutMeText = snapshot.val();
-                    const aboutMePlaceholder = document.getElementById('about-me-placeholder');
-            
-                    if (aboutMeText) {
-                        aboutMePlaceholder.textContent = aboutMeText;
-                    } else {
-                        aboutMePlaceholder.textContent = 'No about me information available.';
-                    }
+              .then(querySnapshot => {
+                const lowLevelLanguages = [];
+                querySnapshot.forEach(doc => {
+                  const language = doc.data();
+                  language.id = doc.id;
+                  lowLevelLanguages.push(language);
                 });
-            },
-            visitLink(link) {
-              window.open(link, '_blank');
-            }
+                this.lowLevelLanguages = lowLevelLanguages;
+              })
+              .catch(error => {
+                console.error(error);
+                alert("Failed to load Low Level Languages.");
+              });
+          },
+          
+      
+          loadCertificates() {
+            dbAbout.collection("certificates")
+              .get()
+              .then(querySnapshot => {
+                const certificates = [];
+                querySnapshot.forEach(doc => {
+                  const certificate = doc.data();
+                  certificate.id = doc.id;
+                  certificates.push(certificate);
+                });
+                this.certificates = certificates;
+              })
+              .catch(error => {
+                console.error(error);
+                alert("Failed to load certificates.");
+              });
+          },
+      
+          loadAboutMe() {
+            const aboutMeRef = realdbAbout.ref('info/about-me');
+      
+            aboutMeRef.on('value', (snapshot) => {
+              const aboutMeText = snapshot.val();
+              const aboutMePlaceholder = document.getElementById('about-me-placeholder');
+      
+              if (aboutMeText) {
+                aboutMePlaceholder.textContent = aboutMeText;
+              } else {
+                aboutMePlaceholder.textContent = 'No about me information available.';
+              }
+            });
+          },
+          visitLink(link) {
+            window.open(link, '_blank');
+          }
         }
       });
-  
+      
       appAbout.mount('#about_container');
