@@ -222,6 +222,9 @@ const appBlogs = Vue.createApp({
     },
     insertImage() {
       this.insertAtCursor(this.$refs.content, '<img src=""><br>');
+    },
+    insertWorkInProgress() {
+      this.insertAtCursor(this.$refs.content, '<span style="color:red">Blog still a Work in Progress! More updates coming as the journey continues...</span>');
     }
   }
 });
