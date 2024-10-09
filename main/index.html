@@ -95,6 +95,36 @@
         <div onclick="closework()" class=""><i class="fas fa-angle-right"></i></div>
         <h1>works.</h1>
         <div id="work_vue">
+            <section>
+                <h2 class="heading-with-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44"
+                        height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                        <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" />
+                        <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" />
+                        <path d="M6 9l12 0" />
+                        <path d="M6 12l3 0" />
+                        <path d="M6 15l2 0" />
+                    </svg> certificates
+                </h2>
+    
+                <div v-for="certificate in certificates" :key="certificate.id"
+                    style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                    <div class="toolImage">
+                        <img :src="certificate.certificateImg" alt="Social Icon"
+                            style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                    </div>
+                    <div style="margin-left: 1rem;">
+                        <h3>{{ certificate.certificateName }}</h3>
+                        <p>Issued By: {{certificate.certificateIssue}}</p>
+                        <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
+                            style="max-width: 300px; text-align: center;">View Certificate</div>
+                    </div>
+                </div>
+            </section>
+
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
                     class="icon icon-tabler icon-tabler-award" width="44" height="44" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -111,6 +141,25 @@
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-building-skyscraper" width="44" height="44" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3 21l18 0" />
+                <path d="M5 21v-14l8 -4v18" />
+                <path d="M19 21v-10l-6 -4" />
+                <path d="M9 9l0 .01" />
+                <path d="M9 12l0 .01" />
+                <path d="M9 15l0 .01" />
+                <path d="M9 18l0 .01" />
+            </svg>Internships</h2>
+        <section v-for="internship in internships" :key="internship.id">
+            <h3>{{ internship.internshipName }}</h2>
+                <p>{{ internship.internshipDescription }}</p>
+
+                <button class="btn_one"><a :href="internship.internshipSource">Source Code</a></button>
+        </section>
+
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
                     class="icon icon-tabler icon-tabler-brand-github" width="44" height="44" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -122,25 +171,6 @@
                     <p>{{ project.projectDescription }}</p>
 
                     <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
-            </section>
-
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-building-skyscraper" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 21l18 0" />
-                    <path d="M5 21v-14l8 -4v18" />
-                    <path d="M19 21v-10l-6 -4" />
-                    <path d="M9 9l0 .01" />
-                    <path d="M9 12l0 .01" />
-                    <path d="M9 15l0 .01" />
-                    <path d="M9 18l0 .01" />
-                </svg> Internships</h2>
-            <section v-for="internship in internships" :key="internship.id">
-                <h3>{{ internship.internshipName }}</h2>
-                    <p>{{ internship.internshipDescription }}</p>
-
-                    <button class="btn_one"><a :href="internship.cinternshipSource">Source Code</a></button>
             </section>
         </div>
     </div>
@@ -161,35 +191,6 @@
             </p>
         </section>
 
-        <section>
-            <h2 class="heading-with-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44"
-                    height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                    <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" />
-                    <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" />
-                    <path d="M6 9l12 0" />
-                    <path d="M6 12l3 0" />
-                    <path d="M6 15l2 0" />
-                </svg> certificates
-            </h2>
-
-            <div v-for="certificate in certificates" :key="certificate.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="certificate.certificateImg" alt="Social Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ certificate.certificateName }}</h3>
-                    <p>Issued By: {{certificate.certificateIssue}}</p>
-                    <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
-                        style="max-width: 300px; text-align: center;">View Certificate</div>
-                </div>
-            </div>
-        </section>
 
         <section>
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"

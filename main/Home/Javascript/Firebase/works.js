@@ -49,15 +49,20 @@ data() {
     internshipSource: "",
     internships: [],
 
-    class: ""
-    
+    certificateName: "",
+    certificateIssue: "",
+    certificateImg: "",
+    certificateUrl: "",
+    certificates: [],
 
+    class: ""
   };
 },
 mounted() {
     this.loadProjects();
     this.loadCompetitions();
     this.loadInternships();
+    this.loadCertificates();
 },
 methods: {
     loadProjects() {
@@ -78,7 +83,23 @@ methods: {
         alert("Failed to load projects information.");
         });
     }, 
-
+    loadCertificates() {
+        dbAbout.collection("certificates")
+          .get()
+          .then(querySnapshot => {
+            const certificates = [];
+            querySnapshot.forEach(doc => {
+              const certificate = doc.data();
+              certificate.id = doc.id;
+              certificates.push(certificate);
+            });
+            this.certificates = certificates;
+          })
+          .catch(error => {
+            console.error(error);
+            alert("Failed to load certificates.");
+          });
+      },
     loadCompetitions() {
         dbWorks.collection("competitions")
         .orderBy("class", "asc")

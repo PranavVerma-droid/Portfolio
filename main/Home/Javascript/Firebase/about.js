@@ -53,19 +53,12 @@ const realdbAbout = firebase.database();
             languageSource: "",
             highLevelLanguages: [],
             lowLevelLanguages: [],
-      
-            certificateName: "",
-            certificateIssue: "",
-            certificateImg: "",
-            certificateUrl: "",
-            certificates: [],
           };
         },
         mounted() {
           this.loadProjects();
           this.loadAboutMe();
           this.loadLanguages();
-          this.loadCertificates();
       
           firebase.auth().onAuthStateChanged(user => {
             this.user = user;
@@ -73,7 +66,6 @@ const realdbAbout = firebase.database();
             this.loadAboutMe();
             this.loadProjects();
             this.loadLanguages();
-            this.loadCertificates();
           });
         },
         methods: {
@@ -130,25 +122,6 @@ const realdbAbout = firebase.database();
               .catch(error => {
                 console.error(error);
                 alert("Failed to load Low Level Languages.");
-              });
-          },
-          
-      
-          loadCertificates() {
-            dbAbout.collection("certificates")
-              .get()
-              .then(querySnapshot => {
-                const certificates = [];
-                querySnapshot.forEach(doc => {
-                  const certificate = doc.data();
-                  certificate.id = doc.id;
-                  certificates.push(certificate);
-                });
-                this.certificates = certificates;
-              })
-              .catch(error => {
-                console.error(error);
-                alert("Failed to load certificates.");
               });
           },
       
