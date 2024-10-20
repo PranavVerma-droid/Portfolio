@@ -33,116 +33,135 @@ firebase.initializeApp(firebaseConfigAbout);
 const dbAbout = firebase.firestore();
 const realdbAbout = firebase.database();
 
-  
-      const appAbout = Vue.createApp({
-        data() {
-          return {
-            user: null,
-            email: "",
-            password: "",
-      
-            projectName: "",
-            projectDescription: "",
-            projectImg: "",
-            class: "",
-            projects: [],
-      
-            languageName: "",
-            languageDescription: "",
-            languageImg: "",
-            languageSource: "",
-            highLevelLanguages: [],
-            lowLevelLanguages: [],
-          };
-        },
-        mounted() {
-          this.loadProjects();
-          this.loadAboutMe();
-          this.loadLanguages();
-      
-          firebase.auth().onAuthStateChanged(user => {
-            this.user = user;
-      
-            this.loadAboutMe();
-            this.loadProjects();
-            this.loadLanguages();
+
+const appAbout = Vue.createApp({
+  data() {
+    return {
+      user: null,
+      email: "",
+      password: "",
+
+      projectName: "",
+      projectDescription: "",
+      projectImg: "",
+      class: "",
+      projects: [],
+
+      languageName: "",
+      languageDescription: "",
+      languageImg: "",
+      languageSource: "",
+      highLevelLanguages: [],
+      lowLevelLanguages: [],
+
+      skillName: "",
+      skillSource: "",
+      skills: [],
+    };
+  },
+  mounted() {
+    this.loadProjects();
+    this.loadAboutMe();
+    this.loadLanguages();
+    this.loadSkills();
+
+    firebase.auth().onAuthStateChanged(user => {
+      this.user = user;
+
+      this.loadAboutMe();
+      this.loadProjects();
+      this.loadLanguages();
+      this.loadSkills();
+    });
+  },
+  methods: {
+    loadProjects() {
+      dbAbout.collection("tools")
+        .orderBy("class", "asc")
+        .get()
+        .then(querySnapshot => {
+          const projects = [];
+          querySnapshot.forEach(doc => {
+            const project = doc.data();
+            project.id = doc.id;
+            projects.push(project);
           });
-        },
-        methods: {
-          loadProjects() {
-            dbAbout.collection("tools")
-              .orderBy("class", "asc")
-              .get()
-              .then(querySnapshot => {
-                const projects = [];
-                querySnapshot.forEach(doc => {
-                  const project = doc.data();
-                  project.id = doc.id;
-                  projects.push(project);
-                });
-                this.projects = projects;
-              })
-              .catch(error => {
-                console.error(error);
-                alert("Failed to load projects.");
-              });
-          },
-      
-          loadLanguages() {
+          this.projects = projects;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load projects.");
+        });
+    },
+    loadLanguages() {
+      dbAbout.collection("languages/all/high-level")
+        .orderBy("languageName", "asc")
+        .get()
+        .then(querySnapshot => {
+          const highLevelLanguages = [];
+          querySnapshot.forEach(doc => {
+            const language = doc.data();
+            language.id = doc.id;
+            highLevelLanguages.push(language);
+          });
+          this.highLevelLanguages = highLevelLanguages;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load High Level Languages.");
+        });
+      dbAbout.collection("languages/all/low-level")
+        .orderBy("languageName", "asc")
+        .get()
+        .then(querySnapshot => {
+          const lowLevelLanguages = [];
+          querySnapshot.forEach(doc => {
+            const language = doc.data();
+            language.id = doc.id;
+            lowLevelLanguages.push(language);
+          });
+          this.lowLevelLanguages = lowLevelLanguages;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load Low Level Languages.");
+        });
+    },
+    loadAboutMe() {
+      const aboutMeRef = realdbAbout.ref('info/about-me');
 
-            dbAbout.collection("languages/all/high-level")
-            .orderBy("languageName", "asc")
-            .get()
-            .then(querySnapshot => {
-              const highLevelLanguages = [];
-              querySnapshot.forEach(doc => {
-                const language = doc.data();
-                language.id = doc.id;
-                highLevelLanguages.push(language);
-              });
-              this.highLevelLanguages = highLevelLanguages;
-            })
-            .catch(error => {
-              console.error(error);
-              alert("Failed to load High Level Languages.");
-            });
+      aboutMeRef.on('value', (snapshot) => {
+        const aboutMeText = snapshot.val();
+        const aboutMePlaceholder = document.getElementById('about-me-placeholder');
 
-            dbAbout.collection("languages/all/low-level")
-              .orderBy("languageName", "asc")
-              .get()
-              .then(querySnapshot => {
-                const lowLevelLanguages = [];
-                querySnapshot.forEach(doc => {
-                  const language = doc.data();
-                  language.id = doc.id;
-                  lowLevelLanguages.push(language);
-                });
-                this.lowLevelLanguages = lowLevelLanguages;
-              })
-              .catch(error => {
-                console.error(error);
-                alert("Failed to load Low Level Languages.");
-              });
-          },
-      
-          loadAboutMe() {
-            const aboutMeRef = realdbAbout.ref('info/about-me');
-      
-            aboutMeRef.on('value', (snapshot) => {
-              const aboutMeText = snapshot.val();
-              const aboutMePlaceholder = document.getElementById('about-me-placeholder');
-      
-              if (aboutMeText) {
-                aboutMePlaceholder.textContent = aboutMeText;
-              } else {
-                aboutMePlaceholder.textContent = 'No about me information available.';
-              }
-            });
-          },
-          visitLink(link) {
-            window.open(link, '_blank');
-          }
+        if (aboutMeText) {
+          aboutMePlaceholder.textContent = aboutMeText;
+        } else {
+          aboutMePlaceholder.textContent = 'No about me information available.';
         }
       });
-      
-      appAbout.mount('#about_container');
+    },
+    visitLink(link) {
+      window.open(link, '_blank');
+    },
+    loadSkills() {
+      dbAbout.collection("skills")
+        .get()
+        .then(querySnapshot => {
+          const skills = [];
+          querySnapshot.forEach(doc => {
+            const skill = doc.data();
+            skill.id = doc.id;
+            skills.push(skill);
+          });
+          this.skills = skills;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load skills.");
+        });
+    },
+  }
+});
+
+appAbout.mount('#about_container');
