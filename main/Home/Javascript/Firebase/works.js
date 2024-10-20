@@ -19,125 +19,129 @@
 */
 
 const firebaseConfigWorks = {
-    apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
-    authDomain: "contactusform-f0ec2.firebaseapp.com",
-    databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
-    projectId: "contactusform-f0ec2",
-    storageBucket: "contactusform-f0ec2.appspot.com",
-    messagingSenderId: "641931730164",
-    appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
-    measurementId: "G-1RVB7HZQWB" };
-    
+  apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
+  authDomain: "contactusform-f0ec2.firebaseapp.com",
+  databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
+  projectId: "contactusform-f0ec2",
+  storageBucket: "contactusform-f0ec2.appspot.com",
+  messagingSenderId: "641931730164",
+  appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
+  measurementId: "G-1RVB7HZQWB"
+};
+
 firebase.initializeApp(firebaseConfigWorks);
 const dbWorks = firebase.firestore();
 
 const app2 = Vue.createApp({
-data() {
-  return {
-    competitionName: "",
-    competitionDescription: "",
-    competitionSource: "",
-    competitions: [],
+  data() {
+    return {
+      competitionName: "",
+      competitionDescription: "",
+      competitionSource: "",
+      competitions: [],
 
-    projectName: "",
-    projectDescription: "",
-    projectSource: "",
-    projects: [],
+      projectName: "",
+      projectDescription: "",
+      projectSource: "",
+      projects: [],
 
-    internshipName: "",
-    internshipDescription: "",
-    internshipSource: "",
-    internships: [],
+      internshipName: "",
+      internshipDescription: "",
+      internshipSource: "",
+      internships: [],
 
-    certificateName: "",
-    certificateIssue: "",
-    certificateImg: "",
-    certificateUrl: "",
-    certificates: [],
+      certificateName: "",
+      certificateIssue: "",
+      certificateImg: "",
+      certificateUrl: "",
+      certificates: [],
 
-    class: ""
-  };
-},
-mounted() {
+      class: ""
+    };
+  },
+  mounted() {
     this.loadProjects();
     this.loadCompetitions();
     this.loadInternships();
     this.loadCertificates();
-},
-methods: {
+  },
+  methods: {
     loadProjects() {
-    dbWorks.collection("projects")
-    .orderBy("class", "asc")
-    .get()
+      dbWorks.collection("projects")
+        .orderBy("class", "asc")
+        .get()
         .then(querySnapshot => {
-        const projects = [];
-        querySnapshot.forEach(doc => {
+          const projects = [];
+          querySnapshot.forEach(doc => {
             const project = doc.data();
             project.id = doc.id;
             projects.push(project);
-        });
-        this.projects = projects;
+          });
+          this.projects = projects;
         })
         .catch(error => {
-        console.error(error);
-        alert("Failed to load projects information.");
+          console.error(error);
+          alert("Failed to load projects information.");
         });
-    }, 
+    },
     loadCertificates() {
-        dbAbout.collection("certificates")
-          .get()
-          .then(querySnapshot => {
-            const certificates = [];
-            querySnapshot.forEach(doc => {
-              const certificate = doc.data();
-              certificate.id = doc.id;
-              certificates.push(certificate);
-            });
-            this.certificates = certificates;
-          })
-          .catch(error => {
-            console.error(error);
-            alert("Failed to load certificates.");
+      dbAbout.collection("certificates")
+        .get()
+        .then(querySnapshot => {
+          const certificates = [];
+          querySnapshot.forEach(doc => {
+            const certificate = doc.data();
+            certificate.id = doc.id;
+            certificates.push(certificate);
           });
-      },
+          this.certificates = certificates;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load certificates.");
+        });
+    },
     loadCompetitions() {
-        dbWorks.collection("competitions")
+      dbWorks.collection("competitions")
         .orderBy("class", "asc")
         .get()
-            .then(querySnapshot => {
-            const competitions = [];
-            querySnapshot.forEach(doc => {
-                const competition = doc.data();
-                competition.id = doc.id;
-                competitions.push(competition);
-            });
-            this.competitions = competitions;
-            })
-            .catch(error => {
-            console.error(error);
-            alert("Failed to load competitions information.");
-            });
-        },
+        .then(querySnapshot => {
+          const competitions = [];
+          querySnapshot.forEach(doc => {
+            const competition = doc.data();
+            competition.id = doc.id;
+            competitions.push(competition);
+          });
+          this.competitions = competitions;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load competitions information.");
+        });
+    },
 
-        loadInternships() {
-            dbWorks.collection("internships")
-            .orderBy("class", "asc")
-            .get()
-                .then(querySnapshot => {
-                const internships = [];
-                querySnapshot.forEach(doc => {
-                    const internship = doc.data();
-                    internship.id = doc.id;
-                    internships.push(internship);
-                });
-                this.internships = internships;
-                })
-                .catch(error => {
-                console.error(error);
-                alert("Failed to load internship information.");
-                });
-            }
-}
+    loadInternships() {
+      dbWorks.collection("internships")
+        .orderBy("class", "asc")
+        .get()
+        .then(querySnapshot => {
+          const internships = [];
+          querySnapshot.forEach(doc => {
+            const internship = doc.data();
+            internship.id = doc.id;
+            internships.push(internship);
+          });
+          this.internships = internships;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load internship information.");
+        });
+    },
+    visitLink(link) {
+      window.open(link, '_blank');
+    }
+  }
 });
 
 app2.mount('#work_vue');
