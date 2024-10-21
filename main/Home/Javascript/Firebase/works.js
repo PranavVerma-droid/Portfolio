@@ -45,6 +45,11 @@ const app2 = Vue.createApp({
       projectSource: "",
       projects: [],
 
+      workshopName: "",
+      workshopDescription: "",
+      workshopSource: "",
+      workshops: [],
+
       internshipName: "",
       internshipDescription: "",
       internshipSource: "",
@@ -64,6 +69,7 @@ const app2 = Vue.createApp({
     this.loadCompetitions();
     this.loadInternships();
     this.loadCertificates();
+    this.loadWorkshops();
   },
   methods: {
     loadProjects() {
@@ -140,7 +146,24 @@ const app2 = Vue.createApp({
     },
     visitLink(link) {
       window.open(link, '_blank');
-    }
+    },
+    loadWorkshops() {
+      dbWorks.collection("workshops")
+        .get()
+        .then(querySnapshot => {
+          const workshops = [];
+          querySnapshot.forEach(doc => {
+            const workshop = doc.data();
+            workshop.id = doc.id;
+            workshops.push(workshop);
+          });
+          this.workshops = workshops;
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Failed to load workshop information.");
+        });
+    },
   }
 });
 
