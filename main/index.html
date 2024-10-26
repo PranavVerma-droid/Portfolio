@@ -168,8 +168,12 @@
         </svg> Workshops</h2>
     <section v-for="workshop in workshops" :key="workshop.id">
         <h3>{{ workshop.workshopName }}</h2>
-            <p>{{ workshop.workshopDescription }}</p>
-
+            <p v-if="online">
+                Mode: Online
+            </p>
+            <p v-else>
+                Mode: Offline
+            </p>
             <button class="btn_one"><a :href="workshop.workshopSource">Source Code</a></button>
     </section>
 

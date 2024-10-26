@@ -46,8 +46,8 @@ const app2 = Vue.createApp({
       projects: [],
 
       workshopName: "",
-      workshopDescription: "",
       workshopSource: "",
+      online: false,
       workshops: [],
 
       internshipName: "",
@@ -152,12 +152,17 @@ const app2 = Vue.createApp({
         .get()
         .then(querySnapshot => {
           const workshops = [];
+          let onlineMode = false;
           querySnapshot.forEach(doc => {
             const workshop = doc.data();
             workshop.id = doc.id;
             workshops.push(workshop);
+            if (workshop.online) {
+              onlineMode = true;
+            }
           });
           this.workshops = workshops;
+          this.online = onlineMode;
         })
         .catch(error => {
           console.error(error);
