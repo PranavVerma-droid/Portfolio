@@ -49,21 +49,24 @@ const appBlogs = Vue.createApp({
     async fetchBlogs() {
       this.loading = true;
       try {
-        const result = await pbBlogs.collection('blogs').getList(1, 100);
+        const result = await pbBlogs.collection('blogs').getList(1, 100, {
+          sort: '-pubDate'
+        });
     
         if (result && result.items) {
-          // Filter blogs by type
           this.blogs = result.items.filter(record => !record.isDraft);
           this.draftBlogs = result.items.filter(record => record.isDraft);
           this.pinnedBlogs = result.items.filter(record => record.pinned);
     
-          // Sort arrays by date using created field
-          const sortByDate = (a, b) => new Date(b.created) - new Date(a.created);
+          const sortByDate = (a, b) => {
+            const dateA = a.pubDate || a.created;
+            const dateB = b.pubDate || b.created;
+            return new Date(dateB) - new Date(dateA);
+          };
+          
           this.blogs.sort(sortByDate);
           this.draftBlogs.sort(sortByDate);
           this.pinnedBlogs.sort(sortByDate);
-          
-          console.log('Blogs fetched:', result.items.length); // Debug log
         }
       } catch (error) {
         console.error('Failed to fetch blogs:', error);
@@ -80,7 +83,8 @@ const appBlogs = Vue.createApp({
           content: this.content,
           author: this.user?.email || "Anonymous",
           isDraft: this.isDraft,
-          pinned: false
+          pinned: false,
+          pubDate: new Date().toISOString()
         };
 
         if (this.blogIdToEdit) {
