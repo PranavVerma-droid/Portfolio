@@ -34,6 +34,7 @@ const appBlogs = Vue.createApp({
           provider: 'google' 
         });
         this.user = authData.record;
+        this.fetchBlogs();
       } catch (error) {
         console.error(error);
         alert("Google Sign-In failed. Please try again.");
