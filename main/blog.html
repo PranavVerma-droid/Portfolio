@@ -54,7 +54,7 @@
                 <button class="back-button" @click="goBack">Go Back Home</button>
                 <p v-html="blog.content" style="line-height: 1.6;"></p>
                 <small>
-                    By {{ blog.author }} | Published on {{ formatDate(blog.publication_date) }}
+                    By {{ blog.author }} | Published on {{ formatDate(blog.pubDate) }}
                 </small>
             </div>
         </section>

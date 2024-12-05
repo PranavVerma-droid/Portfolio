@@ -348,7 +348,7 @@
                                 <a :href="'blog.html?id=' + blog.id" style="color: #000;">
                                     <h3 class="md-centering">{{ blog.title }}</h3>
                                     <small style="color: rgb(107, 23, 23);">Published on {{
-                                        formatDate(blog.publication_date) }}</small>
+                                        formatDate(blog.pubDate) }}</small>
                                 </a>
                                 <div v-if="user">
                                     <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
@@ -374,7 +374,7 @@
                             <a :href="'blog.html?id=' + blog.id" style="color: #000;">
                                 <h3 class="md-centering">{{ blog.title }}</h3>
                                 <small style="color: rgb(107, 23, 23);">Published on {{
-                                    formatDate(blog.publication_date) }}</small>
+                                    formatDate(blog.pubDate) }}</small>
                             </a>
                             <div v-if="user">
                                 <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
@@ -401,7 +401,7 @@
                                 <a :href="'blog.html?id=' + blog.id" style="color: #000;">
                                     <h3 class="md-centering">{{ blog.title }}</h3>
                                     <small style="color: rgb(107, 23, 23);">Created on {{
-                                        formatDate(blog.publication_date)
+                                        formatDate(blog.pubDate)
                                         }}</small>
                                 </a>
                                 <div v-if="user">

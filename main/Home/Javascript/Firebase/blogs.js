@@ -48,15 +48,21 @@ const appBlogs = Vue.createApp({
     async fetchBlogs() {
       this.loading = true;
       try {
-        const result = await pbBlogs.collection('blogs').getList(1, 100, {
-          sort: '-pubDate',
-          filter: ''
-        });
-
+        const result = await pbBlogs.collection('blogs').getList(1, 100);
+    
         if (result && result.items) {
+          // Filter blogs by type
           this.blogs = result.items.filter(record => !record.isDraft);
           this.draftBlogs = result.items.filter(record => record.isDraft);
           this.pinnedBlogs = result.items.filter(record => record.pinned);
+    
+          // Sort arrays by date using created field
+          const sortByDate = (a, b) => new Date(b.created) - new Date(a.created);
+          this.blogs.sort(sortByDate);
+          this.draftBlogs.sort(sortByDate);
+          this.pinnedBlogs.sort(sortByDate);
+          
+          console.log('Blogs fetched:', result.items.length); // Debug log
         }
       } catch (error) {
         console.error('Failed to fetch blogs:', error);
@@ -72,7 +78,6 @@ const appBlogs = Vue.createApp({
           title: this.title,
           content: this.content,
           author: this.user?.email || "Anonymous",
-          pubDate: new Date().toISOString(),
           isDraft: this.isDraft,
           pinned: false
         };
@@ -106,8 +111,8 @@ const appBlogs = Vue.createApp({
     async publishBlog(blogId) {
       try {
         await pbBlogs.collection('blogs').update(blogId, {
-          isDraft: false,
-          publication_date: new Date().toISOString()
+          isDraft: false
+          // Remove publication_date as we'll use created timestamp
         });
         await this.fetchBlogs();
         alert("Blog published successfully!");
@@ -144,12 +149,23 @@ const appBlogs = Vue.createApp({
     },
 
     formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
+      if (!dateString) {
+        return 'Date not available';
+      }
+      
+      try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'Invalid date';
+        
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      } catch (error) {
+        console.error('Date formatting error:', error);
+        return 'Date format error';
+      }
     },
 
     insertAtCursor(myField, myValue) {
