@@ -18,59 +18,58 @@
     project.
 */
 
-var firebaseConfigContact = {
-    apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
-    authDomain: "contactusform-f0ec2.firebaseapp.com",
-    databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
-    projectId: "contactusform-f0ec2",
-    storageBucket: "contactusform-f0ec2.appspot.com",
-    messagingSenderId: "641931730164",
-    appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
-    measurementId: "G-1RVB7HZQWB"
-  };
-  
-  firebase.initializeApp(firebaseConfigContact);
-  var messagesRef = firebase.database().ref('forms');
-  
+const pbContact = new PocketBase('https://db.pranavv.co.in');
 
-  $(document).ready(function() {
-      const bclick = document.getElementById('contactForm');
-      bclick.addEventListener('submit', submitForm);
-  });
-  
-  //var help lol
-  
-  //const bclick = document.getElementById('contactForm').addEventListener('submit', submitForm);
-  
-  // Form Submission
-  function submitForm(e){
-    e.preventDefault();
-  
-    var name = getInputVal('name');
-    var company = ""
-    var email = getInputVal('email');
-    var phone = ""
-    var message = getInputVal('message');
-  
-    saveMessage(name, company, email, phone, message);
-  
-  
-    document.getElementById('contactForm').reset();
-    alert("Thank you for your message! I will get back to you as soon as possible");
-  }
-  
-  function getInputVal(id){
-    return document.getElementById(id).value;
-  }
+const appContact = Vue.createApp({
+    data() {
+        return {
+            name: '',
+            email: '',
+            message: '',
+            loading: false,
+            error: null
+        };
+    },
 
-  function saveMessage(name, company, email, phone, message){
-    var newMessageRef = messagesRef.push();
-    newMessageRef.set({
-      name: name,
-      company: company,
-      email: email,
-      phone: phone,
-      message: message
-    });
-  }
-  
+    methods: {
+        async submitForm(e) {
+            e.preventDefault();
+            
+            if (this.loading) return;
+            
+            this.loading = true;
+            this.error = null;
+
+            try {
+                if (!this.name || !this.email || !this.message) {
+                    throw new Error('Please fill all required fields');
+                }
+
+                const data = {
+                    name: this.name,
+                    email: this.email,
+                    message: this.message,
+                    created: new Date().toISOString()
+                };
+
+                await pbContact.collection('forms').create(data);
+                
+                alert("Thank you for your message! I will get back to you as soon as possible");
+                
+                // Reset form
+                this.name = '';
+                this.email = '';
+                this.message = '';
+
+            } catch (error) {
+                console.error('Failed to submit form:', error);
+                this.error = error.message;
+                alert("Failed to submit form. Please try again.");
+            } finally {
+                this.loading = false;
+            }
+        }
+    }
+});
+
+appContact.mount('#contact_container');

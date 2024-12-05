@@ -46,21 +46,6 @@
         <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.7s;"></div>
     </div>
 
-    <!-- <div id="suggestion-box" class="suggestion-box" style="display: none;">
-        <h3>Rate My Portfolio!</h3>
-        <div class="rating">
-            <span class="star" data-rating="1">&#9733;</span>
-            <span class="star" data-rating="2">&#9733;</span>
-            <span class="star" data-rating="3">&#9733;</span>
-            <span class="star" data-rating="4">&#9733;</span>
-            <span class="star" data-rating="5">&#9733;</span>
-        </div>
-        <textarea id="suggestion-text" placeholder="Your suggestions..." style="height: 20px;"></textarea>
-        <button id="submit-suggestion"><span style="font-family: 'Josefin Sans', sans-serif;">Submit</span></button>
-        <button id="do-not-show"><span style="font-family: 'Josefin Sans', sans-serif;">Do not show
-                again</span></button>
-    </div> -->
-
 
 
     <a id="about" onclick="showabout()" class="animate__animated animate__fadeIn"
@@ -119,7 +104,7 @@
                     <path
                         d="M6.66 15.66l-3.32 -3.32a1.25 1.25 0 0 1 .42 -2.044l3.24 -1.296l6 -6l3 3l-6 6l-1.296 3.24a1.25 1.25 0 0 1 -2.044 .42z">
                     </path>
-                </svg> Workshops</h2>
+                </svg> Workshops / Courses</h2>
             <section v-for="workshop in workshops" :key="workshop.id">
                 <h3>{{ workshop.workshopName }}</h2>
                     <p v-if="online">
@@ -141,7 +126,7 @@
                 </svg> Competitions</h2>
             <section v-for="competition in competitions" :key="competition.id">
                 <h3>{{ competition.competitionName }}</h2>
-                    <p>{{ competition.competitionDescription }}</p>
+                    <p v-html="competition.competitionDescription"></p>
 
                     <button class="btn_one"><a :href="competition.competitionSource">Source Code</a></button>
             </section>
@@ -247,22 +232,7 @@
                 </svg> languages (learnt / learning / tried)</h2>
 
             <!--<h3>High level</h3>-->
-            <div v-for="language in highLevelLanguages" :key="language.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="language.languageImg" alt="Social Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ language.languageName }}</h3>
-                    <p v-html="language.languageDescription" />
-                    <div @click="visitLink(language.languageSource)" class="btn_one"
-                        style="max-width: 80px; text-align: center;">Visit</div>
-                </div>
-            </div>
-
-            <!--<h3>Low level</h3>-->
-            <div v-for="language in lowLevelLanguages" :key="language.id"
+            <div v-for="language in languages" :key="language.id"
                 style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
                 <div class="toolImage">
                     <img :src="language.languageImg" alt="Social Icon"
@@ -285,15 +255,15 @@
                     <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
                 </svg> tools (that i know how to use)</h2>
 
-            <div v-for="project in projects" :key="project.id"
+            <div v-for="tool in tools" :key="tool.id"
                 style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
                 <div class="toolImage">
-                    <img :src="project.projectImg" alt="Tool Icon"
+                    <img :src="tool.toolImg" alt="Tool Icon"
                         style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
                 </div>
                 <div style="margin-left: 1rem;">
-                    <h3>{{ project.projectName }}</h3>
-                    <p v-html="project.projectDescription" />
+                    <h3>{{ tool.toolName }}</h3>
+                    <p v-html="tool.toolDescription" />
                 </div>
             </div>
         </section>
@@ -306,14 +276,36 @@
         <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
         <h1>contact.</h1>
         <section>
-            <p>
-            <form id="contactForm" class="animate__animated animate__fadeIn" style="animation-duration: 3s;">
-                <input type="text" placeholder="name" id="name" required>
-                <input type="email" placeholder="email" id="email" required><br>
-                <textarea placeholder="your message" id="message" required rows="5"></textarea><br>
-                <button class="btn_one" type="submit">send</button>
+            <form id="contactForm" @submit.prevent="submitForm">
+                <input 
+                    type="text" 
+                    v-model="name" 
+                    placeholder="name" 
+                    required
+                    :disabled="loading"
+                >
+                <input 
+                    type="email" 
+                    v-model="email" 
+                    placeholder="email" 
+                    required
+                    :disabled="loading"
+                >
+                <textarea 
+                    v-model="message" 
+                    placeholder="your message" 
+                    rows="5" 
+                    required
+                    :disabled="loading"
+                ></textarea>
+                <button 
+                    class="btn_one" 
+                    type="submit"
+                    :disabled="loading"
+                >
+                    {{ loading ? 'Sending...' : 'Send Message' }}
+                </button>
             </form>
-            </p>
         </section>
 
         <section>
@@ -492,23 +484,16 @@
 
     <!-- Javascript Framework (Vue.js and Prism.js) -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
-    <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
 
-    <!-- Firebase Config Files Javascript -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-performance.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Backend Config Files Javascript -->
+    <script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
 
     <!-- General App Settings Javascript -->
     <script src="Home/Javascript/index.js" type=""></script>
     <script src="Home/Javascript/particles.js"></script>
     <script src="Home/Javascript/app.js"></script>
 
-    <!-- Firebase Settings and Import Javascript -->
+    <!-- Backend Settings and Import Javascript -->
     <script src="Home/Javascript/Firebase/about.js"></script>
     <script src="Home/Javascript/Firebase/blogs.js"></script>
     <script src="Home/Javascript/Firebase/works.js"></script>
@@ -525,59 +510,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="Home/CSS/index.css">
-    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
 
 
     <!-- Miscellaneous Javascript -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-    <!-- <script>
-        /* Script for Work in Progress Error */
+    <script>
         function showWorkInProgressAlert() {
             alert("Work in Progress! Please Check back later!");
         }
-    </script> -->
-
-    <!-- <script>
-        /* Script for Suggestion Box */
-        let rating = 0;
-
-        setTimeout(() => {
-            if (!localStorage.getItem('suggestionBoxShown')) {
-                suggestionBox.style.display = 'block';
-            }
-        }, 10000);
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                rating = parseInt(star.getAttribute('data-rating'));
-                stars.forEach((s, index) => {
-                    s.classList.toggle('active', index < rating);
-                });
-            });
-        });
-
-        submitButton.addEventListener('click', () => {
-            const suggestion = suggestionText.value;
-            if (rating > 0 || suggestion.trim() !== '') {
-                firebase.database().ref('suggestions').push({
-                    rating: rating,
-                    suggestion: suggestion,
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                });
-
-                suggestionBox.style.display = 'none';
-                localStorage.setItem('suggestionBoxShown', 'true');
-            }
-        });
-
-        doNotShowButton.addEventListener('click', () => {
-            suggestionBox.style.display = 'none';
-            localStorage.setItem('suggestionBoxShown', 'true');
-        });
-
-    </script> -->
-
+    </script>
 </body>
 
 </html>

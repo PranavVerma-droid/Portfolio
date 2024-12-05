@@ -1,37 +1,4 @@
-/* 
-    Copyright (C) 2024  Pranav Verma
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    See a more apt description in LICENSE File Attached to the root of this
-    project.
-*/
-
-const firebaseConfigBlogs = {
-  apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
-  authDomain: "contactusform-f0ec2.firebaseapp.com",
-  databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
-  projectId: "contactusform-f0ec2",
-  storageBucket: "contactusform-f0ec2.appspot.com",
-  messagingSenderId: "641931730164",
-  appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
-  measurementId: "G-1RVB7HZQWB"
-};
-
-firebase.initializeApp(firebaseConfigBlogs);
-
-const dbBlogs = firebase.firestore();
+const pbBlogs = new PocketBase('https://db.pranavv.co.in');
 
 const appBlogs = Vue.createApp({
   data() {
@@ -40,96 +7,142 @@ const appBlogs = Vue.createApp({
       title: "",
       content: "",
       pinnedBlogs: [],
-      allBlogs: [],
       blogs: [],
-      draftBlogs: [], 
+      draftBlogs: [],
       blogIdToEdit: null,
-      isDraft: false, 
+      isDraft: false,
+      loading: false,
+      error: null
     };
   },
-  mounted() {
-    this.fetchBlogs();
-    firebase.auth().onAuthStateChanged(user => {
-      this.user = user;
-      this.fetchBlogs();
-    });
-  },
-  methods: {
-    loginWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then(result => {
-          this.user = result.user;
-        })
-        .catch(error => {
-          console.error(error);
-          alert("Google Sign-In failed. Please try again. (Check Console for Errors OR Sign in with a Root Account.)");
-        });
-    },
-    submitBlog() {
-      const blogData = {
-        title: this.title,
-        content: this.content,
-        author: this.user ? this.user.email : "Anonymous",
-        publication_date: new Date().toISOString(),
-        isDraft: this.isDraft, 
-      };
 
-      if (this.blogIdToEdit) {
-        dbBlogs.collection("blogs").doc(this.blogIdToEdit).update(blogData)
-          .then(() => {
-            this.resetForm();
-            alert("Blog updated successfully!");
-          })
-          .catch(error => {
-            console.error(error);
-            alert("Failed to update blog.");
-          });
-      } else {
-        dbBlogs.collection("blogs").add(blogData)
-          .then(() => {
-            this.resetForm();
-            alert("Blog submitted successfully!");
-          })
-          .catch(error => {
-            console.error(error);
-            alert("Failed to submit blog.");
-          });
+  mounted() {
+    this.checkAuth();
+    this.fetchBlogs();
+  },
+
+  methods: {
+    async checkAuth() {
+      if (pbBlogs.authStore.isValid) {
+        this.user = pbBlogs.authStore.model;
       }
     },
-    signOut() {
-      firebase.auth().signOut()
-        .then(() => {
-          this.user = null;
-        })
-        .catch(error => {
-          console.error(error);
-          alert("Sign out failed.");
-        });
-    },
-    async fetchBlogs() {
+
+    async loginWithGoogle() {
       try {
-        const querySnapshot = await dbBlogs.collection("blogs").orderBy("publication_date", "desc").get();
-        this.blogs = querySnapshot.docs
-          .filter(doc => !doc.data().isDraft) 
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-
-        this.draftBlogs = querySnapshot.docs
-          .filter(doc => doc.data().isDraft) 
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-
-        this.pinnedBlogs = this.blogs.filter(blog => blog.pinned);
+        const authData = await pbBlogs.collection('users').authWithOAuth2({ 
+          provider: 'google' 
+        });
+        this.user = authData.record;
       } catch (error) {
         console.error(error);
-        alert("Failed to fetch blogs.");
+        alert("Google Sign-In failed. Please try again.");
       }
     },
+
+    async signOut() {
+      pbBlogs.authStore.clear();
+      this.user = null;
+    },
+
+    async fetchBlogs() {
+      this.loading = true;
+      try {
+        const result = await pbBlogs.collection('blogs').getList(1, 100, {
+          sort: '-pubDate',
+          filter: ''
+        });
+
+        if (result && result.items) {
+          this.blogs = result.items.filter(record => !record.isDraft);
+          this.draftBlogs = result.items.filter(record => record.isDraft);
+          this.pinnedBlogs = result.items.filter(record => record.pinned);
+        }
+      } catch (error) {
+        console.error('Failed to fetch blogs:', error);
+        this.error = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async submitBlog() {
+      try {
+        const data = {
+          title: this.title,
+          content: this.content,
+          author: this.user?.email || "Anonymous",
+          pubDate: new Date().toISOString(),
+          isDraft: this.isDraft,
+          pinned: false
+        };
+
+        if (this.blogIdToEdit) {
+          await pbBlogs.collection('blogs').update(this.blogIdToEdit, data);
+        } else {
+          await pbBlogs.collection('blogs').create(data);
+        }
+        
+        this.resetForm();
+        alert("Blog Added / Updated Successfully!");
+        await this.fetchBlogs();
+      } catch (error) {
+        console.error('Failed to save blog:', error);
+        this.error = error.message;
+      }
+    },
+
+    async deleteBlog(blogId) {
+      if (confirm("Are you sure you want to delete this blog?")) {
+        try {
+          await pbBlogs.collection('blogs').delete(blogId);
+          await this.fetchBlogs();
+        } catch (error) {
+          console.error('Failed to delete blog:', error);
+        }
+      }
+    },
+
+    async publishBlog(blogId) {
+      try {
+        await pbBlogs.collection('blogs').update(blogId, {
+          isDraft: false,
+          publication_date: new Date().toISOString()
+        });
+        await this.fetchBlogs();
+        alert("Blog published successfully!");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to publish blog.");
+      }
+    },
+
+    async togglePin(blogId, currentPinned) {
+      try {
+        await pbBlogs.collection('blogs').update(blogId, {
+          pinned: !currentPinned
+        });
+        await this.fetchBlogs();
+      } catch (error) {
+        console.error('Failed to toggle pin:', error);
+      }
+    },
+
+    editBlog(blog) {
+      this.title = blog.title;
+      this.content = blog.content;
+      this.blogIdToEdit = blog.id;
+      this.isDraft = blog.isDraft;
+    },
+
+    resetForm() {
+      this.title = "";
+      this.content = "";
+      this.isDraft = false;
+      this.blogIdToEdit = null;
+      this.fetchBlogs();
+    },
+
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString("en-US", {
@@ -138,46 +151,7 @@ const appBlogs = Vue.createApp({
         day: "numeric"
       });
     },
-    editBlog(blog) {
-      this.title = blog.title;
-      this.content = blog.content;
-      this.blogIdToEdit = blog.id;
-      this.isDraft = blog.isDraft; 
-    },
-    deleteBlog(blogId) {
-      const confirmation = confirm("Are you sure you want to delete this blog?");
-      if (confirmation) {
-        dbBlogs.collection("blogs").doc(blogId).delete()
-          .then(() => {
-            this.fetchBlogs();
-            alert("Blog deleted successfully!");
-          })
-          .catch(error => {
-            console.error(error);
-            alert("Failed to delete blog.");
-          });
-      }
-    },
-    publishBlog(blogId) {
-      dbBlogs.collection("blogs").doc(blogId).update({
-        isDraft: false 
-      })
-      .then(() => {
-        this.fetchBlogs();
-        alert("Blog published successfully!");
-      })
-      .catch(error => {
-        console.error(error);
-        alert("Failed to publish blog.");
-      });
-    },
-    resetForm() {
-      this.title = "";
-      this.content = "";
-      this.isDraft = false; 
-      this.blogIdToEdit = null;
-      this.fetchBlogs();
-    },
+
     insertAtCursor(myField, myValue) {
       if (document.selection) {
         myField.focus();
@@ -193,40 +167,21 @@ const appBlogs = Vue.createApp({
         myField.value += myValue;
       }
     },
-    insertPStart() {
-      this.insertAtCursor(this.$refs.content, '<p>');
-    },
-    insertPEnd() {
-      this.insertAtCursor(this.$refs.content, '</p>');
-    },
-    insertBStart() {
-      this.insertAtCursor(this.$refs.content, '<b>');
-    },
-    insertBEnd() {
-      this.insertAtCursor(this.$refs.content, '</b>');
-    },
-    insertNextLine() {
-      this.insertAtCursor(this.$refs.content, '<br>');
-    },
-    insertAStart() {
-      this.insertAtCursor(this.$refs.content, '<a href="" target="_blank">');
-    },
-    insertAEnd() {
-      this.insertAtCursor(this.$refs.content, '</a>');
-    },
-    insertCodeStart() {
-      this.insertAtCursor(this.$refs.content, '<pre><code>');
-    },
-    insertCodeEnd() {
-      this.insertAtCursor(this.$refs.content, '</code></pre>');
-    },
-    insertImage() {
-      this.insertAtCursor(this.$refs.content, '<img src=""><br>');
-    },
+
+    insertPStart() { this.insertAtCursor(this.$refs.content, '<p>'); },
+    insertPEnd() { this.insertAtCursor(this.$refs.content, '</p>'); },
+    insertBStart() { this.insertAtCursor(this.$refs.content, '<b>'); },
+    insertBEnd() { this.insertAtCursor(this.$refs.content, '</b>'); },
+    insertNextLine() { this.insertAtCursor(this.$refs.content, '<br>'); },
+    insertAStart() { this.insertAtCursor(this.$refs.content, '<a href="" target="_blank">'); },
+    insertAEnd() { this.insertAtCursor(this.$refs.content, '</a>'); },
+    insertCodeStart() { this.insertAtCursor(this.$refs.content, '<pre><code>'); },
+    insertCodeEnd() { this.insertAtCursor(this.$refs.content, '</code></pre>'); },
+    insertImage() { this.insertAtCursor(this.$refs.content, '<img src=""><br>'); },
     insertWorkInProgress() {
       this.insertAtCursor(this.$refs.content, '<span style="color:red">Blog still a Work in Progress! More updates coming as the journey continues...</span>');
     }
   }
 });
 
-appBlogs.mount('#blogs_container_mount');
+appBlogs.mount('#blogs_container');

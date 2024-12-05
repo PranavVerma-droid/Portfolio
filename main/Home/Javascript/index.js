@@ -17,30 +17,7 @@
     See a more apt description in LICENSE File Attached to the root of this
     project.
 */
-
-const firebaseConfigIndex = {
-    apiKey: "AIzaSyCA_BPpKq3IhLupHnGYbbwq0U1mLdMbJXY",
-    authDomain: "contactusform-f0ec2.firebaseapp.com",
-    databaseURL: "https://contactusform-f0ec2-default-rtdb.firebaseio.com",
-    projectId: "contactusform-f0ec2",
-    storageBucket: "contactusform-f0ec2.appspot.com",
-    messagingSenderId: "641931730164",
-    appId: "1:641931730164:web:0812ee1bf4659f8381d2a1",
-    measurementId: "G-1RVB7HZQWB"
-  };
-  firebase.initializeApp(firebaseConfigIndex);
-  const perf = firebase.performance();
-
-
-  const suggestionBox = document.getElementById('suggestion-box');
-  const stars = document.querySelectorAll('.star');
-  const suggestionText = document.getElementById('suggestion-text');
-  const submitButton = document.getElementById('submit-suggestion');
-  const doNotShowButton = document.getElementById('do-not-show');
-
-  document.querySelectorAll('a').forEach(link => {
-    link.setAttribute('target', '_blank');
-  });
+const pbIndex = new PocketBase('https://db.pranavv.co.in');
 
 function showabout(){
     $("#about_container").css("display","inherit");
@@ -101,10 +78,31 @@ function closeblogs() {
     }, 800);
 }
 
-function showResume() {
-    var resumeURL = "https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Resume%2FPranav%E2%80%99s%20Resume%201.pdf?alt=media&token=7018b85b-3124-48a8-92a5-ae7fc4c53f15";
-    
-    window.open(resumeURL, "_blank");
+async function showResume() {
+    try {
+        const userRecord = await pbIndex.collection('users').getOne('99mg77734m8732h', {
+            fields: 'id,resume,collectionId'
+        });
+        
+        if (userRecord?.resume) {
+            const fileUrl = pbIndex.files.getUrl(userRecord, userRecord.resume);
+            
+            if (fileUrl) {
+                window.open(fileUrl, '_blank');
+            } else {
+                throw new Error('Invalid file URL');
+            }
+        } else {
+            alert("Resume not found in user profile");
+        }
+    } catch (error) {
+        console.error('Resume fetch error:', error);
+        if (error.status === 404) {
+            alert("User profile or resume not found");
+        } else {
+            alert("Error loading resume: " + error.message);
+        }
+    }
 }
 
 if (window.location.hash === '#blogs') {
