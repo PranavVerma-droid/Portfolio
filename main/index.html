@@ -30,6 +30,46 @@
     <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/disp/945b0225337909.563440870421b.png"
         type="image/icon type">
     <title>Pranav's Portfolio</title>
+
+    <!-- Javascript Framework (Vue.js and Prism.js) -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <!-- Backend Config Files Javascript -->
+    <script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
+
+    <!-- General App Settings Javascript -->
+    <script src="Home/Javascript/index.js" type=""></script>
+    <script src="Home/Javascript/particles.js"></script>
+    <script src="Home/Javascript/app.js"></script>
+
+    <!-- Backend Settings and Import Javascript -->
+    <script src="Home/Javascript/Firebase/about.js"></script>
+    <script src="Home/Javascript/Firebase/blogs.js"></script>
+    <script src="Home/Javascript/Firebase/works.js"></script>
+    <script src="Home/Javascript/Firebase/contact.js"></script>
+    <script src="Home/Javascript/Firebase/links.js"></script>
+
+
+    <!-- All CSS -->
+    <link rel="icon"
+        href="https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Icons%2Ftitle-icon.png?alt=media&token=5184d30f-59ce-4113-bb95-b8f7ebe4a04d"
+        type="image/icon type">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="Home/CSS/index.css">
+
+
+    <!-- Miscellaneous Javascript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script>
+        function showWorkInProgressAlert() {
+            alert("Work in Progress! Please Check back later!");
+        }
+    </script>
 </head>
 
 <body>
@@ -277,32 +317,10 @@
         <h1>contact.</h1>
         <section>
             <form id="contactForm" @submit.prevent="submitForm">
-                <input 
-                    type="text" 
-                    v-model="name" 
-                    placeholder="name" 
-                    required
-                    :disabled="loading"
-                >
-                <input 
-                    type="email" 
-                    v-model="email" 
-                    placeholder="email" 
-                    required
-                    :disabled="loading"
-                >
-                <textarea 
-                    v-model="message" 
-                    placeholder="your message" 
-                    rows="5" 
-                    required
-                    :disabled="loading"
-                ></textarea>
-                <button 
-                    class="btn_one" 
-                    type="submit"
-                    :disabled="loading"
-                >
+                <input type="text" v-model="name" placeholder="name" required :disabled="loading">
+                <input type="email" v-model="email" placeholder="email" required :disabled="loading">
+                <textarea v-model="message" placeholder="your message" rows="5" required :disabled="loading"></textarea>
+                <button class="btn_one" type="submit" :disabled="loading">
                     {{ loading ? 'Sending...' : 'Send Message' }}
                 </button>
             </form>
@@ -480,47 +498,6 @@
         made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">Copyright &COPY; 2024 Pranav
             Verma</a>
     </div>
-
-
-    <!-- Javascript Framework (Vue.js and Prism.js) -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-
-    <!-- Backend Config Files Javascript -->
-    <script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
-
-    <!-- General App Settings Javascript -->
-    <script src="Home/Javascript/index.js" type=""></script>
-    <script src="Home/Javascript/particles.js"></script>
-    <script src="Home/Javascript/app.js"></script>
-
-    <!-- Backend Settings and Import Javascript -->
-    <script src="Home/Javascript/Firebase/about.js"></script>
-    <script src="Home/Javascript/Firebase/blogs.js"></script>
-    <script src="Home/Javascript/Firebase/works.js"></script>
-    <script src="Home/Javascript/Firebase/contact.js"></script>
-    <script src="Home/Javascript/Firebase/links.js"></script>
-
-
-    <!-- All CSS -->
-    <link rel="icon"
-        href="https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Icons%2Ftitle-icon.png?alt=media&token=5184d30f-59ce-4113-bb95-b8f7ebe4a04d"
-        type="image/icon type">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="Home/CSS/index.css">
-
-
-    <!-- Miscellaneous Javascript -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
-    <script>
-        function showWorkInProgressAlert() {
-            alert("Work in Progress! Please Check back later!");
-        }
-    </script>
 </body>
 
 </html>

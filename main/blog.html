@@ -28,6 +28,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Details</title>
 
+    <!-- All CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
+    <link rel="stylesheet" href="Blogs/blog.css" />
+
+    <!-- All Firebase Config -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
+    <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+    <!-- All Javascript Frameworks -->
+    <script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
+
+    <!-- All Custom Javascript -->
+    <script src="Blogs/blog.js"></script>
 </head>
 
 <body>
@@ -40,9 +56,9 @@
     <div id="scroll-progress-container">
         <div id="scroll-progress-bar"></div>
     </div>
-    
+
     <div id="app">
-          
+
         <button id="darkModeToggle" @click="toggleDarkMode">
             <span v-if="isDarkMode">Light Mode</span>
             <span v-else>Dark Mode</span>
@@ -72,26 +88,6 @@
             </div>
         </section>
     </div>
-
-
-
-    <!-- All CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
-    <link rel="stylesheet" href="Blogs/blog.css" />
-
-    <!-- All Firebase Config -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
-    <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
-
-
-    <!-- All Javascript Frameworks -->
-    <script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
-    
-    <!-- All Custom Javascript -->
-    <script src="Blogs/blog.js"></script>
-
 </body>
 
 </html>
