@@ -25,22 +25,33 @@ const appWorks = Vue.createApp({
     return {
       competitionName: "",
       competitionDescription: "",
-      competitionSource: "",
+      competitionAdditionalUrl1: "",
+      competitionAdditionalUrl2: "",
+      competitionAdditionalUrl3: "",
+      competitionAdditionalUrl4: "",
       competitions: [],
 
       projectName: "",
       projectDescription: "",
-      projectSource: "",
+      projectAdditionalUrl1: "",
+      projectAdditionalUrl2: "",
+      projectAdditionalUrl3: "",
+      projectAdditionalUrl4: "",
       projects: [],
 
       workshopName: "",
-      workshopSource: "",
-      online: false,
+      workshopAdditionalUrl1: "",
+      workshopAdditionalUrl2: "",
+      workshopAdditionalUrl3: "",
+      workshopAdditionalUrl4: "",
+      online: null,
       workshops: [],
 
       internshipName: "",
       internshipDescription: "",
-      internshipSource: "",
+      internshipAdditionalUrl1: "",
+      internshipAdditionalUrl2: "",
+      internshipAdditionalUrl3: "",
       internships: [],
 
       certificateName: "",
@@ -48,6 +59,13 @@ const appWorks = Vue.createApp({
       certificateImg: "",
       certificateUrl: "",
       certificates: [],
+
+      socialWorkName: "",
+      socialWorkDescription: "",
+      socialWorkAdditionalUrl1: "",
+      socialWorkAdditionalUrl2: "",
+      socialWorkAdditionalUrl3: "",
+      socialWorks: [],
 
       loading: false,
       error: null
@@ -66,7 +84,8 @@ const appWorks = Vue.createApp({
           this.loadCompetitions(),
           this.loadInternships(),
           this.loadCertificates(),
-          this.loadWorkshops()
+          this.loadWorkshops(),
+          this.loadSocialWorks()
         ]);
       } catch (error) {
         console.error('Failed to load data:', error);
@@ -119,9 +138,22 @@ const appWorks = Vue.createApp({
       try {
         const records = await pbWorks.collection('workshops').getFullList();
         this.workshops = records;
-        this.online = this.workshops.some(workshop => workshop.online);
+        records.forEach(workshop => {
+          workshop.isOnline = workshop.online === true;
+        });
       } catch (error) {
         console.error('Failed to load workshops:', error);
+      }
+    },
+
+    async loadSocialWorks() {
+      try {
+        const records = await pbWorks.collection('socialwork').getFullList({
+          sort: '+class'
+        });
+        this.socialWorks = records;
+      } catch (error) {
+        console.error('Failed to load social works:', error);
       }
     },
 

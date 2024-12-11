@@ -103,7 +103,14 @@
                 <h3>{{ project.projectName }}</h2>
                     <p v-html="project.projectDescription"></p>
 
-                    <button class="btn_one"><a :href="project.projectSource">Source Code</a></button>
+                    <button v-if="project.projectAdditionalUrl1" class="btn_one"><a
+                            :href="project.projectAdditionalUrl1">Link 1</a></button>
+                    <button v-if="project.projectAdditionalUrl2" class="btn_one"><a
+                            :href="project.projectAdditionalUrl2">Link 2</a></button>
+                    <button v-if="project.projectAdditionalUrl3" class="btn_one"><a
+                            :href="project.projectAdditionalUrl3">Link 3</a></button>
+                    <button v-if="project.projectAdditionalUrl4" class="btn_one"><a
+                            :href="project.projectAdditionalUrl4">Link 3</a></button>
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -116,14 +123,21 @@
                     </path>
                 </svg> Workshops / Courses</h2>
             <section v-for="workshop in workshops" :key="workshop.id">
-                <h3>{{ workshop.workshopName }}</h2>
-                    <p v-if="online">
-                        Mode: Online
-                    </p>
-                    <p v-else>
-                        Mode: Offline
-                    </p>
-                    <button class="btn_one"><a :href="workshop.workshopSource">Source Code</a></button>
+                <h3>{{ workshop.workshopName }}</h3>
+                <p v-if="workshop.isOnline">
+                    Mode: Online
+                </p>
+                <p v-else>
+                    Mode: Offline
+                </p>
+                <button v-if="workshop.workshopAdditionalUrl1" class="btn_one"><a
+                        :href="workshop.workshopAdditionalUrl1">Link 1</a></button>
+                <button v-if="workshop.workshopAdditionalUrl2" class="btn_one"><a
+                        :href="workshop.workshopAdditionalUrl2">Link 2</a></button>
+                <button v-if="workshop.workshopAdditionalUrl3" class="btn_one"><a
+                        :href="workshop.workshopAdditionalUrl3">Link 3</a></button>
+                <button v-if="workshop.workshopAdditionalUrl4" class="btn_one"><a
+                        :href="workshop.workshopAdditionalUrl4">Link 3</a></button>
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +152,14 @@
                 <h3>{{ competition.competitionName }}</h2>
                     <p v-html="competition.competitionDescription"></p>
 
-                    <button class="btn_one"><a :href="competition.competitionSource">Source Code</a></button>
+                    <button v-if="competition.competitionAdditionalUrl1" class="btn_one"><a
+                            :href="competition.competitionAdditionalUrl1">Link 1</a></button>
+                    <button v-if="competition.competitionAdditionalUrl2" class="btn_one"><a
+                            :href="competition.competitionAdditionalUrl2">Link 2</a></button>
+                    <button v-if="competition.competitionAdditionalUrl3" class="btn_one"><a
+                            :href="competition.competitionAdditionalUrl3">Link 3</a></button>
+                    <button v-if="competition.competitionAdditionalUrl4" class="btn_one"><a
+                            :href="competition.competitionAdditionalUrl4">Link 3</a></button>
             </section>
 
             <section>
@@ -172,6 +193,30 @@
                 </div>
             </section>
 
+
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-building-skyscraper" width="44" height="44" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 21l18 0" />
+                    <path d="M5 21v-14l8 -4v18" />
+                    <path d="M19 21v-10l-6 -4" />
+                    <path d="M9 9l0 .01" />
+                    <path d="M9 12l0 .01" />
+                    <path d="M9 15l0 .01" />
+                    <path d="M9 18l0 .01" />
+                </svg>Social Work</h2>
+            <section v-for="socialWork in socialWorks" :key="socialWork.id">
+                <h3>{{ socialWork.socialWorkName }}</h2>
+                    <p>{{ socialWork.socialWorkDescription }}</p>
+                    <button v-if="socialWork.socialWorkAdditionalUrl1" class="btn_one"><a
+                            :href="socialWork.socialWorkAdditionalUrl1">Link 1</a></button>
+                    <button v-if="socialWork.socialWorkAdditionalUrl2" class="btn_one"><a
+                            :href="socialWork.socialWorkAdditionalUrl2">Link 2</a></button>
+                    <button v-if="socialWork.socialWorkAdditionalUrl3" class="btn_one"><a
+                            :href="socialWork.socialWorkAdditionalUrl3">Link 3</a></button>
+            </section>
+
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
                     class="icon icon-tabler icon-tabler-building-skyscraper" width="44" height="44" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -188,7 +233,12 @@
                 <h3>{{ internship.internshipName }}</h2>
                     <p>{{ internship.internshipDescription }}</p>
 
-                    <button class="btn_one"><a :href="internship.internshipSource">Source Code</a></button>
+                    <button v-if="internship.internshipAdditionalUrl1" class="btn_one"><a
+                            :href="internship.internshipAdditionalUrl1">Link 1</a></button>
+                    <button v-if="internship.internshipAdditionalUrl2" class="btn_one"><a
+                            :href="internship.internshipAdditionalUrl2">Link 2</a></button>
+                    <button v-if="internship.internshipAdditionalUrl3" class="btn_one"><a
+                            :href="internship.internshipAdditionalUrl3">Link 3</a></button>
             </section>
 
 
