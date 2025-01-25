@@ -50,10 +50,16 @@ pre {
     border-radius: 10px;
     width: 95%;
     padding: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 code {
     font-family: monospace !important;
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 h1 {
