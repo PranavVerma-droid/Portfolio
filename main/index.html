@@ -213,19 +213,43 @@
                     <path d="M9 15l0 .01" />
                     <path d="M9 18l0 .01" />
                 </svg>Social Work</h2>
-            <section v-for="socialWork in socialWorks" :key="socialWork.id">
-                <h3>{{ socialWork.socialWorkName }}</h2>
-                <p>{{ socialWork.socialWorkDescription }}</p>
-                <p v-if="socialWork.socialWorkStartDate" class="date-formatting">
-                    {{ formatDuration(socialWork.socialWorkStartDate, socialWork.socialWorkEndDate) }}
-                    <span v-if="socialWork.socialWorkInstituteName"> • {{ socialWork.socialWorkInstituteName }}</span>
-                </p>
-                <button v-if="socialWork.socialWorkAdditionalUrl1" class="btn_one"><a
-                        :href="socialWork.socialWorkAdditionalUrl1">Link 1</a></button>
-                <button v-if="socialWork.socialWorkAdditionalUrl2" class="btn_one"><a
-                        :href="socialWork.socialWorkAdditionalUrl2">Link 2</a></button>
-                <button v-if="socialWork.socialWorkAdditionalUrl3" class="btn_one"><a
-                        :href="socialWork.socialWorkAdditionalUrl3">Link 3</a></button>
+            <!-- <div v-for="certificate in certificates" :key="certificate.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="certificate.certificateImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ certificate.certificateName }}</h3>
+                    <p v-if="certificate.certificateIssueDate" class="date-formatting">
+                        {{ formatOnlyDate(certificate.certificateIssueDate) }}
+                        <span v-if="certificate.certificateIssue"> • {{certificate.certificateIssue}}</span>
+                    </p>
+                    <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
+                        style="max-width: 300px; text-align: center;">View Certificate</div>
+                </div>
+            </div>-->
+            <section v-for="socialWork in socialWorks" :key="socialWork.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="socialWork.socialWorkImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ socialWork.socialWorkName }}</h2>
+                        <p>{{ socialWork.socialWorkDescription }}</p>
+                        <p v-if="socialWork.socialWorkStartDate" class="date-formatting">
+                            {{ formatDuration(socialWork.socialWorkStartDate, socialWork.socialWorkEndDate) }}
+                            <span v-if="socialWork.socialWorkInstituteName"> • {{ socialWork.socialWorkInstituteName
+                                }}</span>
+                        </p>
+                        <button v-if="socialWork.socialWorkAdditionalUrl1" class="btn_one"><a
+                                :href="socialWork.socialWorkAdditionalUrl1">Link 1</a></button>
+                        <button v-if="socialWork.socialWorkAdditionalUrl2" class="btn_one"><a
+                                :href="socialWork.socialWorkAdditionalUrl2">Link 2</a></button>
+                        <button v-if="socialWork.socialWorkAdditionalUrl3" class="btn_one"><a
+                                :href="socialWork.socialWorkAdditionalUrl3">Link 3</a></button>
+                </div>
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
@@ -240,21 +264,45 @@
                     <path d="M9 15l0 .01" />
                     <path d="M9 18l0 .01" />
                 </svg>Internships</h2>
-            <section v-for="internship in internships" :key="internship.id">
-                <h3>{{ internship.internshipName }}</h2>
-                    <p>{{ internship.internshipDescription }}</p>
-                    <p v-if="internship.internshipStartDate" class="date-formatting">
-                        {{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}
-                        <span v-if="internship.internshipInstituteName"> • {{ internship.internshipInstituteName }}</span>
-                        <span v-if="internship.internshipType"> • {{ internship.internshipType }}</span>
+            <!-- <div v-for="certificate in certificates" :key="certificate.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="certificate.certificateImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ certificate.certificateName }}</h3>
+                    <p v-if="certificate.certificateIssueDate" class="date-formatting">
+                        {{ formatOnlyDate(certificate.certificateIssueDate) }}
+                        <span v-if="certificate.certificateIssue"> • {{certificate.certificateIssue}}</span>
                     </p>
+                    <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
+                        style="max-width: 300px; text-align: center;">View Certificate</div>
+                </div>
+            </div>-->
+            <section v-for="internship in internships" :key="internship.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="internship.internshipImg" alt="Social Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ internship.internshipName }}</h2>
+                        <p>{{ internship.internshipDescription }}</p>
+                        <p v-if="internship.internshipStartDate" class="date-formatting">
+                            {{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}
+                            <span v-if="internship.internshipType"> • {{ internship.internshipType }}</span>
+                            <span v-if="internship.internshipInstituteName"> • {{ internship.internshipInstituteName
+                                }}</span>
+                        </p>
 
-                    <button v-if="internship.internshipAdditionalUrl1" class="btn_one"><a
-                            :href="internship.internshipAdditionalUrl1">Link 1</a></button>
-                    <button v-if="internship.internshipAdditionalUrl2" class="btn_one"><a
-                            :href="internship.internshipAdditionalUrl2">Link 2</a></button>
-                    <button v-if="internship.internshipAdditionalUrl3" class="btn_one"><a
-                            :href="internship.internshipAdditionalUrl3">Link 3</a></button>
+                        <button v-if="internship.internshipAdditionalUrl1" class="btn_one"><a
+                                :href="internship.internshipAdditionalUrl1">Link 1</a></button>
+                        <button v-if="internship.internshipAdditionalUrl2" class="btn_one"><a
+                                :href="internship.internshipAdditionalUrl2">Link 2</a></button>
+                        <button v-if="internship.internshipAdditionalUrl3" class="btn_one"><a
+                                :href="internship.internshipAdditionalUrl3">Link 3</a></button>
+                </div>
             </section>
 
 

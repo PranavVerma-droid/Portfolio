@@ -57,6 +57,7 @@ const appWorks = Vue.createApp({
       internshipEndDate: "",
       internshipInstituteName: "",
       internshipType: "",
+      internshipImg: "",
       internshipAdditionalUrl1: "",
       internshipAdditionalUrl2: "",
       internshipAdditionalUrl3: "",
@@ -77,6 +78,7 @@ const appWorks = Vue.createApp({
       socialWorkAdditionalUrl1: "",
       socialWorkAdditionalUrl2: "",
       socialWorkAdditionalUrl3: "",
+      socialWorkImg: "",
       socialWorks: [],
 
       loading: false,
