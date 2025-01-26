@@ -102,6 +102,9 @@
             <section v-for="project in projects" :key="project.id">
                 <h3>{{ project.projectName }}</h2>
                     <p v-html="project.projectDescription"></p>
+                    <p v-if="project.projectStartDate" class="date-formatting">
+                        {{ formatDuration(project.projectStartDate, project.projectEndDate) }}
+                    </p>
 
                     <button v-if="project.projectAdditionalUrl1" class="btn_one"><a
                             :href="project.projectAdditionalUrl1">Link 1</a></button>
@@ -124,11 +127,9 @@
                 </svg> Workshops / Courses</h2>
             <section v-for="workshop in workshops" :key="workshop.id">
                 <h3>{{ workshop.workshopName }}</h3>
-                <p v-if="workshop.isOnline">
-                    Mode: Online
-                </p>
-                <p v-else>
-                    Mode: Offline
+                <p v-if="workshop.workshopParticipationDate" class="date-formatting">
+                    {{ formatOnlyDate(workshop.workshopParticipationDate) }}
+                    <span> • {{ workshop.isOnline ? 'Online' : 'Offline' }}</span>
                 </p>
                 <button v-if="workshop.workshopAdditionalUrl1" class="btn_one"><a
                         :href="workshop.workshopAdditionalUrl1">Link 1</a></button>
@@ -151,6 +152,9 @@
             <section v-for="competition in competitions" :key="competition.id">
                 <h3>{{ competition.competitionName }}</h2>
                     <p v-html="competition.competitionDescription"></p>
+                    <p v-if="competition.competitionParticipationDate" class="date-formatting">
+                        {{ formatOnlyDate(competition.competitionParticipationDate) }}
+                    </p>
 
                     <button v-if="competition.competitionAdditionalUrl1" class="btn_one"><a
                             :href="competition.competitionAdditionalUrl1">Link 1</a></button>
@@ -186,7 +190,10 @@
                     </div>
                     <div style="margin-left: 1rem;">
                         <h3>{{ certificate.certificateName }}</h3>
-                        <p>Issued By: {{certificate.certificateIssue}}</p>
+                        <p v-if="certificate.certificateIssueDate" class="date-formatting">
+                            {{ formatOnlyDate(certificate.certificateIssueDate) }}
+                            <span v-if="certificate.certificateIssue"> • {{certificate.certificateIssue}}</span>
+                        </p>
                         <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
                             style="max-width: 300px; text-align: center;">View Certificate</div>
                     </div>
@@ -208,13 +215,17 @@
                 </svg>Social Work</h2>
             <section v-for="socialWork in socialWorks" :key="socialWork.id">
                 <h3>{{ socialWork.socialWorkName }}</h2>
-                    <p>{{ socialWork.socialWorkDescription }}</p>
-                    <button v-if="socialWork.socialWorkAdditionalUrl1" class="btn_one"><a
-                            :href="socialWork.socialWorkAdditionalUrl1">Link 1</a></button>
-                    <button v-if="socialWork.socialWorkAdditionalUrl2" class="btn_one"><a
-                            :href="socialWork.socialWorkAdditionalUrl2">Link 2</a></button>
-                    <button v-if="socialWork.socialWorkAdditionalUrl3" class="btn_one"><a
-                            :href="socialWork.socialWorkAdditionalUrl3">Link 3</a></button>
+                <p>{{ socialWork.socialWorkDescription }}</p>
+                <p v-if="socialWork.socialWorkStartDate" class="date-formatting">
+                    {{ formatDuration(socialWork.socialWorkStartDate, socialWork.socialWorkEndDate) }}
+                    <span v-if="socialWork.socialWorkInstituteName"> • {{ socialWork.socialWorkInstituteName }}</span>
+                </p>
+                <button v-if="socialWork.socialWorkAdditionalUrl1" class="btn_one"><a
+                        :href="socialWork.socialWorkAdditionalUrl1">Link 1</a></button>
+                <button v-if="socialWork.socialWorkAdditionalUrl2" class="btn_one"><a
+                        :href="socialWork.socialWorkAdditionalUrl2">Link 2</a></button>
+                <button v-if="socialWork.socialWorkAdditionalUrl3" class="btn_one"><a
+                        :href="socialWork.socialWorkAdditionalUrl3">Link 3</a></button>
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
@@ -232,6 +243,11 @@
             <section v-for="internship in internships" :key="internship.id">
                 <h3>{{ internship.internshipName }}</h2>
                     <p>{{ internship.internshipDescription }}</p>
+                    <p v-if="internship.internshipStartDate" class="date-formatting">
+                        {{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}
+                        <span v-if="internship.internshipInstituteName"> • {{ internship.internshipInstituteName }}</span>
+                        <span v-if="internship.internshipType"> • {{ internship.internshipType }}</span>
+                    </p>
 
                     <button v-if="internship.internshipAdditionalUrl1" class="btn_one"><a
                             :href="internship.internshipAdditionalUrl1">Link 1</a></button>
@@ -275,6 +291,8 @@
                 <div style="margin-left: 1rem;">
                     <h3>- {{ skill.skillName }}</h3>
                     <p> {{ skill.skillDescription }}</p>
+                    <div v-if="skill.skillUrl" @click="visitLink(skill.skillUrl)" class="btn_one"
+                        style="max-width: 80px; text-align: center;">Visit</div>
                 </div>
             </div>
         </section>
@@ -519,7 +537,7 @@
             Verma</a>
     </div>
 
-    <!-- Javascript Framework (Vue.js and Prism.js) -->
+    <!-- Javascript Framework (Vue.js) -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 
     <!-- Backend Config Files Javascript -->

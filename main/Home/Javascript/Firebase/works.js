@@ -25,6 +25,7 @@ const appWorks = Vue.createApp({
     return {
       competitionName: "",
       competitionDescription: "",
+      competitionParticipationDate: "",
       competitionAdditionalUrl1: "",
       competitionAdditionalUrl2: "",
       competitionAdditionalUrl3: "",
@@ -33,6 +34,8 @@ const appWorks = Vue.createApp({
 
       projectName: "",
       projectDescription: "",
+      projectStartDate: "",
+      projectEndDate: "",
       projectAdditionalUrl1: "",
       projectAdditionalUrl2: "",
       projectAdditionalUrl3: "",
@@ -40,6 +43,7 @@ const appWorks = Vue.createApp({
       projects: [],
 
       workshopName: "",
+      workshopParticipationDate: "",
       workshopAdditionalUrl1: "",
       workshopAdditionalUrl2: "",
       workshopAdditionalUrl3: "",
@@ -49,6 +53,10 @@ const appWorks = Vue.createApp({
 
       internshipName: "",
       internshipDescription: "",
+      internshipStartDate: "",
+      internshipEndDate: "",
+      internshipInstituteName: "",
+      internshipType: "",
       internshipAdditionalUrl1: "",
       internshipAdditionalUrl2: "",
       internshipAdditionalUrl3: "",
@@ -58,10 +66,14 @@ const appWorks = Vue.createApp({
       certificateIssue: "",
       certificateImg: "",
       certificateUrl: "",
+      certificateIssueDate: "",
       certificates: [],
 
       socialWorkName: "",
       socialWorkDescription: "",
+      socialWorkStartDate: "",
+      socialWorkEndDate: "",
+      socialWorkInstituteName: "",
       socialWorkAdditionalUrl1: "",
       socialWorkAdditionalUrl2: "",
       socialWorkAdditionalUrl3: "",
@@ -159,6 +171,33 @@ const appWorks = Vue.createApp({
 
     visitLink(link) {
       window.open(link, '_blank');
+    },
+
+    formatDuration(startDate, endDate) {
+      if (!startDate) return '';
+      
+      const start = new Date(startDate);
+      const startFormatted = start.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+      
+      if (!endDate) {
+        return `${startFormatted} - Present`;
+      }
+      
+      const end = new Date(endDate);
+      const endFormatted = end.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+      
+      const monthDiff = (end.getFullYear() - start.getFullYear()) * 12 + 
+                       (end.getMonth() - start.getMonth());
+      
+      const durationText = monthDiff === 1 ? '1 Month' : `${monthDiff} Months`;
+      
+      return `${startFormatted} - ${endFormatted} (${durationText})`;
+    },
+
+    formatOnlyDate(date) {
+      if (!date) return '';
+      const certDate = new Date(date);
+      return certDate.toLocaleString('en-US', { month: 'short', year: 'numeric' });
     }
   }
 });

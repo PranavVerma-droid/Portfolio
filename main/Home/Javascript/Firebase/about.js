@@ -7,6 +7,7 @@ const appAbout = Vue.createApp({
       tools: [],
       languages: [],
       skills: [],
+      skillUrl: "",
       aboutMe: ''
     };
   },
