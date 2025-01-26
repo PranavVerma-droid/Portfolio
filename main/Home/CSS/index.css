@@ -561,7 +561,7 @@ a {
   }
   
   .heading-with-icon .icon {
-    margin-right: 8px; /* Adjust the spacing between the icon and the text */
+    margin-right: 8px;
     vertical-align: middle;
   }
 
@@ -611,5 +611,35 @@ a {
     }
     .md-hide {
         display: none !important;
+    }
+
+    .toolImage {
+        height: 2.5rem;
+        width: 2.5rem;
+        min-width: 2.5rem;
+    }
+
+    .toolImage img {
+        width: 1.8rem !important;
+        height: 1.8rem !important;
+    }
+
+    .container section {
+        margin: 4vh 0px;  
+    }
+
+    .container p {
+        font-size: 16px;
+        margin: 8px 0;
+    }
+
+    section[style*="display: flex"] {
+        padding: 10px 0 !important;
+    }
+
+    section[style*="display: flex"] > div:last-child {
+        flex: 1;
+        min-width: 0;
+        padding-right: 10px;
     }
 }
