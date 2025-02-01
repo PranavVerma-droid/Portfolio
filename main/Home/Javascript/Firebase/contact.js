@@ -18,7 +18,7 @@
     project.
 */
 
-const pbContact = new PocketBase('https://db.pranavv.co.in');
+const pbContact = new PocketBase('https://pb-1.pranavv.co.in');
 
 const appContact = Vue.createApp({
     data() {

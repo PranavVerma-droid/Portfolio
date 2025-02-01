@@ -1,4 +1,4 @@
-const pb = new PocketBase('https://db.pranavv.co.in');
+const pb = new PocketBase('https://pb-1.pranavv.co.in');
 
 const app = Vue.createApp({
   data() {

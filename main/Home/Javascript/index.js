@@ -17,7 +17,7 @@
     See a more apt description in LICENSE File Attached to the root of this
     project.
 */
-const pbIndex = new PocketBase('https://db.pranavv.co.in');
+const pbIndex = new PocketBase('https://pb-1.pranavv.co.in');
 
 function showabout(){
     $("#about_container").css("display","inherit");

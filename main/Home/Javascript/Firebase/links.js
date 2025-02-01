@@ -17,7 +17,7 @@
     See a more apt description in LICENSE File Attached to the root of this
     project.
 */
-const pbLinks = new PocketBase('https://db.pranavv.co.in');
+const pbLinks = new PocketBase('https://pb-1.pranavv.co.in');
 
 
 const appLinks = Vue.createApp({
