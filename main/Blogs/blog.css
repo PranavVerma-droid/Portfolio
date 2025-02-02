@@ -147,7 +147,7 @@ code[class*="language-"] {
     line-height: 1.5 !important;
     min-width: calc(100% - 5em) !important; /* Adjust for line numbers */
     margin-left: 0 !important;
-    padding: 0 !important;
+    padding: 1em !important;
     margin: 0 !important;
     min-width: 100% !important;
 }
@@ -540,7 +540,7 @@ div.code-toolbar > pre {
     margin: 0 !important;
     padding: 1em !important;
     white-space: pre-wrap !important;
-    padding: 0 !important;
+    padding: 1em !important;
     margin: 0 !important;
 }
 
