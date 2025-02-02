@@ -30,6 +30,18 @@ const app = Vue.createApp({
         });
         if (record) {
           this.blog = record;
+          this.$nextTick(() => {
+            document.querySelectorAll('pre').forEach(block => {
+              block.classList.remove('line-numbers');
+              if (!block.classList.contains('language-')) {
+                const code = block.querySelector('code');
+                if (code) {
+                  code.classList.add('language-javascript');
+                }
+              }
+            });
+            Prism.highlightAll();
+          });
         } else {
           alert("Blog not found.");
         }
