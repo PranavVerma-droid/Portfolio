@@ -130,6 +130,7 @@
                 <p v-if="workshop.workshopParticipationDate" class="date-formatting">
                     {{ formatOnlyDate(workshop.workshopParticipationDate) }}
                     <span> • {{ workshop.isOnline ? 'Online' : 'Offline' }}</span>
+                    <span v-if="workshop.workshopIssuerName"> • {{ workshop.workshopIssuerName }}</span>
                 </p>
                 <button v-if="workshop.workshopAdditionalUrl1" class="btn_one"><a
                         :href="workshop.workshopAdditionalUrl1">Link 1</a></button>

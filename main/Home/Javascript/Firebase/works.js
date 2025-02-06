@@ -43,6 +43,7 @@ const appWorks = Vue.createApp({
       projects: [],
 
       workshopName: "",
+      workshopIssuerName: "",
       workshopParticipationDate: "",
       workshopAdditionalUrl1: "",
       workshopAdditionalUrl2: "",
