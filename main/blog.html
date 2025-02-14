@@ -60,9 +60,9 @@
             <div class="mt-8 center">
                 <h1>{{ blog.title }}</h1>
                 <button class="back-button" @click="goBack">Go Back Home</button>
-                <p v-html="blog.content" style="line-height: 1.6;"></p>
+                <p v-html="blog.contentV2" style="line-height: 1.2;"></p>
                 <small>
-                    By {{ blog.author }} | Published on {{ formatDate(blog.pubDate) }}
+                    By {{ blog.author }} | Published on {{ formatDate(blog.pubDateV2) }}
                 </small>
             </div>
         </section>
@@ -76,9 +76,9 @@
             <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
                 <h3><a style="text-decoration: none;" :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a>
                 </h3>
-                <p>{{ recentBlog.content.substring(0, 100) }}...</p>
+                <p>{{ recentBlog.contentV2.substring(0, 100) }}...</p>
             </div>
-        </section>
+        </section>c
     </div>
 
     <!-- All Firebase Config -->

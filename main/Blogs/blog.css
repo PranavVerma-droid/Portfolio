@@ -383,11 +383,10 @@ h1 {
 }
 
 p {
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: var(--text-color);
-    line-height: 1.6;
+    line-height: 1.8;
 }
-
 
 img {
     max-width: 100%;

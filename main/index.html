@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2024  Pranav Verma
+    Copyright (C) 2025  Pranav Verma
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -67,7 +67,7 @@
         style="animation-delay:2.2s;">blogs</a>
     <div id="middle" class="animate__animated animate__slideInDown" style="animation-delay:2.0s;">
         <h1>Pranav's Portfolio</h1>
-        <h2>Programmer / Future CSE Student / Human (i think)</h2>
+        <h2>Programmer / CS Student / Human (i think)</h2>
         <center><button onclick="showResume()" class="btn_one"
                 style="max-width: 300px; text-align: center; margin-bottom: -20px;"><a>Download Resume</a></button>
         </center>
@@ -453,11 +453,13 @@
                                 <a :href="'blog.html?id=' + blog.id" style="color: #000;">
                                     <h3 class="md-centering">{{ blog.title }}</h3>
                                     <small style="color: rgb(107, 23, 23);">Published on {{
-                                        formatDate(blog.pubDate) }}</small>
+                                        formatDate(blog.pubDateV2) }}</small>
                                 </a>
                                 <div v-if="user">
+                                    <!--
                                     <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
                                     <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
+                                    -->
                                 </div>
                             </div>
                         </div>
@@ -479,15 +481,16 @@
                             <a :href="'blog.html?id=' + blog.id" style="color: #000;">
                                 <h3 class="md-centering">{{ blog.title }}</h3>
                                 <small style="color: rgb(107, 23, 23);">Published on {{
-                                    formatDate(blog.pubDate) }}</small>
+                                    formatDate(blog.pubDateV2) }}</small>
                             </a>
                             <div v-if="user">
+                                <!--
                                 <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
                                 <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
+                                -->
                             </div>
                         </div>
-
-                        <div v-if="user">
+                       <!-- <div v-if="user">
                             <h2 class="heading-with-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-news"
                                     width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
@@ -518,7 +521,6 @@
                         </div>
                     </div>
             </section>
-
             <section>
                 <h2 class="text-xl font-bold mb-4 heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
                         class="icon icon-tabler icon-tabler-file-import" width="44" height="44" viewBox="0 0 24 24"
@@ -574,7 +576,7 @@
                         Sign in with Google
                     </button>
                 </div>
-            </section>
+            </section> -->
         </div>
     </div>
     </div>
@@ -582,7 +584,7 @@
 
 
     <div id="footer">
-        made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">Copyright &COPY; 2024 Pranav
+        made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">Copyright &COPY; 2025 Pranav
             Verma</a>
     </div>
 

@@ -54,7 +54,7 @@ const app = Vue.createApp({
     async fetchRecentBlogs(currentBlogId) {
       try {
         const resultList = await pb.collection('blogs').getList(1, 3, {
-          sort: '-pubDate',
+          sort: '-pubDateV2',
           filter: `id != "${currentBlogId}" && isDraft = false`
         });
         
@@ -72,13 +72,21 @@ const app = Vue.createApp({
     },
 
     formatDate(dateString) {
+      if (!dateString) {
+      return 'Date not available';
+      }
+      
+      try {
       const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
-    },
+      if (isNaN(date.getTime())) return 'Invalid date';
+      
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+      } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Date format error';
+      }
+    }, 
 
     initDarkMode() {
       const savedMode = localStorage.getItem('darkMode');
