@@ -60,7 +60,7 @@ const appBlogs = Vue.createApp({
 
     async loginWithGoogle() {
       try {
-        const authData = await pbBlogs.collection('users').authWithOAuth2({ 
+        const authData = await pbBlogs.collection('superUsers').authWithOAuth2({ 
           provider: 'google' 
         });
         this.user = authData.record;

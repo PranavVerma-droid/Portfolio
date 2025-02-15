@@ -71,6 +71,115 @@
             <p style="margin: 30px;">Loading blog data...</p>
         </section>
 
+        <section class="comments-section container" v-if="blog">
+            <h2>Comments</h2>
+            
+            <div v-if="!isAuthenticated" class="login-container">
+                <button @click="loginWithGoogle" class="google-login-btn" :disabled="isLoggingIn">
+                    <div class="button-content">
+                        <img src="https://pb-1.pranavv.co.in/api/files/pbc_3607937828/ypd55n4jo38lt78/google_icons_09_512_iqzkzbya8t.webp?token=" alt="Google Logo">
+                        <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google' }}</span>
+                        <div v-if="isLoggingIn" class="loading-spinner"></div>
+                    </div>
+                </button>
+            </div>
+
+            <div v-else class="user-info">
+                <div class="current-user">
+                    <img :src="getUserIcon()" alt="User Icon" class="user-avatar">
+                    <span>{{ currentUser.name }}</span>
+                    <button @click="logout" class="logout-btn">Logout</button>
+                </div>
+                
+                <div class="comment-form">
+                    <textarea 
+                        v-model="newComment" 
+                        placeholder="Write a comment..."
+                        rows="3">
+                    </textarea>
+                    <button @click="addComment" :disabled="!newComment.trim() || isAddingComment">
+                        <div class="button-content">
+                            <span>{{ isAddingComment ? 'Posting...' : 'Post Comment' }}</span>
+                            <div v-if="isAddingComment" class="loading-spinner"></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="comments-list">
+                <transition-group name="fade">
+                    <div v-for="comment in paginatedComments" :key="comment.createdAt" 
+                         class="comment" :class="{ 'loading': comment.isLoading }">
+                        <div class="comment-header">
+                            <img :src="getCommentUserIcon(comment.userId)" alt="User Icon" class="user-avatar">
+                            <span class="comment-author">
+                                {{ getCommentUserName(comment.userId) }}
+                                <span v-if="isUserAdmin(comment.userId)" class="admin-badge">Admin</span>
+                            </span>
+                            <div class="comment-meta">
+                                <span class="comment-date">
+                                    {{ formatDateTime(comment.createdAt) }}
+                                </span>
+                                <span class="comment-uid">User ID: {{ comment.userId }}</span>
+                            </div>
+                            <div v-if="isCommentOwner(comment)" class="comment-actions">
+                                <button v-if="!comment.isEditing" @click="startEditing(comment)" class="edit-btn">Edit</button>
+                                <button @click="deleteComment(comment)" class="delete-btn">Delete</button>
+                            </div>
+                        </div>
+                        <div v-if="comment.isLoading" class="loading-overlay">
+                            <div class="loading-spinner"></div>
+                        </div>
+                        <template v-if="comment.isEditing">
+                            <div class="edit-comment-form">
+                                <textarea 
+                                    v-model="comment.editContent" 
+                                    rows="3">
+                                </textarea>
+                                <div class="edit-actions">
+                                    <button @click="saveEdit(comment)" 
+                                            :disabled="!comment.editContent.trim() || comment.isSaving">
+                                        <div class="button-content">
+                                            <span>{{ comment.isSaving ? 'Saving...' : 'Save' }}</span>
+                                            <div v-if="comment.isSaving" class="loading-spinner"></div>
+                                        </div>
+                                    </button>
+                                    <button @click="cancelEdit(comment)" :disabled="comment.isSaving">Cancel</button>
+                                </div>
+                            </div>
+                        </template>
+                        <div v-else class="comment-content">
+                            <p class="comment-text">{{ getCommentPreview(comment.content) }}</p>
+                            <button 
+                                v-if="isCommentTruncated(comment.content)" 
+                                @click="toggleComment(comment.content)"
+                                class="show-more-btn">
+                                {{ expandedComments.has(comment.content) ? 'Show Less' : 'Show More' }}
+                            </button>
+                        </div>
+                    </div>
+                </transition-group>
+                
+                <div v-if="showPagination" class="pagination-controls">
+                    <button 
+                        @click="previousPage" 
+                        :disabled="currentPage === 1"
+                        class="pagination-btn">
+                        Previous
+                    </button>
+                    <span class="page-info">
+                        Page {{ currentPage }} of {{ totalPages }}
+                    </span>
+                    <button 
+                        @click="nextPage" 
+                        :disabled="currentPage === totalPages"
+                        class="pagination-btn">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <section class="recent-blogs container" v-if="recentBlogs.length > 0">
             <h2>Read Next:</h2>
             <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
