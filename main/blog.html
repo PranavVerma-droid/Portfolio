@@ -50,7 +50,14 @@
     </div>
 
     <div id="app">
-
+        <button 
+            class="scroll-to-top" 
+            :class="{ visible: showScrollTop }"
+            @click="scrollToTop"
+            aria-label="Scroll to top">
+            <i></i>
+        </button>
+        
         <button id="darkModeToggle" @click="toggleDarkMode">
             <span v-if="isDarkMode">Light Mode</span>
             <span v-else>Dark Mode</span>

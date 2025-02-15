@@ -9,16 +9,27 @@ const appBlogs = Vue.createApp({
       pinnedBlogs: [],
       blogs: [],
       draftBlogs: [],
-      blogIdToEdit: null,
-      isDraft: false,
+      /*blogIdToEdit: null,
+      isDraft: false, */
       loading: false,
-      error: null
+      error: null,
+      categories: new Set(),
+      selectedCategory: 'All'
     };
   },
 
   mounted() {
     // this.checkAuth();
     this.fetchBlogs();
+  },
+
+  computed: {
+    filteredBlogs() {
+      if (this.selectedCategory === 'All') {
+        return this.blogs;
+      }
+      return this.blogs.filter(blog => blog.category === this.selectedCategory);
+    }
   },
 
   methods: {
@@ -33,6 +44,8 @@ const appBlogs = Vue.createApp({
           this.blogs = result.items.filter(record => !record.isDraft);
           this.draftBlogs = result.items.filter(record => record.isDraft);
           this.pinnedBlogs = result.items.filter(record => record.pinned);
+    
+          this.categories = new Set(['All', ...new Set(result.items.map(blog => blog.category))]);
     
           const sortByDate = (a, b) => {
             const dateA = a.pubDateV2 || a.created;
@@ -51,6 +64,28 @@ const appBlogs = Vue.createApp({
         this.loading = false;
       }
     },
+
+    selectCategory(category) {
+      this.selectedCategory = category;
+    },
+
+    formatDate(dateString) {
+      if (!dateString) {
+      return 'Date not available';
+      }
+      
+      try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'Invalid date';
+      
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+      } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Date format error';
+      }
+    }, 
+
     /*
     async checkAuth() {
       if (pbBlogs.authStore.isValid) {
@@ -150,27 +185,8 @@ const appBlogs = Vue.createApp({
       this.isDraft = false;
       this.blogIdToEdit = null;
       this.fetchBlogs();
-    }, */
+    },
 
-    formatDate(dateString) {
-      if (!dateString) {
-      return 'Date not available';
-      }
-      
-      try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) return 'Invalid date';
-      
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return date.toLocaleDateString('en-US', options);
-      } catch (error) {
-      console.error('Date formatting error:', error);
-      return 'Date format error';
-      }
-    }, 
-
-
-    /*
     insertAtCursor(myField, myValue) {
       if (document.selection) {
         myField.focus();

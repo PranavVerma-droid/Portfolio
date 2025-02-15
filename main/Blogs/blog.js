@@ -25,6 +25,7 @@ const app = Vue.createApp({
       expandedComments: new Set(),
       commentPreviewLength: 200,
       sortBy: 'newest',
+      showScrollTop: false,
     };
   },
 
@@ -73,6 +74,7 @@ const app = Vue.createApp({
     this.initDarkMode();
     this.initScrollProgress();
     this.checkAuth();
+    window.addEventListener('scroll', this.handleScroll);
   },
 
   methods: {
@@ -507,6 +509,18 @@ const app = Vue.createApp({
         const scrollPercentage = (scrollPosition / documentHeight) * 100;
         scrollProgress.style.width = `${scrollPercentage}%`;
       }
+    },
+
+    handleScroll() {
+      this.showScrollTop = window.scrollY > 500;
+      this.updateScrollProgress();
+    },
+
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     },
 
     isCommentTruncated(content) {

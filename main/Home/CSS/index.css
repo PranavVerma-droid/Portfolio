@@ -565,6 +565,35 @@ a {
     vertical-align: middle;
   }
 
+.category-filters {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    margin: 0;
+    min-width: 80px;
+}
+
+.category-btn.active {
+    background: #fff;
+    color: rgb(255, 50, 50);
+}
+
+@media (max-width: 800px) {
+    .category-filters {
+        justify-content: center;
+    }
+    
+    .category-btn {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}
+
 @media (max-width: 800px){ 
     #about {
         display:none;

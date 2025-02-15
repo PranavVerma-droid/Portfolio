@@ -1022,3 +1022,97 @@ pre[class*="language-"] > code {
         font-size: 0.9em;
     }
 }
+
+/* Scroll to Top Button Styles */
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-to-top i {
+    border: solid var(--bg-color);
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-135deg);
+    margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+    .scroll-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Custom Scrollbar Styles */
+/* For Webkit browsers (Chrome, Safari, etc) */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--container-bg);
+    border-left: 1px solid var(--container-shadow);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-color);
+    opacity: 0.5;
+    border-radius: 6px;
+    border: 3px solid var(--container-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color);
+    opacity: 0.8;
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-color) var(--container-bg);
+}
+
+/* Dark mode specific adjustments */
+.dark-mode ::-webkit-scrollbar-track {
+    background: #1e1e1e;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+    background: #666;
+    border: 3px solid #1e1e1e;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}

@@ -478,7 +478,18 @@
                                 <path d="M8 12l4 0" />
                                 <path d="M8 16l4 0" />
                             </svg> All Blogs</h2>
-                        <div v-for="blog in blogs" :key="blog.id"
+
+                        <div class="category-filters">
+                            <button v-for="category in categories" 
+                                    :key="category" 
+                                    class="btn_one category-btn"
+                                    :class="{ 'active': selectedCategory === category }"
+                                    @click="selectCategory(category)">
+                                {{ category }}
+                            </button>
+                        </div>
+
+                        <div v-for="blog in filteredBlogs" :key="blog.id"
                             class="boxshadow animate__animated animate__fadeIn blogHeading"
                             style="animation-duration: 3s;">
                             <a :href="'blog.html?id=' + blog.id" style="color: #000;">
