@@ -24,18 +24,38 @@ const app = Vue.createApp({
       commentsPerPage: 3,
       expandedComments: new Set(),
       commentPreviewLength: 200,
+      sortBy: 'newest',
     };
   },
 
   computed: {
     totalPages() {
-      return Math.ceil(this.blogComments.length / this.commentsPerPage);
+      return Math.ceil(this.sortedComments.length / this.commentsPerPage);
+    },
+
+    sortedComments() {
+      let filtered = [...this.blogComments];
+      
+      if (this.sortBy === 'admin') {
+        filtered = filtered.filter(comment => 
+          this.commentUsers.get(comment.userId) && 
+          ADMIN_IDS.includes(comment.userId)
+        );
+      }
+
+      return filtered.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return this.sortBy === 'oldest' 
+          ? dateA - dateB 
+          : dateB - dateA;
+      });
     },
 
     paginatedComments() {
       const start = (this.currentPage - 1) * this.commentsPerPage;
       const end = start + this.commentsPerPage;
-      return this.blogComments.slice(start, end);
+      return this.sortedComments.slice(start, end);
     },
 
     showPagination() {

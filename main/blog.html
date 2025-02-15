@@ -78,7 +78,7 @@
                 <button @click="loginWithGoogle" class="google-login-btn" :disabled="isLoggingIn">
                     <div class="button-content">
                         <img src="https://pb-1.pranavv.co.in/api/files/pbc_3607937828/ypd55n4jo38lt78/google_icons_09_512_iqzkzbya8t.webp?token=" alt="Google Logo">
-                        <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google' }}</span>
+                        <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google to Add Comments' }}</span>
                         <div v-if="isLoggingIn" class="loading-spinner"></div>
                     </div>
                 </button>
@@ -104,6 +104,16 @@
                         </div>
                     </button>
                 </div>
+            </div>
+            
+
+            <div class="sort-selector">
+                <label for="sort-comments">Sort comments by:</label>
+                <select id="sort-comments" v-model="sortBy">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="admin">Admin Comments Only</option>
+                </select>
             </div>
 
             <div class="comments-list">

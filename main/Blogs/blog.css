@@ -939,3 +939,86 @@ pre[class*="language-"] > code {
     font-weight: normal;
     vertical-align: middle;
 }
+
+.sort-selector {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-selector select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: var(--container-bg);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.dark-mode .sort-selector select {
+    border-color: #444;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 600px) {
+    .comment {
+        padding: 0.75rem;
+    }
+
+    .comment-header {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .comment-meta {
+        width: 100%;
+        text-align: left;
+        margin-top: 5px;
+    }
+
+    .comment-actions {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .edit-btn, .delete-btn {
+        padding: 3px 6px;
+        font-size: 0.8em;
+    }
+
+    .comment-content {
+        margin-top: 1rem;
+        font-size: 0.95em;
+    }
+
+    .edit-comment-form textarea {
+        font-size: 1em;
+        min-height: 80px;
+    }
+
+    .sort-selector {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sort-selector label {
+        margin-bottom: 5px;
+    }
+
+    .comment-form textarea {
+        min-height: 100px;
+        font-size: 1em;
+    }
+
+    .pagination-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .pagination-btn {
+        padding: 6px 12px;
+        font-size: 0.9em;
+    }
+}
