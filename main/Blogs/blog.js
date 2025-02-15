@@ -67,12 +67,12 @@ const app = Vue.createApp({
       if (this.isLoggingIn) return;
       this.isLoggingIn = true;
       try {
-        const authData = await pb.collection('commentUsers').authWithOAuth2({
+        const authData = await pb.collection('users').authWithOAuth2({
           provider: 'google',
           scopes: ['profile', 'email'],
         });
         
-        if (!authData.record.name || !authData.record.icon || !authData.record.comments) {
+        if (!authData.record.name || !authData.record.icon || !authData.record.blogComments) {
           const formData = new FormData();
 
           try {
@@ -95,17 +95,17 @@ const app = Vue.createApp({
           }
           
           formData.append('name', authData.meta.name || 'Anonymous User');
-          formData.append('comments', JSON.stringify([]));
+          formData.append('blogComments', JSON.stringify([]));
           
           try {
-            await pb.collection('commentUsers').update(authData.record.id, formData);
+            await pb.collection('users').update(authData.record.id, formData);
           } catch (updateError) {
             console.error('Error updating user:', updateError);
           }
         }
         
         this.isAuthenticated = true;
-        this.currentUser = await pb.collection('commentUsers').getOne(authData.record.id);
+        this.currentUser = await pb.collection('users').getOne(authData.record.id);
         await this.loadComments();
       } catch (error) {
         console.error('OAuth error:', error);
@@ -124,7 +124,7 @@ const app = Vue.createApp({
       if (!this.blog) return;
       this.loadingComments = true;
       try {
-        const users = await pb.collection('commentUsers').getFullList({
+        const users = await pb.collection('users').getFullList({
           expand: 'icon'
         });
         
@@ -136,26 +136,26 @@ const app = Vue.createApp({
           
           let userComments = [];
           try {
-            if (typeof user.comments === 'string') {
-              userComments = JSON.parse(user.comments || '[]');
-            } else if (Array.isArray(user.comments)) {
-              userComments = user.comments;
-            } else if (user.comments === null || user.comments === undefined) {
+            if (typeof user.blogComments === 'string') {
+              userComments = JSON.parse(user.blogComments || '[]');
+            } else if (Array.isArray(user.blogComments)) {
+              userComments = user.blogComments;
+            } else if (user.blogComments === null || user.blogComments === undefined) {
               userComments = [];
-              await pb.collection('commentUsers').update(user.id, {
-                comments: '[]'
+              await pb.collection('users').update(user.id, {
+                blogComments: '[]'
               });
             } else {
-              console.warn('Invalid comments format for user:', user.id);
+              console.warn('Invalid blogComments format for user:', user.id);
               userComments = [];
-              await pb.collection('commentUsers').update(user.id, {
-                comments: '[]'
+              await pb.collection('users').update(user.id, {
+                blogComments: '[]'
               });
             }
           } catch (e) {
-            console.error('Error parsing comments for user:', user.id, e);
-            await pb.collection('commentUsers').update(user.id, {
-              comments: '[]'
+            console.error('Error parsing blogComments for user:', user.id, e);
+            await pb.collection('users').update(user.id, {
+              blogComments: '[]'
             });
           }
           
@@ -186,17 +186,17 @@ const app = Vue.createApp({
       if (!this.isAuthenticated || !this.newComment.trim() || this.isAddingComment) return;
       this.isAddingComment = true;
       try {
-        const user = await pb.collection('commentUsers').getOne(this.currentUser.id);
+        const user = await pb.collection('users').getOne(this.currentUser.id);
         let comments = [];
         
         try {
-          if (typeof user.comments === 'string') {
-            comments = JSON.parse(user.comments || '[]');
-          } else if (Array.isArray(user.comments)) {
-            comments = user.comments;
+          if (typeof user.blogComments === 'string') {
+            comments = JSON.parse(user.blogComments || '[]');
+          } else if (Array.isArray(user.blogComments)) {
+            comments = user.blogComments;
           }
         } catch (parseError) {
-          console.error('Error parsing existing comments:', parseError);
+          console.error('Error parsing existing blogComments:', parseError);
         }
 
         if (!Array.isArray(comments)) {
@@ -209,8 +209,8 @@ const app = Vue.createApp({
           createdAt: new Date().toISOString()
         });
 
-        await pb.collection('commentUsers').update(this.currentUser.id, {
-          comments: JSON.stringify(comments)
+        await pb.collection('users').update(this.currentUser.id, {
+          blogComments: JSON.stringify(comments)
         });
 
         this.newComment = '';
@@ -360,17 +360,17 @@ const app = Vue.createApp({
       comment.isSaving = true;
       comment.isLoading = true;
       try {
-        const user = await pb.collection('commentUsers').getOne(this.currentUser.id);
+        const user = await pb.collection('users').getOne(this.currentUser.id);
         let comments;
         
         try {
-          comments = typeof user.comments === 'string' 
-            ? JSON.parse(user.comments) 
-            : Array.isArray(user.comments) 
-              ? user.comments 
+          comments = typeof user.blogComments === 'string' 
+            ? JSON.parse(user.blogComments) 
+            : Array.isArray(user.blogComments) 
+              ? user.blogComments 
               : [];
         } catch (e) {
-          console.error('Error parsing comments:', e);
+          console.error('Error parsing blogComments:', e);
           comments = [];
         }
 
@@ -382,8 +382,8 @@ const app = Vue.createApp({
         if (commentIndex !== -1) {
           comments[commentIndex].content = comment.editContent.trim();
           
-          await pb.collection('commentUsers').update(this.currentUser.id, {
-            comments: JSON.stringify(comments)
+          await pb.collection('users').update(this.currentUser.id, {
+            blogComments: JSON.stringify(comments)
           });
 
           comment.content = comment.editContent;
@@ -407,19 +407,19 @@ const app = Vue.createApp({
       comment.isLoading = true;
       try {
         const userToUpdate = isAdmin && comment.userId !== this.currentUser.id
-          ? await pb.collection('commentUsers').getOne(comment.userId)
-          : await pb.collection('commentUsers').getOne(this.currentUser.id);
+          ? await pb.collection('users').getOne(comment.userId)
+          : await pb.collection('users').getOne(this.currentUser.id);
         
         let comments;
         
         try {
-          comments = typeof userToUpdate.comments === 'string' 
-            ? JSON.parse(userToUpdate.comments) 
-            : Array.isArray(userToUpdate.comments) 
-              ? userToUpdate.comments 
+          comments = typeof userToUpdate.blogComments === 'string' 
+            ? JSON.parse(userToUpdate.blogComments) 
+            : Array.isArray(userToUpdate.blogComments) 
+              ? userToUpdate.blogComments 
               : [];
         } catch (e) {
-          console.error('Error parsing comments:', e);
+          console.error('Error parsing blogComments:', e);
           comments = [];
         }
 
@@ -427,8 +427,8 @@ const app = Vue.createApp({
           !(c.blogId === this.blog.id && c.createdAt === comment.createdAt)
         );
 
-        await pb.collection('commentUsers').update(userToUpdate.id, {
-          comments: JSON.stringify(comments)
+        await pb.collection('users').update(userToUpdate.id, {
+          blogComments: JSON.stringify(comments)
         });
 
         await this.loadComments();

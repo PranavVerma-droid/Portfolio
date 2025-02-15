@@ -57,7 +57,7 @@ const appAbout = Vue.createApp({
 
     async loadAboutMe() {
       try {
-        const userRecord = await pbAbout.collection('superUsers').getOne('99mg77734m8732h', {
+        const userRecord = await pbAbout.collection('users').getOne('4b404bw4707l2s2', {
           fields: 'aboutMe'
         });
         
