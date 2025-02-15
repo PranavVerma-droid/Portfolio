@@ -80,7 +80,7 @@ function closeblogs() {
 
 async function showResume() {
     try {
-        const userRecord = await pbIndex.collection('users').getOne('99mg77734m8732h', {
+        const userRecord = await pbIndex.collection('superUsers').getOne('99mg77734m8732h', {
             fields: 'id,resume,collectionId'
         });
         
