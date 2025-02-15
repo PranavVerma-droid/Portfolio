@@ -26,6 +26,8 @@ const appContact = Vue.createApp({
             name: '',
             email: '',
             message: '',
+            phone: '', 
+            company: '',
             loading: false,
             error: null
         };
@@ -49,6 +51,8 @@ const appContact = Vue.createApp({
                     name: this.name,
                     email: this.email,
                     message: this.message,
+                    phone: this.phone || 'null',
+                    company: this.company || 'null',
                     created: new Date().toISOString()
                 };
 
@@ -56,10 +60,11 @@ const appContact = Vue.createApp({
                 
                 alert("Thank you for your message! I will get back to you as soon as possible");
                 
-                // Reset form
                 this.name = '';
                 this.email = '';
                 this.message = '';
+                this.phone = '';
+                this.company = '';
 
             } catch (error) {
                 console.error('Failed to submit form:', error);
