@@ -110,7 +110,7 @@ const appWorks = Vue.createApp({
     async loadProjects() {
       try {
         const records = await pbWorks.collection('projects').getFullList({
-          sort: '+class'
+          sort: '-projectStartDate' // Changed from '+class' to sort by start date descending
         });
         this.projects = records;
       } catch (error) {

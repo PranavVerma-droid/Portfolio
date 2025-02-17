@@ -66,6 +66,9 @@
         <section v-if="blog" class="container">
             <div class="mt-8 center">
                 <h1>{{ blog.title }}</h1>
+                <div v-if="!blog.finallog" class="working-flag-container">
+                    <span class="working-flag">🚧 Currently Working on This Project</span>
+                </div>
                 <button class="back-button" @click="goBack">Go Back Home</button>
                 
                 <!-- Intro Log -->
