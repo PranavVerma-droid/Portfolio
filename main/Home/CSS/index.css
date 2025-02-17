@@ -692,3 +692,23 @@ a {
     background-color: #3498db;
     color: white;
 }
+
+.blogs-loading {
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+}
+
+.blogs-loading-spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

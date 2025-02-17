@@ -1,4 +1,6 @@
 const pbBlogs = new PocketBase('https://pb-1.pranavv.co.in');
+const CACHE_KEY = 'mcgXt7nZhgPJYjckcQJ0XOgqCcRiGNIS';
+const CACHE_DURATION = 2 * 60 * 1000; // 2 mins
 
 const appBlogs = Vue.createApp({
   data() {
@@ -8,11 +10,15 @@ const appBlogs = Vue.createApp({
       loading: false,
       error: null,
       categories: ['All'],
-      selectedCategory: 'All'
+      selectedCategory: 'All',
+      page: 1,
+      perPage: 10,
+      hasMore: true
     };
   },
 
   mounted() {
+    this.loadFromCache();
     this.fetchAllBlogs();
   },
 
@@ -26,53 +32,83 @@ const appBlogs = Vue.createApp({
   },
 
   methods: {
+    loadFromCache() {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_DURATION) {
+          this.blogs = data.blogs;
+          this.pinnedBlogs = data.pinnedBlogs;
+          this.categories = data.categories;
+          return true;
+        }
+      }
+      return false;
+    },
+
+    saveToCache(data) {
+      const cacheData = {
+        data,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    },
+
     async fetchAllBlogs() {
+      if (this.loading || (!this.hasMore && this.blogs.length > 0)) return;
+      
       this.loading = true;
       try {
-        // Fetch both regular blogs and dev blogs
         const [regularBlogs, devBlogs] = await Promise.all([
-          pbBlogs.collection('blogs').getList(1, 100, {
+          pbBlogs.collection('blogs').getList(this.page, this.perPage, {
             sort: '-pubDateV2',
             filter: 'isDraft = false'
           }),
-          pbBlogs.collection('devBlogs').getList(1, 100, {
+          pbBlogs.collection('devBlogs').getList(this.page, this.perPage, {
             sort: '-pubDate'
           })
         ]);
 
-        // Combine and process regular blogs
         const processedRegularBlogs = regularBlogs.items.map(blog => ({
           ...blog,
           isDevBlog: false
         }));
 
-        // Combine and process dev blogs
         const processedDevBlogs = devBlogs.items.map(blog => ({
           ...blog,
           isDevBlog: true
         }));
 
-        // Combine all blogs
-        const allBlogs = [...processedRegularBlogs, ...processedDevBlogs];
-
-        // Sort by date
-        allBlogs.sort((a, b) => {
+        const newBlogs = [...processedRegularBlogs, ...processedDevBlogs].sort((a, b) => {
           const dateA = this.getLatestDate(a);
           const dateB = this.getLatestDate(b);
           return new Date(dateB) - new Date(dateA);
         });
 
-        // Split into pinned and regular
-        this.pinnedBlogs = allBlogs.filter(blog => blog.pinned);
-        this.blogs = allBlogs;
+        if (this.page === 1) {
+          this.pinnedBlogs = newBlogs.filter(blog => blog.pinned);
+          this.blogs = newBlogs.filter(blog => !blog.pinned);
+        } else {
+          this.blogs = [...this.blogs, ...newBlogs.filter(blog => !blog.pinned)];
+        }
 
-        // Collect all unique categories
         const categorySet = new Set(['All']);
-        allBlogs.forEach(blog => {
+        this.blogs.forEach(blog => {
           if (blog.category) categorySet.add(blog.category);
         });
         this.categories = Array.from(categorySet);
 
+        this.hasMore = regularBlogs.totalPages > this.page || devBlogs.totalPages > this.page;
+        
+        if (this.page === 1) {
+          this.saveToCache({
+            blogs: this.blogs,
+            pinnedBlogs: this.pinnedBlogs,
+            categories: this.categories
+          });
+        }
+
+        this.page++;
       } catch (error) {
         console.error('Failed to fetch blogs:', error);
         this.error = error.message;
@@ -122,6 +158,14 @@ const appBlogs = Vue.createApp({
 
     selectCategory(category) {
       this.selectedCategory = category;
+    },
+
+    handleScroll(event) {
+      const container = event.target;
+      const bottom = container.scrollHeight - container.scrollTop === container.clientHeight;
+      if (bottom && !this.loading) {
+        this.fetchAllBlogs();
+      }
     }
   }
 });

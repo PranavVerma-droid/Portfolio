@@ -423,10 +423,8 @@
         </section>
     </div>
 
-    <div id="blogs_container" class="container" style="cursor: pointer !important;">
+    <div id="blogs_container" class="container" style="cursor: pointer !important;" @scroll="handleScroll">
         <div onclick="closeblogs()"><i class="fas fa-angle-up"></i></div>
-
-
         <div id="blogs_container_mount">
             <section>
                 <div class="mt-8 center">
@@ -587,6 +585,19 @@
                     </button>
                 </div>
             </section> -->
+            <div v-if="loading && page === 1" class="blogs-loading">
+                <div class="blogs-loading-spinner"></div>
+                <p>Loading blogs...</p>
+            </div>
+
+            <div v-if="loading && page > 1" class="blogs-loading">
+                <div class="blogs-loading-spinner"></div>
+                <p>Loading more blogs...</p>
+            </div>
+
+            <div v-if="!loading && !hasMore && blogs.length > 0" class="blogs-loading">
+                <p>End of Blogs Page :D</p>
+            </div>
         </div>
     </div>
     </div>
