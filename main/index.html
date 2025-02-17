@@ -453,17 +453,14 @@
                             <div v-for="blog in pinnedBlogs" :key="blog.id"
                                 class="boxshadow animate__animated animate__fadeIn blogHeading"
                                 style="animation-duration: 3s;">
-                                <a :href="'blog.html?id=' + blog.id" style="color: #000;">
+                                <a :href="blog.isDevBlog ? 'devblog.html?id=' + blog.id : 'blog.html?id=' + blog.id" style="color: #000;">
                                     <h3 class="md-centering">{{ blog.title }}</h3>
-                                    <small style="color: rgb(107, 23, 23);">Published on {{
-                                        formatDate(blog.pubDateV2) }}</small>
+                                    <small style="color: rgb(107, 23, 23);">
+                                        {{ blog.isDevBlog ? 'Updated Last on ' : 'Published on ' }}{{ formatDate(getLatestDate(blog)) }}
+                                        <span v-if="blog.isDevBlog" class="blog-type-tag dev-blog-tag">Dev Blog</span>
+                                        <span v-else class="blog-type-tag full-blog-tag">Full Blog</span>
+                                    </small>
                                 </a>
-                                <div v-if="user">
-                                    <!--
-                                    <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
-                                    <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
-                                    -->
-                                </div>
                             </div>
                         </div>
 
@@ -492,17 +489,16 @@
                         <div v-for="blog in filteredBlogs" :key="blog.id"
                             class="boxshadow animate__animated animate__fadeIn blogHeading"
                             style="animation-duration: 3s;">
-                            <a :href="'blog.html?id=' + blog.id" style="color: #000;">
-                                <h3 class="md-centering">{{ blog.title }}</h3>
-                                <small style="color: rgb(107, 23, 23);">Published on {{
-                                    formatDate(blog.pubDateV2) }}</small>
+                            <a :href="blog.isDevBlog ? 'devblog.html?id=' + blog.id : 'blog.html?id=' + blog.id" style="color: #000;">
+                                <h3 class="md-centering">
+                                    {{ blog.title }}
+                                </h3>
+                                <small style="color: rgb(107, 23, 23);">
+                                    {{ blog.isDevBlog ? 'Updated Last on ' : 'Published on ' }}{{ formatDate(getLatestDate(blog)) }}
+                                    <span v-if="blog.isDevBlog" class="blog-type-tag dev-blog-tag">Dev Blog</span>
+                                    <span v-else class="blog-type-tag full-blog-tag">Full Blog</span>
+                                </small>
                             </a>
-                            <div v-if="user">
-                                <!--
-                                <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
-                                <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>
-                                -->
-                            </div>
                         </div>
                        <!-- <div v-if="user">
                             <h2 class="heading-with-icon">
