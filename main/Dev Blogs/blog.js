@@ -575,6 +575,14 @@ const app = Vue.createApp({
         this.expandedComments.add(content);
       }
     },
+
+    getPreview(blog) {
+        if (blog.isDevBlog) {
+            return blog.introlog ? blog.introlog.substring(0, 100) + '...' : 'No preview available';
+        } else {
+            return blog.contentV2 ? blog.contentV2.substring(0, 100) + '...' : 'No preview available';
+        }
+    },
   }
 });
 
