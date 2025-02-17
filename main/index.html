@@ -457,8 +457,8 @@
                                     <h3 class="md-centering">{{ blog.title }}</h3>
                                     <small style="color: rgb(107, 23, 23);">
                                         {{ blog.isDevBlog ? 'Updated Last on ' : 'Published on ' }}{{ formatDate(getLatestDate(blog)) }}
-                                        <span v-if="blog.isDevBlog" class="blog-type-tag dev-blog-tag">Dev Blog</span>
-                                        <span v-else class="blog-type-tag full-blog-tag">Full Blog</span>
+                                        <span v-if="blog.isDevBlog">• Dev Blog</span>
+                                        <span v-else>• Full Blog</span>
                                     </small>
                                 </a>
                             </div>
@@ -495,8 +495,8 @@
                                 </h3>
                                 <small style="color: rgb(107, 23, 23);">
                                     {{ blog.isDevBlog ? 'Updated Last on ' : 'Published on ' }}{{ formatDate(getLatestDate(blog)) }}
-                                    <span v-if="blog.isDevBlog" class="blog-type-tag dev-blog-tag">Dev Blog</span>
-                                    <span v-else class="blog-type-tag full-blog-tag">Full Blog</span>
+                                    <span v-if="blog.isDevBlog">• Dev Blog</span>
+                                    <span v-else>• Full Blog</span>
                                 </small>
                             </a>
                         </div>
