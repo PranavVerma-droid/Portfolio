@@ -1117,14 +1117,21 @@ pre[class*="language-"] > code {
     background: #888;
 }
 
-/* Dev Logs Styles */
 .intro-log {
     margin: 2rem 0;
-    padding: 1.5rem;
-    background-color: var(--container-bg);
+    padding: 2rem;
+    background-color: rgba(74, 158, 255, 0.05);
+    border: 1px solid rgba(74, 158, 255, 0.2);
     border-left: 4px solid #4a9eff;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px var(--container-shadow);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.1);
+    transform: translateZ(0);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.intro-log:hover {
+    transform: translateZ(0) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(74, 158, 255, 0.15);
 }
 
 .dev-logs {
@@ -1132,99 +1139,100 @@ pre[class*="language-"] > code {
 }
 
 .log-entry {
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    background-color: var(--container-bg);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px var(--container-shadow);
-    transition: transform 0.2s ease;
+    margin: 2rem 0;
+    padding: 2rem;
+    background: linear-gradient(
+        to bottom right,
+        rgba(var(--container-bg-rgb, 255, 255, 255), 1),
+        rgba(var(--container-bg-rgb, 255, 255, 255), 0.95)
+    );
+    border: 1px solid rgba(var(--text-color-rgb, 0, 0, 0), 0.1);
+    border-radius: 12px;
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .log-entry:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .log-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--container-shadow);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(var(--text-color-rgb, 0, 0, 0), 0.1);
 }
 
 .log-header h3 {
     margin: 0;
     color: var(--text-color);
+    font-size: 1.4em;
+    font-weight: 600;
 }
 
 .log-date {
-    color: #666;
-    font-size: 0.9em;
-}
-
-.log-content {
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-.log-content p {
-    margin: 1em 0;
-}
-
-.log-content img {
-    max-width: 100%;
-    height: auto;
-    margin: 1em 0;
-    border-radius: 4px;
-}
-
-.log-content pre,
-.log-content code {
-    margin: 1em 0;
-    padding: 1em;
-    background: #1e1e1e;
-    border-radius: 4px;
-    overflow-x: auto;
-}
-
-.log-content h1,
-.log-content h2,
-.log-content h3,
-.log-content h4 {
-    margin: 1em 0 0.5em;
-}
-
-.log-content ul,
-.log-content ol {
-    margin: 1em 0;
-    padding-left: 2em;
-}
-
-.log-content {
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-.dark-mode .log-entry {
-    background-color: #2c2c2c;
-}
-
-.dark-mode .log-date {
-    color: #aaa;
+    color: rgba(var(--text-color-rgb, 0, 0, 0), 0.6);
+    font-size: 0.95em;
+    font-weight: 500;
+    padding: 4px 12px;
+    background-color: rgba(var(--text-color-rgb, 0, 0, 0), 0.05);
+    border-radius: 6px;
 }
 
 .final-log {
     margin: 2rem 0;
-    padding: 1.5rem;
-    background-color: var(--container-bg);
-    border-left: 4px solid #2ecc71;  /* Green border to differentiate from intro log */
-    border-radius: 4px;
-    box-shadow: 0 2px 4px var(--container-shadow);
+    padding: 2rem;
+    background-color: rgba(46, 204, 113, 0.05);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    border-left: 4px solid #2ecc71;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.1);
+    transform: translateZ(0);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.final-log:hover {
+    transform: translateZ(0) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(46, 204, 113, 0.15);
+}
+
+.dark-mode .log-entry {
+    background: linear-gradient(
+        to bottom right,
+        rgba(44, 44, 44, 0.95),
+        rgba(44, 44, 44, 0.9)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .log-date {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.dark-mode .log-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .intro-log {
+    background-color: rgba(74, 158, 255, 0.1);
+    border-color: rgba(74, 158, 255, 0.3);
 }
 
 .dark-mode .final-log {
-    background-color: #2c2c2c;
+    background-color: rgba(46, 204, 113, 0.1);
+    border-color: rgba(46, 204, 113, 0.3);
 }
 
 .working-flag-container {
