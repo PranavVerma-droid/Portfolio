@@ -43,7 +43,14 @@
 
 
     <div id="header">
-        <span><a href="index.html#blogs">Pranav's Blogs</a></span>
+        <nav class="nav-container">
+            <a href="index.html" class="nav-logo">Pranav's Blog</a>
+            <div class="nav-links">
+                <a href="index.html#blogs">All Blogs</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </nav>
     </div>
     <div id="scroll-progress-container">
         <div id="scroll-progress-bar"></div>
@@ -58,21 +65,23 @@
             <i></i>
         </button>
         
-        <button id="darkModeToggle" @click="toggleDarkMode">
-            <span v-if="isDarkMode">Light Mode</span>
-            <span v-else>Dark Mode</span>
+        <button id="darkModeToggle" @click="toggleDarkMode" aria-label="Toggle dark mode">
+            <i class="mode-icon" :class="{ 'dark': isDarkMode }"></i>
         </button>
 
         <section v-if="blog" class="container">
             <div class="mt-8 center">
                 <h1>{{ blog.title }}</h1>
                 <div v-if="!blog.finallog" class="working-flag-container">
-                    <span class="working-flag">🚧 Currently Working on This Project</span>
+                    <span class="working-flag">Currently Working on This Project</span>
                 </div>
                 <button class="back-button" @click="goBack">Go Back Home</button>
                 
                 <!-- Intro Log -->
                 <div v-if="blog.introlog" class="intro-log">
+                    <div class="log-header">
+                        <h3>Introduction</h3>
+                    </div>
                     <div v-html="blog.introlog"></div>
                 </div>
 
@@ -89,10 +98,13 @@
 
                 <!-- Final Log -->
                 <div v-if="blog.finallog" class="final-log">
+                    <div class="log-header">
+                        <h3>Final Update</h3>
+                    </div>
                     <div v-html="blog.finallog"></div>
                 </div>
 
-                <small>
+                <small class="author-info">
                     By {{ blog.author }} | Started on {{ formatDate(blog.pubDate) }}
                 </small>
             </div>
