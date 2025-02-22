@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -16,8 +16,14 @@ jobs:
     steps:
       - name: Deploy to server
         run: |
-          cd /var/www/portfolio &&
-          git pull &&
-          cd docker &&
-          docker compose pull &&
-          docker compose up -d
+          echo "Starting deployment..."
+          cd /var/www/portfolio || exit 1
+          echo "Pulling latest changes..."
+          git pull || exit 1
+          cd docker || exit 1
+          echo "Pulling latest Docker images..."
+          docker compose pull || exit 1
+          echo "Starting containers..."
+          docker compose up -d || exit 1
+          echo "Deployment completed successfully"
+        shell: bash
