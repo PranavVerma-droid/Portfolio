@@ -1,0 +1,23 @@
+name: Deploy to Production Server
+
+on:
+  workflow_run:
+    workflows: ["Docker Image Build"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
+    steps:
+      - name: Deploy to server
+        run: |
+          cd /var/www/portfolio &&
+          git pull &&
+          cd docker &&
+          docker compose pull &&
+          docker compose up -d
