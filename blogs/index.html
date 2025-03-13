@@ -3,18 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranav's Blog</title>
+    <title>Pranav's Blogs</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/pocketbase@0.8.3/dist/pocketbase.umd.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FXAAShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/SMAAShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/SMAAPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
+    <div id="three-background"></div>
     <div id="blogs_container_mount">
         <header id="header">
             <nav class="nav-container">
                 <a href="/" class="nav-logo">Pranav's Blogs</a>
+                <button class="theme-toggle" @click="toggleTheme">
+                    <i :class="isDarkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+                    {{ isDarkMode ? 'Light' : 'Dark' }} Mode
+                </button>
             </nav>
         </header>
+
+        <div class="hero-section">
+            <div id="model-container"></div>
+            <h1 class="hero-title">
+                <span>Pranav's</span>
+                <span>Blogs</span>
+            </h1>
+            <div class="scroll-indicator">
+                <p>Scroll Down</p>
+                <div class="scroll-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="blog-filters">
@@ -27,7 +56,7 @@
 
             <!-- Pinned Blogs -->
             <div v-if="pinnedBlogs.length" class="pinned-blogs">
-                <h2>Featured Posts</h2>
+                <h2 class="section-header">Featured Posts</h2>
                 <div class="blog-grid">
                     <div v-for="blog in pinnedBlogs" 
                          :key="blog.id" 
@@ -38,7 +67,9 @@
                         <p>{{ blog.description }}</p>
                         <div class="blog-meta">
                             <span class="blog-date">{{ formatDate(getLatestDate(blog)) }}</span>
-                            <span class="blog-category" v-if="blog.category">{{ blog.category }}</span>
+                            <span class="blog-category" v-if="blog.category" :style="getCategoryStyle(blog.category)">
+                                {{ blog.category }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -46,7 +77,7 @@
 
             <!-- Regular Blogs -->
             <div class="blogs-section">
-                <h2>All Posts</h2>
+                <h2 class="section-header">All Posts</h2>
                 <div class="blog-grid">
                     <div v-for="blog in filteredBlogs" 
                          :key="blog.id" 
@@ -56,7 +87,9 @@
                         <p>{{ blog.description }}</p>
                         <div class="blog-meta">
                             <span class="blog-date">{{ formatDate(getLatestDate(blog)) }}</span>
-                            <span class="blog-category" v-if="blog.category">{{ blog.category }}</span>
+                            <span class="blog-category" v-if="blog.category" :style="getCategoryStyle(blog.category)">
+                                {{ blog.category }}
+                            </span>
                             <span class="blog-type" v-if="blog.isDevBlog">Dev Blog</span>
                         </div>
                     </div>
@@ -74,5 +107,7 @@
         </div>
     </div>
     <script src="index.js"></script>
+    <script src="background.js"></script>
+    <script src="modelViewer.js"></script>
 </body>
 </html>

@@ -355,7 +355,8 @@ const app = Vue.createApp({
     goBack() {
         const referrer = document.referrer;
         if (referrer.includes('blogs.pranavv.co.in') || 
-            referrer.includes('pranavverma-droid.github.io/Portfolio/blogs')) {
+            referrer.includes('pranavverma-droid.github.io/Portfolio/blogs') ||
+            referrer.includes('127.0.0.1:5500/blogs')) {
             window.location.href = referrer;
         } else {
             window.location.href = "index.html#blogs";

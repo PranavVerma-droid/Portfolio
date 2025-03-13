@@ -13,13 +13,40 @@ const appBlogs = Vue.createApp({
             selectedCategory: 'All',
             page: 1,
             perPage: 10,
-            hasMore: true
+            hasMore: true,
+            isDarkMode: localStorage.getItem('darkMode') !== 'false', // Default to true unless explicitly set to false
+            categoryColors: {
+                'Technology': '#4a9eff',
+                'Programming': '#2ecc71',
+                'Web Development': '#9b59b6',
+                'Design': '#e74c3c',
+                'Tutorial': '#f1c40f',
+                'Career': '#1abc9c',
+                'Personal': '#e67e22'
+            }
         };
     },
 
     mounted() {
+        if (!localStorage.getItem('darkMode')) {
+            localStorage.setItem('darkMode', 'true');
+        }
         this.loadFromCache();
         this.fetchAllBlogs();
+        this.applyTheme();
+        
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        let isIndicatorVisible = true;
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100 && isIndicatorVisible) {
+                scrollIndicator.classList.add('hidden');
+                isIndicatorVisible = false;
+            } else if (window.scrollY <= 100 && !isIndicatorVisible) {
+                scrollIndicator.classList.remove('hidden');
+                isIndicatorVisible = true;
+            }
+        });
     },
 
     computed: {
@@ -158,13 +185,10 @@ const appBlogs = Vue.createApp({
 
         selectCategory(event) {
             if (typeof event === 'object' && event.target) {
-                // If called from select element
                 this.selectedCategory = event.target.value;
             } else {
-                // If called directly with category
                 this.selectedCategory = event;
             }
-            // Reset pagination when category changes
             this.page = 1;
             this.blogs = [];
             this.hasMore = true;
@@ -177,6 +201,33 @@ const appBlogs = Vue.createApp({
                 ? `${baseUrl}devblog.html?id=${blog.id}`
                 : `${baseUrl}blog.html?id=${blog.id}`;
             window.location.href = url;
+        },
+
+        toggleTheme() {
+            this.isDarkMode = !this.isDarkMode;
+            localStorage.setItem('darkMode', this.isDarkMode);
+            this.applyTheme();
+        },
+
+        applyTheme() {
+            document.body.classList.toggle('dark-mode', this.isDarkMode);
+            document.body.dispatchEvent(new CustomEvent('themeChange', {
+                detail: { isDark: this.isDarkMode }
+            }));
+        },
+
+        calculateReadingTime(text) {
+            const wordsPerMinute = 200;
+            const words = text?.split(/\s+/)?.length || 0;
+            return Math.max(1, Math.ceil(words / wordsPerMinute));
+        },
+
+        getCategoryStyle(category) {
+            const color = this.categoryColors[category] || '#4a9eff';
+            return {
+                background: color,
+                boxShadow: `0 2px 10px ${color}40`
+            };
         }
     }
 });
