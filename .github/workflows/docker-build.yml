@@ -1,4 +1,4 @@
-name: Main Portfolio Docker Build
+name: Portfolio Docker Build
 
 on:
   push:
@@ -13,7 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Main Portfolio Docker image
-      run: docker build . --file main/Dockerfile --tag ghcr.io/pranavverma-droid/portfolio-main:latest
+      run: |
+        cd main
+        docker build . --tag ghcr.io/pranavverma-droid/portfolio-main:latest
     - name: Login to GitHub Container Registry
       run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u PranavVerma-droid --password-stdin
     - name: Push the Docker image
