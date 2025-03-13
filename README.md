@@ -2,8 +2,13 @@
 
 ![image](https://github.com/PranavVerma-droid/Portfolio/assets/73458565/8f1deed6-d801-4ef4-96f6-8bef8fd19153)
 
-Main URL: https://pranavv.co.in/ <br>
-Backup URL: https://pranavverma-droid.github.io/Portfolio/ <br><br>
+Main URL's: 
+  -   https://pranavv.co.in/ <br>
+  -   https://blogs.pranavv.co.in/ <br>
+  
+Backup URL's: 
+  -   https://pranavverma-droid.github.io/Portfolio/main/
+  -   https://pranavverma-droid.github.io/Portfolio/blogs/ <br><br>
 
 All Main Code is in Inside [main](main). <br>
 This Code is [Licensed](LICENSE)!

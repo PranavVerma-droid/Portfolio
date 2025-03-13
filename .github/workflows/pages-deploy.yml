@@ -3,7 +3,6 @@ name: Deploy to Github Pages
 on:
   push:
     branches: ["master"]
-
   workflow_dispatch:
 
 permissions:
@@ -22,14 +21,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Prepare deployment folder
+        run: |
+          mkdir public
+          cp -r main public/main
+          cp -r blogs public/blogs
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'main'
+          path: 'public'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
