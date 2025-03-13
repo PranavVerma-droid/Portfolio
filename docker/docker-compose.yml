@@ -20,19 +20,15 @@ name: pranavs-portfolio
 version: '3'
 services:
   web:
-    image: ghcr.io/pranavverma-droid/portfolio:latest
-    container_name: pranavs-portfolio
+    image: ghcr.io/pranavverma-droid/portfolio-main:latest
+    container_name: pranavs-portfolio-main
     ports:
       - "${PORT}:8080"
     restart: always
-    volumes:
-      - ../main:/var/www/html/main
 
   blogs:
-    image: ghcr.io/pranavverma-droid/portfolio:latest
+    image: ghcr.io/pranavverma-droid/portfolio-blogs:latest
     container_name: pranavs-portfolio-blogs
     ports:
       - "${BLOGS_PORT}:8080"
     restart: always
-    volumes:
-      - ../blogs:/var/www/html/blogs
