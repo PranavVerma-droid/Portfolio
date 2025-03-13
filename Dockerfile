@@ -19,20 +19,23 @@
 FROM node:latest
 WORKDIR /var/www/html
 
-# Copy both applications
-COPY ./main ./main
-COPY ./blogs ./blogs
+# Copy package.json files first for better caching
+COPY ./main/package.json ./main/
+COPY ./blogs/package.json ./blogs/
 
-# Install dependencies for both apps
+# Install dependencies
 WORKDIR /var/www/html/main
 RUN npm install
-
 WORKDIR /var/www/html/blogs
 RUN npm install
 
+# Copy the rest of the application
+COPY ./main ./main
+COPY ./blogs ./blogs
+
 EXPOSE 8080
 
-# Use a script to determine which app to start
+# Use the start script
 COPY ./start.sh /
 RUN chmod +x /start.sh
 CMD ["/start.sh"]
