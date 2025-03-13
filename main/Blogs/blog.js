@@ -319,7 +319,13 @@ const app = Vue.createApp({
     },
 
     goBack() {
-      window.location.href = "index.html#blogs";  
+        const referrer = document.referrer;
+        if (referrer.includes('blogs.pranavv.co.in') || 
+            referrer.includes('pranavverma-droid.github.io/Portfolio/blogs')) {
+            window.location.href = referrer;
+        } else {
+            window.location.href = "index.html#blogs";
+        }
     },
 
     formatDate(dateString) {

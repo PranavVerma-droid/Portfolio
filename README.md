@@ -40,7 +40,8 @@ docker compose up -d
 ```
 After that, you can access the website via:
  ```
- http://127.0.0.1:8081
+ http://127.0.0.1:5646
+ http://127.0.0.1:5645
  ```
 
  ### Change Port
@@ -75,12 +76,9 @@ npm start
 
 Now, you can access the website via:
  ```
- http://127.0.0.1:8080
+ http://127.0.0.1:5646
+ http://127.0.0.1:5645
  ```
-
-# Certificates
-- [CSS Certificate (Basic)](https://github.com/PranavVerma-droid/Portfolio/blob/master/certification/CSS-Basic.png)
-- [JS Certificate (Basic)](https://github.com/PranavVerma-droid/Portfolio/blob/master/certification/JavaScript-Basic.png)
 
 # License
 
