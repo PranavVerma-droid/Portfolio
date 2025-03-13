@@ -13,7 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/pranavverma-droid/portfolio:latest
+      run: |
+        chmod +x start.sh
+        docker build . --file Dockerfile --tag ghcr.io/pranavverma-droid/portfolio:latest
     - name: Login to GitHub Container Registry
       run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u PranavVerma-droid --password-stdin
     - name: Push the Docker image

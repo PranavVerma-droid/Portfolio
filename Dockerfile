@@ -18,7 +18,21 @@
 
 FROM node:latest
 WORKDIR /var/www/html
-COPY . .
+
+# Copy both applications
+COPY ./main ./main
+COPY ./blogs ./blogs
+
+# Install dependencies for both apps
+WORKDIR /var/www/html/main
 RUN npm install
+
+WORKDIR /var/www/html/blogs
+RUN npm install
+
 EXPOSE 8080
-CMD ["npm", "start"]
+
+# Use a script to determine which app to start
+COPY ./start.sh /
+RUN chmod +x /start.sh
+CMD ["/start.sh"]
