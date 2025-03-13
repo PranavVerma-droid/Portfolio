@@ -18,8 +18,12 @@ jobs:
         run: |
           echo "Starting deployment..."
           cd /var/www/portfolio || exit 1
+          echo "Resetting local changes..."
+          git reset --hard HEAD
+          git clean -fd
           echo "Pulling latest changes..."
-          git pull || exit 1
+          git fetch origin
+          git reset --hard origin/master
           cd docker || exit 1
           echo "Pulling latest Docker images..."
           docker compose pull || exit 1
