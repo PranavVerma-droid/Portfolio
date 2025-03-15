@@ -28,12 +28,13 @@ class ModelViewer {
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.outputEncoding = THREE.sRGBEncoding;
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.8;
+        this.renderer.toneMappingExposure = 1.2;
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.physicallyCorrectLights = true;
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.powerPreference = "high-performance";
+        this.renderer.capabilities.logarithmicDepthBuffer = true;
 
         // anti-aliasing
         this.renderer.antialias = true;
@@ -119,11 +120,11 @@ class ModelViewer {
                         child.material.transparent = true;
                         child.material.needsUpdate = true;
                         // roughness
-                        child.material.roughness = 0.6;  
+                        child.material.roughness = 0.45;  
                         // metalness
-                        child.material.metalness = 0.3; 
+                        child.material.metalness = 0.35; 
                         // real-ness ig
-                        child.material.envMapIntensity = 1.0;
+                        child.material.envMapIntensity = 1.2;
                         
                         if (child.material.color) {
                             const baseColor = child.material.color.clone();
@@ -160,11 +161,13 @@ class ModelViewer {
                         };
 
                         if (child.material.normalMap) {
-                            child.material.normalScale.set(1.5, 1.5);
+                            child.material.normalScale.set(1.8, 1.8);
+                            child.material.normalMap.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
                         }
 
                         if (child.material.map) {
                             child.material.map.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+                            child.material.map.generateMipmaps = true;
                             child.material.map.minFilter = THREE.LinearMipmapLinearFilter;
                             child.material.map.magFilter = THREE.LinearFilter;
                         }
@@ -252,13 +255,21 @@ class ModelViewer {
         this.composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         
         const renderPass = new THREE.RenderPass(this.scene, this.camera);
+        renderPass.clearAlpha = 0;
         this.composer.addPass(renderPass);
 
+        // SMAA Pass for better anti-aliasing
+        const smaaPass = new THREE.SMAAPass(
+            window.innerWidth * this.renderer.getPixelRatio(),
+            window.innerHeight * this.renderer.getPixelRatio()
+        );
+        this.composer.addPass(smaaPass);
+
+        // FXAA Pass with optimized settings
         const fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
         const pixelRatio = this.renderer.getPixelRatio();
-        const uniforms = fxaaPass.material.uniforms;
-        uniforms['resolution'].value.x = 1 / (window.innerWidth * pixelRatio);
-        uniforms['resolution'].value.y = 1 / (window.innerHeight * pixelRatio);
+        fxaaPass.material.uniforms.resolution.value.x = 1 / (window.innerWidth * pixelRatio * 1.5);
+        fxaaPass.material.uniforms.resolution.value.y = 1 / (window.innerHeight * pixelRatio * 1.5);
         this.composer.addPass(fxaaPass);
     }
 

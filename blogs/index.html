@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pranav's Blogs</title>
     <link rel="stylesheet" href="index.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
+    <script>
+        // Fallback if primary CDN fails
+        window.addEventListener('error', function(e) {
+            if (e.target.src && e.target.src.includes('vue.global.min.js')) {
+                const fallbackScript = document.createElement('script');
+                fallbackScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js';
+                document.head.appendChild(fallbackScript);
+            }
+        }, true);
+    </script>
     <script src="https://unpkg.com/pocketbase@0.8.3/dist/pocketbase.umd.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
