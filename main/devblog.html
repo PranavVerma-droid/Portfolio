@@ -81,6 +81,7 @@
                 <div v-if="blog.introlog" class="intro-log">
                     <div class="log-header">
                         <h3>Introduction</h3>
+                        <span class="log-date">{{ formatDate(blog.pubDate) }}</span>
                     </div>
                     <div v-html="blog.introlog"></div>
                 </div>
@@ -100,6 +101,7 @@
                 <div v-if="blog.finallog" class="final-log">
                     <div class="log-header">
                         <h3>Final Update</h3>
+                        <span class="log-date">{{ blog.finalDate ? formatDate(blog.finalDate) : formatDate(new Date()) }}</span>
                     </div>
                     <div v-html="blog.finallog"></div>
                 </div>
