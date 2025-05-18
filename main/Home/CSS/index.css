@@ -712,3 +712,66 @@ a {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Project image styling */
+.project-container {
+    display: flex;
+    margin-bottom: 40px;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.project-image-container {
+    flex: 0 0 300px;
+}
+
+.project-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.project-image:hover {
+    transform: scale(1.05);
+}
+
+.project-content {
+    flex: 1;
+    padding-top: 5px;
+}
+
+.project-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.project-content p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.project-content .btn_one {
+    margin: 15px 10px 0 0;
+    display: inline-block;
+}
+
+@media (max-width: 800px) {
+    .project-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .project-image-container {
+        flex: 0 0 auto;
+        max-width: 100%;
+        margin-right: 0;
+    }
+    
+    .project-image {
+        height: 200px;
+    }
+}

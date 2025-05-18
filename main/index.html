@@ -102,21 +102,28 @@
                     <path
                         d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
                 </svg> Projects + Open Source</h2>
-            <section v-for="project in projects" :key="project.id">
-                <h3>{{ project.projectName }}</h2>
-                    <p v-html="project.projectDescription"></p>
-                    <p v-if="project.projectStartDate" class="date-formatting">
-                        {{ formatDuration(project.projectStartDate, project.projectEndDate) }}
-                    </p>
+            <section v-for="project in projects" :key="project.id" class="project-section">
+                <div class="project-container">
+                    <div class="project-image-container">
+                        <img :src="project.projectImage" :alt="project.projectName" class="project-image">
+                    </div>
+                    <div class="project-content">
+                        <h3>{{ project.projectName }}</h3>
+                        <p v-html="project.projectDescription"></p>
+                        <p v-if="project.projectStartDate" class="date-formatting">
+                            {{ formatDuration(project.projectStartDate, project.projectEndDate) }}
+                        </p>
 
-                    <button v-if="project.projectAdditionalUrl1" class="btn_one"><a
-                            :href="project.projectAdditionalUrl1">Link 1</a></button>
-                    <button v-if="project.projectAdditionalUrl2" class="btn_one"><a
-                            :href="project.projectAdditionalUrl2">Link 2</a></button>
-                    <button v-if="project.projectAdditionalUrl3" class="btn_one"><a
-                            :href="project.projectAdditionalUrl3">Link 3</a></button>
-                    <button v-if="project.projectAdditionalUrl4" class="btn_one"><a
-                            :href="project.projectAdditionalUrl4">Link 4</a></button>
+                        <button v-if="project.projectAdditionalUrl1" class="btn_one"><a
+                                :href="project.projectAdditionalUrl1">Link 1</a></button>
+                        <button v-if="project.projectAdditionalUrl2" class="btn_one"><a
+                                :href="project.projectAdditionalUrl2">Link 2</a></button>
+                        <button v-if="project.projectAdditionalUrl3" class="btn_one"><a
+                                :href="project.projectAdditionalUrl3">Link 3</a></button>
+                        <button v-if="project.projectAdditionalUrl4" class="btn_one"><a
+                                :href="project.projectAdditionalUrl4">Link 4</a></button>
+                    </div>
+                </div>
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -128,21 +135,28 @@
                         d="M6.66 15.66l-3.32 -3.32a1.25 1.25 0 0 1 .42 -2.044l3.24 -1.296l6 -6l3 3l-6 6l-1.296 3.24a1.25 1.25 0 0 1 -2.044 .42z">
                     </path>
                 </svg> Workshops / Courses</h2>
-            <section v-for="workshop in workshops" :key="workshop.id">
-                <h3>{{ workshop.workshopName }}</h3>
-                <p v-if="workshop.workshopParticipationDate" class="date-formatting">
-                    {{ formatOnlyDate(workshop.workshopParticipationDate) }}
-                    <span> • {{ workshop.isOnline ? 'Online' : 'Offline' }}</span>
-                    <span v-if="workshop.workshopIssuerName"> • {{ workshop.workshopIssuerName }}</span>
-                </p>
-                <button v-if="workshop.workshopAdditionalUrl1" class="btn_one"><a
-                        :href="workshop.workshopAdditionalUrl1">Link 1</a></button>
-                <button v-if="workshop.workshopAdditionalUrl2" class="btn_one"><a
-                        :href="workshop.workshopAdditionalUrl2">Link 2</a></button>
-                <button v-if="workshop.workshopAdditionalUrl3" class="btn_one"><a
-                        :href="workshop.workshopAdditionalUrl3">Link 3</a></button>
-                <button v-if="workshop.workshopAdditionalUrl4" class="btn_one"><a
-                        :href="workshop.workshopAdditionalUrl4">Link 4</a></button>
+            <section v-for="workshop in workshops" :key="workshop.id" class="workshop-section">
+                <div class="project-container">
+                    <div class="project-image-container">
+                        <img :src="workshop.workshopImage" :alt="workshop.workshopName" class="project-image">
+                    </div>
+                    <div class="project-content">
+                        <h3>{{ workshop.workshopName }}</h3>
+                        <p v-if="workshop.workshopParticipationDate" class="date-formatting">
+                            {{ formatOnlyDate(workshop.workshopParticipationDate) }}
+                            <span> • {{ workshop.isOnline ? 'Online' : 'Offline' }}</span>
+                            <span v-if="workshop.workshopIssuerName"> • {{ workshop.workshopIssuerName }}</span>
+                        </p>
+                        <button v-if="workshop.workshopAdditionalUrl1" class="btn_one"><a
+                                :href="workshop.workshopAdditionalUrl1">Link 1</a></button>
+                        <button v-if="workshop.workshopAdditionalUrl2" class="btn_one"><a
+                                :href="workshop.workshopAdditionalUrl2">Link 2</a></button>
+                        <button v-if="workshop.workshopAdditionalUrl3" class="btn_one"><a
+                                :href="workshop.workshopAdditionalUrl3">Link 3</a></button>
+                        <button v-if="workshop.workshopAdditionalUrl4" class="btn_one"><a
+                                :href="workshop.workshopAdditionalUrl4">Link 4</a></button>
+                    </div>
+                </div>
             </section>
 
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"

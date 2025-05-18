@@ -34,6 +34,7 @@ const appWorks = Vue.createApp({
 
       projectName: "",
       projectDescription: "",
+      projectImage: "",
       projectStartDate: "",
       projectEndDate: "",
       projectAdditionalUrl1: "",
@@ -110,11 +111,59 @@ const appWorks = Vue.createApp({
     async loadProjects() {
       try {
         const records = await pbWorks.collection('projects').getFullList({
-          sort: '-projectStartDate' // Changed from '+class' to sort by start date descending
+          sort: '-projectStartDate' 
         });
         this.projects = records;
+        
+        // Process project images display
+        console.log("Loaded projects:", this.projects);
+        
+        this.projects.forEach(project => {
+          console.log("Processing project:", project.projectName);
+          
+          // Check if the project has an image field with multiple formats
+          if (project.projectImage) {
+            if (typeof project.projectImage === 'object' && project.projectImage.length > 0) {
+              // Handle PocketBase file object format
+              project.projectImage = `https://pb-1.pranavv.co.in/api/files/${project.collectionId}/${project.id}/${project.projectImage[0]}`;
+            } else if (typeof project.projectImage === 'string' && project.projectImage.trim() !== '') {
+              // Handle string format (direct URL or filename)
+              if (!project.projectImage.startsWith('http')) {
+                project.projectImage = `https://pb-1.pranavv.co.in/api/files/${project.collectionId}/${project.id}/${project.projectImage}`;
+              }
+            } else {
+              // No valid image, try to use link preview
+              this.setLinkPreviewOrPlaceholder(project);
+            }
+          } else {
+            // No image field, try to use link preview
+            this.setLinkPreviewOrPlaceholder(project);
+          }
+          
+          console.log("Final image URL:", project.projectImage);
+        });
       } catch (error) {
         console.error('Failed to load projects:', error);
+      }
+    },
+    
+    // Helper method to set link preview or placeholder
+    setLinkPreviewOrPlaceholder(project) {
+      if (project.projectAdditionalUrl1) {
+        // Try to get a link preview
+        if (project.projectAdditionalUrl1.includes('github.com')) {
+          // GitHub repository preview
+          const repoPath = project.projectAdditionalUrl1.replace('https://github.com/', '');
+          project.projectImage = `https://opengraph.githubassets.com/1/${repoPath}`;
+        } else {
+          // For other URLs, use a service like microlink.io for link previews
+          // Fallback to placeholder with project name and link icon
+          project.projectImage = `https://via.placeholder.com/300x200?text=${encodeURIComponent(project.projectName)}`;
+          project.isLinkPreview = true;
+        }
+      } else {
+        // No URL available, use text placeholder
+        project.projectImage = `https://via.placeholder.com/300x200?text=${encodeURIComponent(project.projectName)}`;
       }
     },
 
@@ -155,6 +204,34 @@ const appWorks = Vue.createApp({
         this.workshops = records;
         records.forEach(workshop => {
           workshop.isOnline = workshop.online === true;
+          
+          // Process workshop images for display
+          if (workshop.workshopAdditionalUrl1) {
+            // Check if the URL is a GitHub certificate/PDF link
+            if (workshop.workshopAdditionalUrl1.includes('github.com') && 
+                (workshop.workshopAdditionalUrl1.includes('.pdf') || 
+                 workshop.workshopAdditionalUrl1.includes('Certificates') || 
+                 workshop.workshopAdditionalUrl1.includes('certificate'))) {
+              
+              // Extract the GitHub username and repo from the URL
+              const githubUrlParts = workshop.workshopAdditionalUrl1.split('github.com/')[1].split('/');
+              const username = githubUrlParts[0];
+              const repo = githubUrlParts[1];
+              
+              // Set a preview image for the certificate
+              workshop.workshopImage = `https://opengraph.githubassets.com/1/${username}/${repo}`;
+            } else if (workshop.workshopAdditionalUrl1.includes('github.com')) {
+              // Standard GitHub repository preview
+              const repoPath = workshop.workshopAdditionalUrl1.replace('https://github.com/', '');
+              workshop.workshopImage = `https://opengraph.githubassets.com/1/${repoPath}`;
+            } else {
+              // For other URLs, use a placeholder with workshop name
+              workshop.workshopImage = `https://via.placeholder.com/300x200?text=${encodeURIComponent(workshop.workshopName)}`;
+            }
+          } else {
+            // No URL available, use text placeholder
+            workshop.workshopImage = `https://via.placeholder.com/300x200?text=${encodeURIComponent(workshop.workshopName)}`;
+          }
         });
       } catch (error) {
         console.error('Failed to load workshops:', error);
