@@ -1741,3 +1741,49 @@ p {
     opacity: 0.9;
     line-height: 1.8;
 }
+
+/* Two-column layout */
+.blog-container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    max-width: 1500px; /* Increased from 1400px */
+    margin: 0 auto;
+}
+
+.content-column {
+    flex: 1;
+    max-width: 1000px; /* Increased from 900px */
+}
+
+.sidebar-column {
+    width: 450px;
+    margin-top: 0;
+}
+
+.sidebar-section {
+    position: sticky;
+    top: 80px;
+}
+
+.recent-blogs {
+    margin-bottom: 40px;
+    margin-top: 0;
+}
+
+/* Make comments section responsive */
+@media (max-width: 1400px) {
+    .blog-container {
+        flex-direction: column;
+    }
+    
+    .content-column, .sidebar-column {
+        width: 100%;
+        max-width: 1000px; /* Match the content column max-width */
+        margin: 0 auto;
+    }
+    
+    .sidebar-section {
+        position: static;
+    }
+}
