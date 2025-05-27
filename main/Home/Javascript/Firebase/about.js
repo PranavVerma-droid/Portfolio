@@ -7,6 +7,7 @@ const appAbout = Vue.createApp({
       tools: [],
       languages: [],
       skills: [],
+      education: [],
       skillUrl: "",
       aboutMe: ''
     };
@@ -29,6 +30,7 @@ const appAbout = Vue.createApp({
         this.loadTools(),
         this.loadLanguages(),
         this.loadSkills(),
+        this.loadEducation(),
         this.loadAboutMe()
       ]);
     },
@@ -79,6 +81,55 @@ const appAbout = Vue.createApp({
       } catch (error) {
         console.error('Failed to load skills:', error);
       }
+    },
+    
+    async loadEducation() {
+      try {
+        const records = await pbAbout.collection('education').getFullList();
+        this.education = records;
+      } catch (error) {
+        console.error('Failed to load education:', error);
+      }
+    },
+
+    formatEducationDuration(startDate, endDate) {
+      if (!startDate) return '';
+      
+      const startDateTime = new Date(startDate);
+      const startMonth = startDateTime.toLocaleString('default', { month: 'long' });
+      const startYear = startDateTime.getFullYear();
+      
+      // If no end date, just return the start date
+      if (!endDate) {
+        return `${startMonth} ${startYear}`;
+      }
+      
+      const endDateTime = new Date(endDate);
+      const endMonth = endDateTime.toLocaleString('default', { month: 'long' });
+      const endYear = endDateTime.getFullYear();
+      
+      // Calculate duration
+      const yearDiff = endDateTime.getFullYear() - startDateTime.getFullYear();
+      const monthDiff = endDateTime.getMonth() - startDateTime.getMonth();
+      
+      // Calculate total months and then convert to years and remaining months
+      const totalMonths = yearDiff * 12 + monthDiff;
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+      
+      let durationText = '';
+      if (years > 0) {
+        durationText += `${years} Year${years > 1 ? 's' : ''}`;
+        if (months > 0) {
+          durationText += `, ${months} Month${months > 1 ? 's' : ''}`;
+        }
+      } else if (months > 0) {
+        durationText += `${months} Month${months > 1 ? 's' : ''}`;
+      } else {
+        durationText += 'Less than a month';
+      }
+      
+      return `${startMonth} ${startYear} - ${endMonth} ${endYear} (${durationText})`;
     },
 
     visitLink(link) {

@@ -363,6 +363,30 @@
             </div>
         </section>
 
+        <section>
+            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-school" width="44" height="44" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
+                    <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
+                </svg> education</h2>
+
+            <div v-for="edu in education" :key="edu.id"
+                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
+                <div class="toolImage">
+                    <img :src="edu.eduLogo" alt="Education Icon"
+                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
+                </div>
+                <div style="margin-left: 1rem;">
+                    <h3>{{ edu.eduTitle }}</h3>
+                    <p v-html="edu.eduDescription" />
+                    <p v-if="edu.eduStartDate" class="date-formatting">
+                        {{ formatEducationDuration(edu.eduStartDate, edu.eduEndDate) }}
+                    </p>
+                </div>
+            </div>
+        </section>
 
         <section>
             <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
