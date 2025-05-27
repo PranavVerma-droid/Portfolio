@@ -81,14 +81,19 @@ function closeblogs() {
 async function showResume() {
     try {
         const userRecord = await pbIndex.collection('users').getOne('4b404bw4707l2s2', {
-            fields: 'id,resume,collectionId'
+            fields: 'id,resume,collectionId',
+            $cancelKey: 'resume-download-' + Date.now()
         });
         
         if (userRecord?.resume) {
             const fileUrl = pbIndex.files.getUrl(userRecord, userRecord.resume);
             
             if (fileUrl) {
-                window.open(fileUrl, '_blank');
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    window.location.href = fileUrl;
+                } else {
+                    window.open(fileUrl, '_blank');
+                }
             } else {
                 throw new Error('Invalid file URL');
             }
@@ -99,8 +104,12 @@ async function showResume() {
         console.error('Resume fetch error:', error);
         if (error.status === 404) {
             alert("User profile or resume not found");
+        } else if (error.isAbort) {
+            // Handle abort specifically
+            alert("Request was cancelled. Please try again.");
         } else {
-            alert("Error loading resume: " + error.message);
+            alert("Error loading resume. Please try again later.");
+            console.error(error);
         }
     }
 }
