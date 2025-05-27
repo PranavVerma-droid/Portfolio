@@ -108,7 +108,6 @@ const appAbout = Vue.createApp({
       const endMonth = endDateTime.toLocaleString('default', { month: 'long' });
       const endYear = endDateTime.getFullYear();
       
-      // Calculate duration
       const yearDiff = endDateTime.getFullYear() - startDateTime.getFullYear();
       const monthDiff = endDateTime.getMonth() - startDateTime.getMonth();
       
