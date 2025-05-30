@@ -43,6 +43,17 @@ const appWorks = Vue.createApp({
       projectAdditionalUrl4: "",
       projects: [],
 
+      publicationName: "",
+      publicationDescription: "",
+      publicationImg: "",
+      publicationJournal: "",
+      publicationDate: "",
+      publicationLink1: "",
+      publicationLink2: "",
+      publicationLink3: "",
+      publicationLink4: "",
+      publications: [],
+
       workshopName: "",
       workshopIssuerName: "",
       workshopParticipationDate: "",
@@ -101,7 +112,8 @@ const appWorks = Vue.createApp({
           this.loadInternships(),
           this.loadCertificates(),
           this.loadWorkshops(),
-          this.loadSocialWorks()
+          this.loadSocialWorks(),
+          this.loadPublications()
         ]);
       } catch (error) {
         console.error('Failed to load data:', error);
@@ -246,6 +258,17 @@ const appWorks = Vue.createApp({
         this.socialWorks = records;
       } catch (error) {
         console.error('Failed to load social works:', error);
+      }
+    },
+
+    async loadPublications() {
+      try {
+        const records = await pbWorks.collection('publications').getFullList({
+          sort: '-publicationDate'
+        });
+        this.publications = records;
+      } catch (error) {
+        console.error('Failed to load publications:', error);
       }
     },
 
