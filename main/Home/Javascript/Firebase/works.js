@@ -202,7 +202,7 @@ const appWorks = Vue.createApp({
     async loadInternships() {
       try {
         const records = await pbWorks.collection('internships').getFullList({
-          sort: '+class'
+          sort: '-internshipStartDate'
         });
         this.internships = records;
       } catch (error) {
@@ -212,13 +212,29 @@ const appWorks = Vue.createApp({
 
     async loadWorkshops() {
       try {
-        const records = await pbWorks.collection('workshops').getFullList();
+        const records = await pbWorks.collection('workshops').getFullList({
+          sort: '-workshopParticipationDate'
+        });
         this.workshops = records;
         records.forEach(workshop => {
           workshop.isOnline = workshop.online === true;
           
           // Process workshop images for display
-          if (workshop.workshopAdditionalUrl1) {
+          // First check if workshopImg field is provided
+          if (workshop.workshopImg) {
+            if (typeof workshop.workshopImg === 'object' && workshop.workshopImg.length > 0) {
+              // Handle PocketBase file object format
+              workshop.workshopImage = `https://pb-1.pranavv.co.in/api/files/${workshop.collectionId}/${workshop.id}/${workshop.workshopImg[0]}`;
+            } else if (typeof workshop.workshopImg === 'string' && workshop.workshopImg.trim() !== '') {
+              // Handle string format (direct URL or filename)
+              if (!workshop.workshopImg.startsWith('http')) {
+                workshop.workshopImage = `https://pb-1.pranavv.co.in/api/files/${workshop.collectionId}/${workshop.id}/${workshop.workshopImg}`;
+              } else {
+                workshop.workshopImage = workshop.workshopImg;
+              }
+            }
+          } else if (workshop.workshopAdditionalUrl1) {
+            // Fallback to URL-based image generation if no workshopImg is provided
             // Check if the URL is a GitHub certificate/PDF link
             if (workshop.workshopAdditionalUrl1.includes('github.com') && 
                 (workshop.workshopAdditionalUrl1.includes('.pdf') || 
