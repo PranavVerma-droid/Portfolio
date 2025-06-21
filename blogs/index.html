@@ -18,18 +18,8 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pocketbase/0.25.2/pocketbase.umd.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FXAAShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/SMAAShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/SMAAPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
-    <div id="three-background"></div>
     <div id="blogs_container_mount">
         <header id="header">
             <nav class="nav-container">
@@ -42,17 +32,8 @@
         </header>
 
         <div class="hero-section">
-            <div id="model-container"></div>
-            <h1 class="hero-title">
-                <span>Pranav's</span>
-                <span>Blogs</span>
-            </h1>
-            <div class="scroll-indicator">
-                <p>Scroll Down</p>
-                <div class="scroll-arrow">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
+            <h1 class="hero-title">Pranav's Blog</h1>
+            <p class="hero-subtitle">Thoughts, Tutorials, and Insights to my Projects</p>
         </div>
 
         <div class="container">
@@ -72,7 +53,6 @@
                          :key="blog.id" 
                          class="blog-card pinned"
                          @click="navigateToBlog(blog)">
-                        <span class="pin-badge">📌 Featured</span>
                         <h3>{{ blog.title }}</h3>
                         <p>{{ blog.description }}</p>
                         <div class="blog-meta">
@@ -117,7 +97,5 @@
         </div>
     </div>
     <script src="index.js"></script>
-    <script src="background.js"></script>
-    <script src="modelViewer.js"></script>
 </body>
 </html>

@@ -43,17 +43,9 @@
 
 
     <div id="header">
-        <nav class="nav-container">
-            <a href="index.html" class="nav-logo">Pranav's Blog</a>
-            <div class="nav-links">
-                <a href="index.html#blogs">All Blogs</a>
-                <a href="index.html#about">About</a>
-                <a href="index.html#contact">Contact</a>
-            </div>
-        </nav>
-    </div>
-    <div id="scroll-progress-container">
-        <div id="scroll-progress-bar"></div>
+        <div class="header-content">
+            <a href="index.html#blogs" class="site-title">Pranav's Blog</a>
+        </div>
     </div>
 
     <div id="app">
@@ -62,80 +54,71 @@
             :class="{ visible: showScrollTop }"
             @click="scrollToTop"
             aria-label="Scroll to top">
-            <i></i>
+            ↑
         </button>
         
-        <button id="darkModeToggle" @click="toggleDarkMode" aria-label="Toggle dark mode">
-            <i class="mode-icon" :class="{ 'dark': isDarkMode }"></i>
+        <button id="darkModeToggle" @click="toggleDarkMode">
+            {{ isDarkMode ? '☀️' : '🌙' }}
         </button>
 
         <div v-if="blog" class="blog-container">
-            <div class="content-column">
-                <section class="container">
-                    <div class="mt-8 center">
-                        <h1>{{ blog.title }}</h1>
-                        <div v-if="!blog.finallog" class="working-flag-container">
-                            <span class="working-flag">Currently Working on This Project</span>
-                        </div>
-                        <button class="back-button" @click="goBack">Go Back Home</button>
-                        
-                        <!-- Intro Log -->
-                        <div v-if="blog.introlog" class="intro-log">
-                            <div class="log-header">
-                                <h3>Introduction</h3>
-                                <span class="log-date">{{ formatDate(blog.pubDate) }}</span>
-                            </div>
-                            <div v-html="blog.introlog"></div>
-                        </div>
+            <article class="blog-post">
+                <header class="post-header">
+                    <h1 class="post-title">{{ blog.title }}</h1>
+                    <div v-if="!blog.finallog" class="working-flag">
+                        Currently Working on This Project
+                    </div>
+                    <div class="post-meta">
+                        <span class="author">By {{ blog.author }}</span>
+                        <span class="date">Started {{ formatDate(blog.pubDate) }}</span>
+                    </div>
+                </header>
+                
+                <div class="back-button-container">
+                    <button class="back-button" @click="goBack">← Back to Home</button>
+                </div>
+                
+                <div class="post-content">
+                    <!-- Intro Log -->
+                    <div v-if="blog.introlog" class="dev-log intro-log">
+                        <h3>Introduction</h3>
+                        <div v-html="blog.introlog"></div>
+                    </div>
 
-                        <!-- Development Logs -->
-                        <div class="dev-logs">
-                            <div v-for="log in logs" :key="log.number" class="log-entry">
-                                <div class="log-header">
-                                    <h3>Update #{{ log.number }}</h3>
-                                    <span class="log-date">{{ formatDate(log.date) }}</span>
-                                </div>
-                                <div class="log-content" v-html="log.content"></div>
-                            </div>
-                        </div>
+                    <!-- Development Logs -->
+                    <div v-for="log in logs" :key="log.number" class="dev-log">
+                        <h3>Update #{{ log.number }}</h3>
+                        <span class="log-date">{{ formatDate(log.date) }}</span>
+                        <div v-html="log.content"></div>
+                    </div>
 
-                        <!-- Final Log -->
-                        <div v-if="blog.finallog" class="final-log">
-                            <div class="log-header">
-                                <h3>Final Update</h3>
-                                <span class="log-date">{{ blog.finalDate ? formatDate(blog.finalDate) : formatDate(new Date()) }}</span>
-                            </div>
-                            <div v-html="blog.finallog"></div>
-                        </div>
-
-                        <small class="author-info">
-                            By {{ blog.author }} | Started on {{ formatDate(blog.pubDate) }}
-                        </small>
+                    <!-- Final Log -->
+                    <div v-if="blog.finallog" class="dev-log final-log">
+                        <h3>Final Update</h3>
+                        <div v-html="blog.finallog"></div>
+                    </div>
+                </div>
+            </article>
+            
+            <aside class="sidebar">
+                <section class="recent-posts" v-if="recentBlogs.length > 0">
+                    <h3>Recent Posts</h3>
+                    <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-post">
+                        <h4><a :href="recentBlog.isDevBlog ? 'devblog.html?id=' + recentBlog.id : 'blog.html?id=' + recentBlog.id">
+                            {{ recentBlog.title }}
+                        </a></h4>
+                        <p>{{ getPreview(recentBlog) }}</p>
                     </div>
                 </section>
-            </div>
-            
-            <div class="sidebar-column">
-                <div class="sidebar-section">
-                    <section class="recent-blogs container" v-if="recentBlogs.length > 0">
-                        <h2>Read Next:</h2>
-                        <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
-                            <h3><a style="text-decoration: none;" 
-                                :href="recentBlog.isDevBlog ? 'devblog.html?id=' + recentBlog.id : 'blog.html?id=' + recentBlog.id">
-                                {{ recentBlog.title }}
-                            </a></h3>
-                            <p>{{ getPreview(recentBlog) }}</p>
-                        </div>
-                    </section>
 
-                    <section class="comments-section container" v-if="blog">
+                    <section class="comments-section" v-if="blog">
                         <h2>Comments</h2>
                         
                         <div v-if="!isAuthenticated" class="login-container">
                             <button @click="loginWithGoogle" class="google-login-btn" :disabled="isLoggingIn">
                                 <div class="button-content">
                                     <img src="https://pb-1.pranavv.co.in/api/files/pbc_3607937828/ypd55n4jo38lt78/google_icons_09_512_iqzkzbya8t.webp?token=" alt="Google Logo">
-                                    <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google to Add Comments' }}</span>
+                                    <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google' }}</span>
                                     <div v-if="isLoggingIn" class="loading-spinner"></div>
                                 </div>
                             </button>
@@ -246,8 +229,7 @@
                             </div>
                         </div>
                     </section>
-                </div>
-            </div>
+            </aside>
         </div>
 
         <section v-else>

@@ -43,10 +43,9 @@
 
 
     <div id="header">
-        <span><a href="index.html#blogs">Pranav's Blogs</a></span>
-    </div>
-    <div id="scroll-progress-container">
-        <div id="scroll-progress-bar"></div>
+        <div class="header-content">
+            <a href="index.html#blogs" class="site-title">Pranav's Blog</a>
+        </div>
     </div>
 
     <div id="app">
@@ -55,47 +54,47 @@
             :class="{ visible: showScrollTop }"
             @click="scrollToTop"
             aria-label="Scroll to top">
-            <i></i>
+            ↑
         </button>
         
         <button id="darkModeToggle" @click="toggleDarkMode">
-            <span v-if="isDarkMode">Light Mode</span>
-            <span v-else>Dark Mode</span>
+            {{ isDarkMode ? '☀️' : '🌙' }}
         </button>
 
         <div v-if="blog" class="blog-container">
-            <div class="content-column">
-                <section class="container">
-                    <div class="mt-8 center">
-                        <h1>{{ blog.title }}</h1>
-                        <button class="back-button" @click="goBack">Go Back Home</button>
-                        <p v-html="blog.contentV2" style="line-height: 1.2;"></p>
-                        <small>
-                            By {{ blog.author }} | Published on {{ formatDate(blog.pubDateV2) }}
-                        </small>
+            <article class="blog-post">
+                <header class="post-header">
+                    <h1 class="post-title">{{ blog.title }}</h1>
+                    <div class="post-meta">
+                        <span class="author">By {{ blog.author }}</span>
+                        <span class="date">{{ formatDate(blog.pubDateV2) }}</span>
+                    </div>
+                </header>
+                
+                <div class="back-button-container">
+                    <button class="back-button" @click="goBack">← Back to Home</button>
+                </div>
+                
+                <div class="post-content" v-html="blog.contentV2"></div>
+            </article>
+            
+            <aside class="sidebar">
+                <section v-if="recentBlogs.length > 0" class="recent-posts">
+                    <h3>Recent Posts</h3>
+                    <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-post">
+                        <h4><a :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a></h4>
+                        <p>{{ recentBlog.contentV2.substring(0, 100) }}...</p>
                     </div>
                 </section>
-            </div>
-            
-            <div class="sidebar-column">
-                <div class="sidebar-section">
-                    <section class="recent-blogs container" v-if="recentBlogs.length > 0">
-                        <h2>Read Next:</h2>
-                        <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-blog-item container">
-                            <h3><a style="text-decoration: none;" :href="'blog.html?id=' + recentBlog.id">{{ recentBlog.title }}</a>
-                            </h3>
-                            <p>{{ recentBlog.contentV2.substring(0, 100) }}...</p>
-                        </div>
-                    </section>
 
-                    <section class="comments-section container" v-if="blog">
+                    <section class="comments-section" v-if="blog">
                         <h2>Comments</h2>
                         
                         <div v-if="!isAuthenticated" class="login-container">
                             <button @click="loginWithGoogle" class="google-login-btn" :disabled="isLoggingIn">
                                 <div class="button-content">
                                     <img src="https://pb-1.pranavv.co.in/api/files/pbc_3607937828/ypd55n4jo38lt78/google_icons_09_512_iqzkzbya8t.webp?token=" alt="Google Logo">
-                                    <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google to Add Comments' }}</span>
+                                    <span>{{ isLoggingIn ? 'Signing in...' : 'Sign in with Google' }}</span>
                                     <div v-if="isLoggingIn" class="loading-spinner"></div>
                                 </div>
                             </button>
@@ -206,8 +205,8 @@
                             </div>
                         </div>
                     </section>
-                </div>
-            </div>
+                </section>
+            </aside>
         </div>
 
         <section v-else>
