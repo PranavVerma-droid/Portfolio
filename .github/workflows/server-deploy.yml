@@ -1,17 +1,34 @@
 name: Deploy to Production Server
 
 on:
-  workflow_run:
-    workflows: ["Portfolio Docker Build", "Blogs Docker Build"]
-    types:
-      - completed
-    branches:
-      - master
+  push:
+    branches: [ "master" ]
 
 jobs:
+  wait-for-builds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Portfolio Docker Build
+        uses: fountainhead/action-wait-for-check@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: build
+          ref: ${{ github.event.push.head.sha || github.sha }}
+          intervalSeconds: 10
+          timeoutSeconds: 600
+          
+      - name: Wait for Blogs Docker Build  
+        uses: fountainhead/action-wait-for-check@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: build (Blogs Docker Build)
+          ref: ${{ github.event.push.head.sha || github.sha }}
+          intervalSeconds: 10
+          timeoutSeconds: 600
+
   deploy:
     runs-on: self-hosted
-    if: github.event.workflow_run.conclusion == 'success'
+    needs: wait-for-builds
     
     steps:
       - name: Deploy to Server
