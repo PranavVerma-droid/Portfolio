@@ -166,6 +166,13 @@ const appBlogs = Vue.createApp({
       if (bottom && !this.loading) {
         this.fetchAllBlogs();
       }
+    },
+
+    openBlog(blog) {
+      const blogUrl = blog.isDevBlog 
+        ? `devblog.html?id=${blog.id}` 
+        : `blog.html?id=${blog.id}`;
+      window.open(blogUrl, '_blank');
     }
   }
 });

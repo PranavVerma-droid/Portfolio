@@ -411,7 +411,7 @@
                 <div v-if="pinnedBlogs.length > 0" class="pinned-blogs">
                     <h3><i class="fas fa-thumbtack"></i> Pinned Posts</h3>
                     <div class="blogs-grid">
-                        <div v-for="blog in pinnedBlogs" :key="blog.id" class="blog-card pinned">
+                        <div v-for="blog in pinnedBlogs" :key="blog.id" class="blog-card pinned" @click="openBlog(blog)">
                             <div class="blog-content">
                                 <div class="blog-meta">
                                     <span class="blog-date">{{ formatDate(getLatestDate(blog)) }}</span>
@@ -431,7 +431,7 @@
 
                 <!-- Regular Blogs -->
                 <div class="blogs-grid">
-                    <div v-for="blog in filteredBlogs" :key="blog.id" class="blog-card">
+                    <div v-for="blog in filteredBlogs" :key="blog.id" class="blog-card" @click="openBlog(blog)">
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <span class="blog-date">{{ formatDate(getLatestDate(blog)) }}</span>
