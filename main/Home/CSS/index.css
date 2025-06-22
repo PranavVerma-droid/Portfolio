@@ -618,6 +618,38 @@ body {
     filter: brightness(0) invert(1) !important;
 }
 
+/* Profile Picture */
+.profile-picture {
+    width: 220px;
+    height: 220px;
+    border-radius: 60%;
+    overflow: hidden;
+    margin: 0 auto 30px;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 8px 32px rgba(10, 33, 192, 0.3);
+    transition: var(--transition);
+}
+
+.profile-picture:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(10, 33, 192, 0.4);
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none !important;
+}
+
+@media (max-width: 768px) {
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+}
+
 /* Scroll Indicator */
 .scroll-indicator {
     position: absolute;
@@ -834,11 +866,60 @@ body {
 
 .project-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.project-links {
+    display: flex;
+    gap: 8px;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
+    align-items: center;
+}
+
+.project-links .btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(10, 33, 192, 0.2);
+}
+
+.project-links .btn:hover {
+    background: #0818a8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(10, 33, 192, 0.35);
+}
+
+.project-links .btn:active {
+    transform: translateY(0);
+}
+
+.read-more-btn {
+    align-self: flex-start;
+    color: var(--primary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 0;
+    text-decoration: underline;
+    transition: var(--transition);
+}
+
+.read-more-btn:hover {
+    color: var(--text-primary);
 }
 
 /* Tech Grid */

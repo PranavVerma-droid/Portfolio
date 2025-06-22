@@ -19,6 +19,30 @@
 */
 const pbIndex = new PocketBase('https://pb-1.pranavv.co.in');
 
+// Initialize profile picture loading
+document.addEventListener('DOMContentLoaded', function() {
+    loadProfilePicture();
+});
+
+// Load profile picture from PocketBase
+async function loadProfilePicture() {
+    try {
+        const user = await pbIndex.collection('users').getOne('4b404bw4707l2s2');
+        
+        if (user.icon) {
+            const profilePicUrl = `https://pb-1.pranavv.co.in/api/files/${user.collectionId}/${user.id}/${user.icon}`;
+            
+            // Set the profile picture that's already in the HTML
+            const profileImg = document.getElementById('profileImg');
+            if (profileImg) {
+                profileImg.src = profilePicUrl;
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load profile picture:', error);
+    }
+}
+
 // Show/hide sections for modern layout
 function showSection(sectionName) {
     // Hide all sections first

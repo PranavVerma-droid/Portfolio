@@ -293,37 +293,17 @@ const appWorks = Vue.createApp({
     },
 
     openProjectModal(project) {
-      this.selectedItem = project;
-      this.modalTitle = project.projectName;
-      
-      let modalContent = `
-          <img src="${project.projectImage}" alt="${project.projectName}" style="width: 100%; max-width: 400px; margin-bottom: 20px;">
-          <div class="modal-description" style="margin-bottom: 20px;">
-              ${project.projectDescription}
+      document.getElementById('modalTitle').textContent = project.projectName;
+      document.getElementById('modalBody').innerHTML = `
+          <img src="${project.projectImage}" alt="${project.projectName}" style="width: 100%; max-width: 300px; height: auto; border-radius: 12px; margin-bottom: 20px;">
+          <div>${project.projectDescription}</div>
+          <div class="project-links">
+              ${project.projectAdditionalUrl1 ? `<a href="${project.projectAdditionalUrl1}" target="_blank" class="btn btn-sm">Link 1</a>` : ''}
+              ${project.projectAdditionalUrl2 ? `<a href="${project.projectAdditionalUrl2}" target="_blank" class="btn btn-sm">Link 2</a>` : ''}
+              ${project.projectAdditionalUrl3 ? `<a href="${project.projectAdditionalUrl3}" target="_blank" class="btn btn-sm">Link 3</a>` : ''}
+              ${project.projectAdditionalUrl4 ? `<a href="${project.projectAdditionalUrl4}" target="_blank" class="btn btn-sm">Link 4</a>` : ''}
           </div>
-          <div class="project-links" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
       `;
-      
-      if (project.projectAdditionalUrl1) {
-          modalContent += `<a href="${project.projectAdditionalUrl1}" target="_blank" class="btn btn-sm">Link 1</a>`;
-      }
-      if (project.projectAdditionalUrl2) {
-          modalContent += `<a href="${project.projectAdditionalUrl2}" target="_blank" class="btn btn-sm">Link 2</a>`;
-      }
-      if (project.projectAdditionalUrl3) {
-          modalContent += `<a href="${project.projectAdditionalUrl3}" target="_blank" class="btn btn-sm">Link 3</a>`;
-      }
-      if (project.projectAdditionalUrl4) {
-          modalContent += `<a href="${project.projectAdditionalUrl4}" target="_blank" class="btn btn-sm">Link 4</a>`;
-      }
-      
-      modalContent += `</div>`;
-      
-      if (project.projectStartDate) {
-          modalContent += `<div class="project-date">${this.formatDuration(project.projectStartDate, project.projectEndDate)}</div>`;
-      }
-      
-      document.getElementById('modalBody').innerHTML = modalContent;
       document.getElementById('detailModal').style.display = 'block';
     },
 
