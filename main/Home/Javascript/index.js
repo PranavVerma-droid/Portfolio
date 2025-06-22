@@ -19,26 +19,44 @@
 */
 const pbIndex = new PocketBase('https://pb-1.pranavv.co.in');
 
-// Initialize profile picture loading
+// Initialize general data loading
 document.addEventListener('DOMContentLoaded', function() {
-    loadProfilePicture();
+    loadGeneralData();
 });
 
-// Load profile picture from PocketBase
-async function loadProfilePicture() {
+// Load general data from PocketBase
+async function loadGeneralData() {
     try {
-        const user = await pbIndex.collection('users').getOne('4b404bw4707l2s2');
+        const generalData = await pbIndex.collection('general').getOne('mq08m3pb8cu9mfo');
         
-        if (user.icon) {
-            const profilePicUrl = `https://pb-1.pranavv.co.in/api/files/${user.collectionId}/${user.id}/${user.icon}`;
+        // Load profile picture
+        if (generalData.profilePic) {
+            const profilePicUrl = `https://pb-1.pranavv.co.in/api/files/${generalData.collectionId}/${generalData.id}/${generalData.profilePic}`;
             
             const profileImg = document.getElementById('profileImg');
             if (profileImg) {
                 profileImg.src = profilePicUrl;
             }
         }
+        
+        // Load tagline
+        if (generalData.tagline) {
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            if (heroSubtitle) {
+                heroSubtitle.textContent = generalData.tagline;
+            }
+        }
+        
+        // Load about me text
+        if (generalData.about) {
+            const aboutMeText = document.getElementById('about-me-text');
+            if (aboutMeText) {
+                aboutMeText.textContent = generalData.about;
+            }
+        }
+        
     } catch (error) {
-        console.error('Failed to load profile picture:', error);
+        console.error('Failed to load general data:', error);
     }
 }
 
@@ -80,13 +98,13 @@ function closeblogs() {}
 
 async function showResume() {
     try {
-        const userRecord = await pbIndex.collection('users').getOne('4b404bw4707l2s2', {
+        const generalData = await pbIndex.collection('general').getOne('mq08m3pb8cu9mfo', {
             fields: 'id,resume,collectionId',
             $cancelKey: 'resume-download-' + Date.now()
         });
         
-        if (userRecord?.resume) {
-            const fileUrl = pbIndex.files.getUrl(userRecord, userRecord.resume);
+        if (generalData?.resume) {
+            const fileUrl = pbIndex.files.getUrl(generalData, generalData.resume);
             
             if (fileUrl) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -98,12 +116,12 @@ async function showResume() {
                 throw new Error('Invalid file URL');
             }
         } else {
-            alert("Resume not found in user profile");
+            alert("Resume not found in general data");
         }
     } catch (error) {
         console.error('Resume fetch error:', error);
         if (error.status === 404) {
-            alert("User profile or resume not found");
+            alert("General data or resume not found");
         } else if (error.isAbort) {
             // Handle abort specifically
             alert("Request was cancelled. Please try again.");
