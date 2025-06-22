@@ -170,4 +170,4 @@ const appBlogs = Vue.createApp({
   }
 });
 
-appBlogs.mount('#blogs_container_mount');
+appBlogs.mount('#blogsContent');

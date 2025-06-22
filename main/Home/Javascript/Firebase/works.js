@@ -292,6 +292,29 @@ const appWorks = Vue.createApp({
       window.open(link, '_blank');
     },
 
+    openProjectModal(project) {
+      const modal = document.getElementById('detailModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      
+      modalTitle.textContent = project.projectName;
+      
+      const projectLinks = [];
+      if (project.projectAdditionalUrl1) projectLinks.push(`<a href="${project.projectAdditionalUrl1}" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> View Project</a>`);
+      if (project.projectAdditionalUrl2) projectLinks.push(`<a href="${project.projectAdditionalUrl2}" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> Source Code</a>`);
+      if (project.projectAdditionalUrl3) projectLinks.push(`<a href="${project.projectAdditionalUrl3}" target="_blank" class="btn btn-outline">Additional Link</a>`);
+      
+      modalBody.innerHTML = `
+        ${project.projectImage ? `<img src="${project.projectImage}" alt="${project.projectName}" style="max-width: 100%; margin-bottom: 20px;">` : ''}
+        <div>${project.projectDescription}</div>
+        ${project.projectStartDate ? `<p><strong>Duration:</strong> ${this.formatDuration(project.projectStartDate, project.projectEndDate)}</p>` : ''}
+        ${projectLinks.length > 0 ? `<div class="project-links">${projectLinks.join('')}</div>` : ''}
+      `;
+      
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    },
+
     formatDuration(startDate, endDate) {
       if (!startDate) return '';
       
@@ -321,4 +344,4 @@ const appWorks = Vue.createApp({
   }
 });
 
-appWorks.mount('#work_vue');
+appWorks.mount('#workContent');

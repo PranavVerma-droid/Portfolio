@@ -1,701 +1,537 @@
-<!--
-    Copyright (C) 2025  Pranav Verma
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    See a more apt description in LICENSE File Attached to the root of this
-    project. 
--->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.85">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="https://mir-s3-cdn-cf.behance.net/project_modules/disp/945b0225337909.563440870421b.png"
-        type="image/icon type">
-    <title>Pranav's Portfolio</title>
-
-    <!-- All CSS -->
-    <link rel="icon"
-        href="https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Icons%2Ftitle-icon.png?alt=media&token=5184d30f-59ce-4113-bb95-b8f7ebe4a04d"
-        type="image/icon type">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="Home/CSS/index.css?v=1.0.0">
+    <title>Pranav Verma - Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/contactusform-f0ec2.appspot.com/o/Icons%2Ftitle-icon.png?alt=media&token=5184d30f-59ce-4113-bb95-b8f7ebe4a04d" type="image/icon type">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="Home/CSS/index.css">
+    
+    <!-- Cache Control -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 </head>
-
 <body>
+    <!-- Loading Screen -->
     <div id="loading">
-        <div id="spinner"></div>
-    </div>
-    <div id="particles-js"></div>
-    <div id="box">
-        <div class="box1 onlywide animated bounceOutLeft" style="animation-delay:1.7s;"></div>
-        <div class="box2 onlywide animated bounceOutLeft" style="animation-delay:1.8s;"></div>
-        <div class="box2 onlywide animated bounceOutLeft" style="animation-delay:1.9s;"></div>
-        <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.9s;"></div>
-        <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.8s;"></div>
-        <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.7s;"></div>
-    </div>
-
-
-
-    <a id="about" onclick="showabout()" class="animate__animated animate__fadeIn"
-        style="animation-delay:2.2s;">about</a>
-    <a id="work" onclick="showwork()" class="animate__animated animate__fadeIn" style="animation-delay:2.2s;">work</a>
-    <a id="contact" onclick="showcontact()" class="animate__animated animate__fadeIn"
-        style="animation-delay:2.2s;">contact</a>
-    <a id="blogs" onclick="showblogs()" class="animate__animated animate__fadeIn"
-        style="animation-delay:2.2s;">blogs</a>
-    <div id="middle" class="animate__animated animate__slideInDown" style="animation-delay:2.0s;">
-        <h1>Pranav's Portfolio</h1>
-        <h2>Programmer / CS Student / Human (i think)</h2>
-        <center><button onclick="showResume()" class="btn_one"
-                style="max-width: 300px; text-align: center; margin-bottom: -20px;"><a>Download Resume</a></button>
-        </center>
-        <div id="menu">
-            <a onclick="showabout()">about</a>
-            <a onclick="showwork()">work</a>
-            <a onclick="showcontact()">contact</a>
-            <a onclick="showblogs()">blogs</a>
-        </div>
-        <table style="z-index: 2;" id="linksTable">
-            <tr>
-                <td v-for="social in socials" :key="social.id" class="animate__animated animate__zoomIn"
-                    style="animation-delay:2.4s;"><a class="social" @click="visitLink(social.socialSource)">
-                        <img :src="social.socialIcon" style="filter: brightness(0) invert(1);">
-                    </a>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="work_container" class="container" style="cursor: pointer !important;">
-        <div onclick="closework()" class=""><i class="fas fa-angle-right"></i></div>
-        <h1>works.</h1>
-        <div id="work_vue">
-
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-brand-github" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path
-                        d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-                </svg> Projects</h2>
-            <section v-for="project in projects" :key="project.id" class="project-section">
-                <div class="project-container">
-                    <div class="project-image-container">
-                        <img :src="project.projectImage" :alt="project.projectName" class="project-image">
-                    </div>
-                    <div class="project-content">
-                        <h3>{{ project.projectName }}</h3>
-                        <p v-html="project.projectDescription"></p>
-                        <p v-if="project.projectStartDate" class="date-formatting">
-                            {{ formatDuration(project.projectStartDate, project.projectEndDate) }}
-                        </p>
-
-                        <button v-if="project.projectAdditionalUrl1" class="btn_one"><a
-                                :href="project.projectAdditionalUrl1">Link 1</a></button>
-                        <button v-if="project.projectAdditionalUrl2" class="btn_one"><a
-                                :href="project.projectAdditionalUrl2">Link 2</a></button>
-                        <button v-if="project.projectAdditionalUrl3" class="btn_one"><a
-                                :href="project.projectAdditionalUrl3">Link 3</a></button>
-                        <button v-if="project.projectAdditionalUrl4" class="btn_one"><a
-                                :href="project.projectAdditionalUrl4">Link 4</a></button>
-                    </div>
-                </div>
-            </section>
-
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="44" height="44"
-                    stroke-width="2">
-                    <path d="M13 9l7.383 7.418c.823 .82 .823 2.148 0 2.967a2.11 2.11 0 0 1 -2.976 0l-7.407 -7.385">
-                    </path>
-                    <path
-                        d="M6.66 15.66l-3.32 -3.32a1.25 1.25 0 0 1 .42 -2.044l3.24 -1.296l6 -6l3 3l-6 6l-1.296 3.24a1.25 1.25 0 0 1 -2.044 .42z">
-                    </path>
-                </svg> Workshops / Courses</h2>
-            <section v-for="workshop in workshops" :key="workshop.id" class="workshop-section">
-                <div class="project-container">
-                    <div class="project-image-container">
-                        <img :src="workshop.workshopImage" :alt="workshop.workshopName" class="project-image">
-                    </div>
-                    <div class="project-content">
-                        <h3>{{ workshop.workshopName }}</h3>
-                        <p v-if="workshop.workshopParticipationDate" class="date-formatting">
-                            {{ formatOnlyDate(workshop.workshopParticipationDate) }}
-                            <span> • {{ workshop.isOnline ? 'Online' : 'Offline' }}</span>
-                            <span v-if="workshop.workshopIssuerName"> • {{ workshop.workshopIssuerName }}</span>
-                        </p>
-                        <button v-if="workshop.workshopAdditionalUrl1" class="btn_one"><a
-                                :href="workshop.workshopAdditionalUrl1">Link 1</a></button>
-                        <button v-if="workshop.workshopAdditionalUrl2" class="btn_one"><a
-                                :href="workshop.workshopAdditionalUrl2">Link 2</a></button>
-                        <button v-if="workshop.workshopAdditionalUrl3" class="btn_one"><a
-                                :href="workshop.workshopAdditionalUrl3">Link 3</a></button>
-                        <button v-if="workshop.workshopAdditionalUrl4" class="btn_one"><a
-                                :href="workshop.workshopAdditionalUrl4">Link 4</a></button>
-                    </div>
-                </div>
-            </section>
-
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-award" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0" />
-                    <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889" />
-                    <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889" />
-                </svg> Competitions</h2>
-            <section v-for="competition in competitions" :key="competition.id">
-                <h3>{{ competition.competitionName }}</h2>
-                    <p v-html="competition.competitionDescription"></p>
-                    <p v-if="competition.competitionParticipationDate" class="date-formatting">
-                        {{ formatOnlyDate(competition.competitionParticipationDate) }}
-                    </p>
-
-                    <button v-if="competition.competitionAdditionalUrl1" class="btn_one"><a
-                            :href="competition.competitionAdditionalUrl1">Link 1</a></button>
-                    <button v-if="competition.competitionAdditionalUrl2" class="btn_one"><a
-                            :href="competition.competitionAdditionalUrl2">Link 2</a></button>
-                    <button v-if="competition.competitionAdditionalUrl3" class="btn_one"><a
-                            :href="competition.competitionAdditionalUrl3">Link 3</a></button>
-                    <button v-if="competition.competitionAdditionalUrl4" class="btn_one"><a
-                            :href="competition.competitionAdditionalUrl4">Link 4</a></button>
-            </section>
-
-            <section>
-                <h2 class="heading-with-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44"
-                        height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                        <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" />
-                        <path
-                            d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" />
-                        <path d="M6 9l12 0" />
-                        <path d="M6 12l3 0" />
-                        <path d="M6 15l2 0" />
-                    </svg> certificates
-                </h2>
-
-                <div v-for="certificate in certificates" :key="certificate.id"
-                    style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                    <div class="toolImage">
-                        <img :src="certificate.certificateImg" alt="Social Icon"
-                            style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                    </div>
-                    <div style="margin-left: 1rem;">
-                        <h3>{{ certificate.certificateName }}</h3>
-                        <p v-if="certificate.certificateIssueDate" class="date-formatting">
-                            {{ formatOnlyDate(certificate.certificateIssueDate) }}
-                            <span v-if="certificate.certificateIssue"> • {{certificate.certificateIssue}}</span>
-                        </p>
-                        <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
-                            style="max-width: 300px; text-align: center;">View Certificate</div>
-                    </div>
-                </div>
-
-                <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-book" width="44" height="44" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-                        <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-                        <path d="M3 6l0 13" />
-                        <path d="M12 6l0 13" />
-                        <path d="M21 6l0 13" />
-                    </svg> Publications</h2>
-                    
-                <section v-for="publication in publications" :key="publication.id"
-                    style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                    <div class="toolImage">
-                        <img :src="publication.publicationImg" alt="Publication Image"
-                            style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                    </div>
-                    <div style="margin-left: 1rem;">
-                        <h3>{{ publication.publicationName }}</h3>
-                        <p>{{ publication.publicationDescription }}</p>
-                        <p v-if="publication.publicationDate" class="date-formatting">
-                            {{ formatOnlyDate(publication.publicationDate) }}
-                            <span v-if="publication.publicationJournal"> • {{ publication.publicationJournal }}</span>
-                        </p>
-                        <button v-if="publication.publicationLink1" class="btn_one"><a
-                                :href="publication.publicationLink1">Link 1</a></button>
-                        <button v-if="publication.publicationLink2" class="btn_one"><a
-                                :href="publication.publicationLink2">Link 2</a></button>
-                        <button v-if="publication.publicationLink3" class="btn_one"><a
-                                :href="publication.publicationLink3">Link 3</a></button>
-                        <button v-if="publication.publicationLink4" class="btn_one"><a
-                                :href="publication.publicationLink4">Link 4</a></button>
-                    </div>
-                </section>
-
-                <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg" 
-                    class="icon icon-tabler icon-tabler-heart-handshake" width="44" height="44" viewBox="0 0 24 24" 
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                    <path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
-                    <path d="M12.5 15.5l2 2" />
-                    <path d="M15 13l2 2" />
-                    </svg>Social Work</h2>
-            </section>
-
-            <section v-for="socialWork in socialWorks" :key="socialWork.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="socialWork.socialWorkImg" alt="Social Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ socialWork.socialWorkName }}</h2>
-                        <p>{{ socialWork.socialWorkDescription }}</p>
-                        <p v-if="socialWork.socialWorkStartDate" class="date-formatting">
-                            {{ formatDuration(socialWork.socialWorkStartDate, socialWork.socialWorkEndDate) }}
-                            <span v-if="socialWork.socialWorkInstituteName"> • {{ socialWork.socialWorkInstituteName
-                                }}</span>
-                        </p>
-                        <button v-if="socialWork.socialWorkAdditionalUrl1" class="btn_one"><a
-                                :href="socialWork.socialWorkAdditionalUrl1">Link 1</a></button>
-                        <button v-if="socialWork.socialWorkAdditionalUrl2" class="btn_one"><a
-                                :href="socialWork.socialWorkAdditionalUrl2">Link 2</a></button>
-                        <button v-if="socialWork.socialWorkAdditionalUrl3" class="btn_one"><a
-                                :href="socialWork.socialWorkAdditionalUrl3">Link 3</a></button>
-                </div>
-            </section>
-
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-building-skyscraper" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 21l18 0" />
-                    <path d="M5 21v-14l8 -4v18" />
-                    <path d="M19 21v-10l-6 -4" />
-                    <path d="M9 9l0 .01" />
-                    <path d="M9 12l0 .01" />
-                    <path d="M9 15l0 .01" />
-                    <path d="M9 18l0 .01" />
-                </svg>Internships</h2>
-            <!-- <div v-for="certificate in certificates" :key="certificate.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="certificate.certificateImg" alt="Social Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ certificate.certificateName }}</h3>
-                    <p v-if="certificate.certificateIssueDate" class="date-formatting">
-                        {{ formatOnlyDate(certificate.certificateIssueDate) }}
-                        <span v-if="certificate.certificateIssue"> • {{certificate.certificateIssue}}</span>
-                    </p>
-                    <div @click="visitLink(certificate.certificateUrl)" class="btn_one"
-                        style="max-width: 300px; text-align: center;">View Certificate</div>
-                </div>
-            </div>-->
-            <section v-for="internship in internships" :key="internship.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="internship.internshipImg" alt="Social Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ internship.internshipName }}</h2>
-                        <p>{{ internship.internshipDescription }}</p>
-                        <p v-if="internship.internshipStartDate" class="date-formatting">
-                            {{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}
-                            <span v-if="internship.internshipType"> • {{ internship.internshipType }}</span>
-                            <span v-if="internship.internshipInstituteName"> • {{ internship.internshipInstituteName
-                                }}</span>
-                        </p>
-
-                        <button v-if="internship.internshipAdditionalUrl1" class="btn_one"><a
-                                :href="internship.internshipAdditionalUrl1">Link 1</a></button>
-                        <button v-if="internship.internshipAdditionalUrl2" class="btn_one"><a
-                                :href="internship.internshipAdditionalUrl2">Link 2</a></button>
-                        <button v-if="internship.internshipAdditionalUrl3" class="btn_one"><a
-                                :href="internship.internshipAdditionalUrl3">Link 3</a></button>
-                </div>
-            </section>
-
-
-
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Loading Portfolio...</div>
         </div>
     </div>
-    <div id="about_container" class="container" style="cursor: pointer !important;">
-        <div onclick="closeabout()"><i class="fas fa-angle-left"></i></div>
-        <h1>about.</h1>
-        <section>
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-user-circle" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                    <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-                </svg> about me</h2>
-            <p id="about-me-placeholder">
-                Loading...
-            </p>
-        </section>
 
-        <section>
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-tool" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
-                </svg> soft skills </h2>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="brand-text">PRANAV</span>
+        </div>
+        <div class="nav-menu">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#about" class="nav-link" onclick="showSection('about')">About</a>
+            <a href="#work" class="nav-link" onclick="showSection('work')">Work</a>
+            <a href="#blogs" class="nav-link" onclick="showSection('blogs')">Blogs</a>
+            <a href="#contact" class="nav-link" onclick="showSection('contact')">Contact</a>
+        </div>
+        <div class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
 
-            <div v-for="skill in skills" :key="skill.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div style="margin-left: 1rem;">
-                    <h3>- {{ skill.skillName }}</h3>
-                    <p> {{ skill.skillDescription }}</p>
-                    <div v-if="skill.skillUrl" @click="visitLink(skill.skillUrl)" class="btn_one"
-                        style="max-width: 80px; text-align: center;">Visit</div>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-line">Hi, I'm <span class="highlight-name">Pranav</span>.</span>
+                    <span class="title-line">I build projects that make people say "<span class="highlight-whoa">wow.</span>"</span>
+                </h1>
+
+                <p class="hero-subtitle">Programmer / CS Student / Human (i think)</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showResume()">
+                        <i class="fas fa-download"></i>
+                        Download Resume
+                    </button>
+                    <button class="btn btn-outline" onclick="showSection('contact')">
+                        Let's Talk
+                    </button>
                 </div>
             </div>
-        </section>
-
-        <section>
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-school" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
-                    <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
-                </svg> education</h2>
-
-            <div v-for="edu in education" :key="edu.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="edu.eduLogo" alt="Education Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ edu.eduTitle }}</h3>
-                    <p v-html="edu.eduDescription" />
-                    <p v-if="edu.eduStartDate" class="date-formatting">
-                        {{ formatEducationDuration(edu.eduStartDate, edu.eduEndDate) }}
-                    </p>
+            <div class="hero-visual">
+                <div class="floating-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                    <div class="shape shape-4"></div>
+                    <div class="shape shape-5"></div>
                 </div>
             </div>
-        </section>
-
-        <section>
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-code-circle-2" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M8.5 13.5l-1.5 -1.5l1.5 -1.5" />
-                    <path d="M15.5 10.5l1.5 1.5l-1.5 1.5" />
-                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                    <path d="M13 9.5l-2 5.5" />
-                </svg> languages (learnt / learning / tried)</h2>
-
-            <!--<h3>High level</h3>-->
-            <div v-for="language in languages" :key="language.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="language.languageImg" alt="Social Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ language.languageName }}</h3>
-                    <p v-html="language.languageDescription" />
-                    <div @click="visitLink(language.languageSource)" class="btn_one"
-                        style="max-width: 80px; text-align: center;">Visit</div>
-                </div>
+        </div>
+        
+        <!-- Social Links -->
+        <div class="social-links" id="socialLinks">
+            <div v-for="social in socials" :key="social.id" class="social-item">
+                <a @click="visitLink(social.socialSource)" class="social-link">
+                    <img :src="social.socialIcon" :alt="social.socialName">
+                </a>
             </div>
-        </section>
+        </div>
 
-        <section>
-            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-tool" width="44" height="44" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
-                </svg> tools (that i know how to use)</h2>
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
-            <div v-for="tool in tools" :key="tool.id"
-                style="display: flex; align-items: center; padding-bottom: 3px; cursor: pointer;">
-                <div class="toolImage">
-                    <img :src="tool.toolImg" alt="Tool Icon"
-                        style="width: 2.5rem; height: 2.5rem; border-radius: 9999px;">
-                </div>
-                <div style="margin-left: 1rem;">
-                    <h3>{{ tool.toolName }}</h3>
-                    <p v-html="tool.toolDescription" />
-                </div>
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About Me</h2>
+                <div class="section-number">01</div>
             </div>
-        </section>
-
-
-
-
-    </div>
-    <div id="contact_container" class="container" style="cursor: pointer !important;">
-        <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
-        <h1>contact.</h1>
-        <section>
-            <form id="contactForm" @submit.prevent="submitForm">
-                <input type="text" v-model="name" placeholder="name" required :disabled="loading">
-                <input type="email" v-model="email" placeholder="email" required :disabled="loading">
-                <textarea v-model="message" placeholder="your message" rows="5" required :disabled="loading"></textarea>
-                <button class="btn_one" type="submit" :disabled="loading">
-                    {{ loading ? 'Sending...' : 'Send Message' }}
-                </button>
-            </form>
-        </section>
-
-        <section>
-            <h3 class="animate__animated animate__fadeIn" style="animation-duration: 1s;">you can also reach me at:</h2>
-                <p><a href="tel:+919953769729">+919953769729</a></p>
-                <p><a href="mailto:pranav@verma.net.in">pranav@verma.net.in</a></p>
-        </section>
-    </div>
-
-    <div id="blogs_container" class="container" style="cursor: pointer !important;" @scroll="handleScroll">
-        <div onclick="closeblogs()"><i class="fas fa-angle-up"></i></div>
-        <div id="blogs_container_mount">
-            <section>
-                <div class="mt-8 center">
-
-                    <div class="animate__animated animate__fadeIn" style="animation-duration: 1s;">
-                        <h1>blogs.</h1>
-                    </div>
-
-                    <center>
-                        <a href="https://blogs.pranavv.co.in" target="_blank" class="btn_one" style="margin-bottom: 5px; display: inline-block;">
-                            Open in Blogs Homepage <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
-                        </a>
-                    </center>
-
-                    <div v-if="blogs.length === 0">No blogs yet.</div>
-
-
-                    <div v-else>
-                        <div v-if="pinnedBlogs.length === 0"> </div>
-                        <div v-else>
-                            <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                                    class="icon icon-tabler icon-tabler-pin" width="44" height="44" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4" />
-                                    <path d="M9 15l-4.5 4.5" />
-                                    <path d="M14.5 4l5.5 5.5" />
-                                </svg> Pinned Blogs</h2>
-                            <div v-for="blog in pinnedBlogs" :key="blog.id"
-                                class="boxshadow animate__animated animate__fadeIn blogHeading"
-                                style="animation-duration: 3s;">
-                                <a :href="blog.isDevBlog ? 'devblog.html?id=' + blog.id : 'blog.html?id=' + blog.id" style="color: #000;">
-                                    <h3 class="md-centering">{{ blog.title }}</h3>
-                                    <small style="color: rgb(107, 23, 23);">
-                                        {{ blog.isDevBlog ? 'Updated Last on ' : 'Published on ' }}{{ formatDate(getLatestDate(blog)) }}
-                                        <span v-if="blog.isDevBlog">• Dev Blog</span>
-                                        <span v-else>• Full Blog</span>
-                                    </small>
-                                </a>
-                            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p id="about-me-text">Loading...</p>
+                </div>
+                
+                <div class="about-grid">
+                    <!-- Education -->
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-graduation-cap"></i>
                         </div>
-
-                        <h2 class="heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                                class="icon icon-tabler icon-tabler-news" width="44" height="44" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
-                                <path d="M8 8l4 0" />
-                                <path d="M8 12l4 0" />
-                                <path d="M8 16l4 0" />
-                            </svg> All Blogs</h2>
-
-                        <div class="category-filters">
-                            <button v-for="category in categories" 
-                                    :key="category" 
-                                    class="btn_one category-btn"
-                                    :class="{ 'active': selectedCategory === category }"
-                                    @click="selectCategory(category)">
-                                {{ category }}
-                            </button>
-                        </div>
-
-                        <div v-for="blog in filteredBlogs" :key="blog.id"
-                            class="boxshadow animate__animated animate__fadeIn blogHeading"
-                            style="animation-duration: 3s;">
-                            <a :href="blog.isDevBlog ? 'devblog.html?id=' + blog.id : 'blog.html?id=' + blog.id" style="color: #000;">
-                                <h3 class="md-centering">
-                                    {{ blog.title }}
-                                </h3>
-                                <small style="color: rgb(107, 23, 23);">
-                                    {{ blog.isDevBlog ? 'Updated Last on ' : 'Published on ' }}{{ formatDate(getLatestDate(blog)) }}
-                                    <span v-if="blog.isDevBlog">• Dev Blog</span>
-                                    <span v-else>• Full Blog</span>
-                                </small>
-                            </a>
-                        </div>
-                       <!-- <div v-if="user">
-                            <h2 class="heading-with-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-news"
-                                    width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
-                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path
-                                        d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
-                                    <path d="M8 8l4 0" />
-                                    <path d="M8 12l4 0" />
-                                    <path d="M8 16l4 0" />
-                                </svg> Draft Blogs
-                            </h2>
-                            <div v-for="blog in draftBlogs" :key="blog.id"
-                                class="boxshadow animate__animated animate__fadeIn blogHeading"
-                                style="animation-duration: 3s;">
-                                <a :href="'blog.html?id=' + blog.id" style="color: #000;">
-                                    <h3 class="md-centering">{{ blog.title }}</h3>
-                                    <small style="color: rgb(107, 23, 23);">Created on {{
-                                        formatDate(blog.pubDate)
-                                        }}</small>
-                                </a>
-                                <div v-if="user">
-                                    <button @click="editBlog(blog)" id="login-button">Edit</button>&nbsp
-                                    <button @click="deleteBlog(blog.id)" id="login-button">Delete</button>&nbsp
-                                    <button @click="publishBlog(blog.id)" id="login-button">Publish</button>
+                        <h3>Education</h3>
+                        <div class="education-list" id="educationList">
+                            <div v-for="edu in education" :key="edu.id" class="education-item">
+                                <div class="edu-logo">
+                                    <img :src="edu.eduLogo" :alt="edu.eduTitle">
+                                </div>
+                                <div class="edu-content">
+                                    <h4>{{ edu.eduTitle }}</h4>
+                                    <div v-html="edu.eduDescription"></div>
+                                    <span class="edu-date" v-if="edu.eduStartDate">
+                                        {{ formatEducationDuration(edu.eduStartDate, edu.eduEndDate) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-            </section>
-            <section>
-                <h2 class="text-xl font-bold mb-4 heading-with-icon"><svg xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-file-import" width="44" height="44" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" />
-                    </svg> Create Blogs:</h2>
 
-                <div v-if="user" class="boxshadow">
-                    <p>Logged in as: <strong>{{ user.email }}</strong></p> <button @click="signOut" class="blog-button"
-                        style="margin-bottom: 10px;">Sign Out</button>
-                    <form @submit.prevent="submitBlog" class="boxshadow">
-                        <input type="text" v-model="title" class="blog-input" placeholder="Blog Title" required>
-                        <textarea v-model="content" ref="content" class="blog-input"
-                            placeholder="Blog Content - Supports HTML!" required style="height: 200px;"></textarea>
-                        <label>
-                            <input type="checkbox" v-model="isDraft"
-                                style="width: 16px; height: 16px; margin: 10px; padding: 0; vertical-align: middle;">
-                            <span style="font-size: small;">Save as Draft</span>
-                        </label> <br><br>
-                        <button type="submit" class="blog-button">Submit</button>
-                    </form>
-                    <br><br>
-                    <div>
-                        <button @click="insertPStart" style="margin-right: 10px;" class="blog-button">Paragraph
-                            Start</button>
-                        <button @click="insertPEnd" style="margin-right: 10px;" class="blog-button">Paragraph
-                            End</button>
-                        <button @click="insertBStart" style="margin-right: 10px;" class="blog-button">Bold
-                            Start</button>
-                        <button @click="insertBEnd" style="margin-right: 10px;" class="blog-button">Bold End</button>
-                        <button @click="insertAStart" style="margin-right: 10px;" class="blog-button">Link
-                            Start</button>
+                    <!-- Skills -->
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Soft Skills</h3>
+                        <div class="skills-list" id="skillsList">
+                            <div v-for="skill in skills" :key="skill.id" class="skill-item">
+                                <h4>{{ skill.skillName }}</h4>
+                                <p :class="{ 'truncated-text': skill.skillDescription && skill.skillDescription.length > 150 }">
+                                    {{ skill.skillDescription }}
+                                </p>
+                                <div class="skill-actions">
+                                    <button v-if="skill.skillDescription && skill.skillDescription.length > 150" 
+                                            @click="openSkillModal(skill)" 
+                                            class="read-more-btn">
+                                        Read More
+                                    </button>
+                                    <a v-if="skill.skillUrl" @click="visitLink(skill.skillUrl)" class="skill-link">
+                                        Learn More <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="padding-top: 10px;">
-                        <button @click="insertAEnd" style="margin-right: 10px;" class="blog-button">Link End</button>
-                        <button @click="insertCodeStart" style="margin-right: 10px;" class="blog-button">Code
-                            Start</button>
-                        <button @click="insertCodeEnd" style="margin-right: 10px;" class="blog-button">Code End</button>
-                        <button @click="insertImage" style="margin-right: 10px;" class="blog-button">Image</button>
-                        <button @click="insertNextLine" style="margin-right: 10px;" class="blog-button">Next
-                            Line</button>
-                        <button @click="insertWorkInProgress" style="margin-right: 10px;" class="blog-button">Work in
-                            Progress</button>
+
+                    <!-- Technologia -->
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Technologies</h3>
+                        <div class="tech-section">
+                            <h4>Languages</h4>
+                            <div class="tech-grid" id="languagesList">
+                                <div v-for="(language, index) in languages.slice(0, 3)" :key="language.id" class="tech-item" @click="visitLink(language.languageSource)">
+                                    <img :src="language.languageImg" :alt="language.languageName">
+                                    <span>{{ language.languageName }}</span>
+                                </div>
+                            </div>
+                            <button v-if="languages.length > 3" @click="openTechModal('languages')" class="show-all-btn">
+                                Show All Languages ({{ languages.length }})
+                            </button>
+                        </div>
+                        
+                        <div class="tech-section">
+                            <h4>Tools</h4>
+                            <div class="tech-grid" id="toolsList">
+                                <div v-for="(tool, index) in tools.slice(0, 3)" :key="tool.id" class="tech-item">
+                                    <img :src="tool.toolImg" :alt="tool.toolName">
+                                    <span>{{ tool.toolName }}</span>
+                                </div>
+                            </div>
+                            <button v-if="tools.length > 3" @click="openTechModal('tools')" class="show-all-btn">
+                                Show All Tools ({{ tools.length }})
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="section work-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My Work</h2>
+                <div class="section-number">02</div>
+            </div>
+
+            <div class="work-content" id="workContent">
+                <!-- Projects -->
+                <div class="work-category">
+                    <h3><i class="fas fa-code-branch"></i> Projects</h3>
+                    <div class="projects-grid">
+                        <div v-for="project in projects" :key="project.id" class="project-card">
+                            <div class="project-image">
+                                <img :src="project.projectImage" :alt="project.projectName">
+                                <div class="project-overlay">
+                                    <div class="project-links">
+                                        <a v-if="project.projectAdditionalUrl1" :href="project.projectAdditionalUrl1" target="_blank" class="project-link">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                        <a v-if="project.projectAdditionalUrl2" :href="project.projectAdditionalUrl2" target="_blank" class="project-link">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h4>{{ project.projectName }}</h4>
+                                <div v-html="project.projectDescription" 
+                                     :class="{ 'truncated-text': project.projectDescription && project.projectDescription.length > 200 }"
+                                     class="project-description"></div>
+                                <div class="project-actions">
+                                    <button v-if="project.projectDescription && project.projectDescription.length > 200" 
+                                            @click="openProjectModal(project)" 
+                                            class="read-more-btn">
+                                        Read More
+                                    </button>
+                                    <div v-if="project.projectStartDate" class="project-date">
+                                        {{ formatDuration(project.projectStartDate, project.projectEndDate) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div v-else class="boxshadow">
-                    <button @click="loginWithGoogle" class="google-button">
-                        <img src="https://pb-1.pranavv.co.in/api/files/pbc_3607937828/bzmsrs4hw7b4p26/google_72fqz1jqa3.webp?token="
-                            alt="Google Logo" class="google-logo">
-                        Sign in with Google
+                <!-- Workshops -->
+                <div class="work-category">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Workshops & Courses</h3>
+                    <div class="workshops-grid">
+                        <div v-for="workshop in workshops" :key="workshop.id" class="workshop-card">
+                            <div class="workshop-image">
+                                <img :src="workshop.workshopImage" :alt="workshop.workshopName">
+                            </div>
+                            <div class="workshop-content">
+                                <h4>{{ workshop.workshopName }}</h4>
+                                <div v-if="workshop.workshopParticipationDate" class="workshop-date">
+                                    {{ formatOnlyDate(workshop.workshopParticipationDate) }}
+                                </div>
+                                <div class="workshop-links">
+                                    <a v-if="workshop.workshopAdditionalUrl1" :href="workshop.workshopAdditionalUrl1" target="_blank" class="btn btn-sm">
+                                        View Certificate
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Competitions -->
+                <div class="work-category">
+                    <h3><i class="fas fa-trophy"></i> Competitions</h3>
+                    <div class="competitions-list">
+                        <div v-for="competition in competitions" :key="competition.id" class="competition-item">
+                            <div class="competition-content">
+                                <h4>{{ competition.competitionName }}</h4>
+                                <div v-html="competition.competitionDescription"></div>
+                                <div v-if="competition.competitionParticipationDate" class="competition-date">
+                                    {{ formatOnlyDate(competition.competitionParticipationDate) }}
+                                </div>
+                                <div class="competition-links">
+                                    <a v-if="competition.competitionAdditionalUrl1" :href="competition.competitionAdditionalUrl1" target="_blank" class="btn btn-sm">Link 1</a>
+                                    <a v-if="competition.competitionAdditionalUrl2" :href="competition.competitionAdditionalUrl2" target="_blank" class="btn btn-sm">Link 2</a>
+                                    <a v-if="competition.competitionAdditionalUrl3" :href="competition.competitionAdditionalUrl3" target="_blank" class="btn btn-sm">Link 3</a>
+                                    <a v-if="competition.competitionAdditionalUrl4" :href="competition.competitionAdditionalUrl4" target="_blank" class="btn btn-sm">Link 4</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificates -->
+                <div class="work-category">
+                    <h3><i class="fas fa-certificate"></i> Certificates</h3>
+                    <div class="certificates-grid">
+                        <div v-for="certificate in certificates" :key="certificate.id" class="certificate-card" @click="visitLink(certificate.certificateUrl)">
+                            <div class="certificate-image">
+                                <img :src="certificate.certificateImg" :alt="certificate.certificateName">
+                            </div>
+                            <div class="certificate-content">
+                                <h4>{{ certificate.certificateName }}</h4>
+                                <div v-if="certificate.certificateIssueDate" class="certificate-date">
+                                    {{ formatOnlyDate(certificate.certificateIssueDate) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publications -->
+                <div class="work-category" v-if="publications.length > 0">
+                    <h3><i class="fas fa-book"></i> Publications</h3>
+                    <div class="publications-list">
+                        <div v-for="publication in publications" :key="publication.id" class="publication-item">
+                            <div class="publication-image">
+                                <img :src="publication.publicationImg" :alt="publication.publicationName">
+                            </div>
+                            <div class="publication-content">
+                                <h4>{{ publication.publicationName }}</h4>
+                                <p>{{ publication.publicationDescription }}</p>
+                                <div v-if="publication.publicationDate" class="publication-date">
+                                    {{ formatOnlyDate(publication.publicationDate) }}
+                                </div>
+                                <div class="publication-links">
+                                    <a v-if="publication.publicationLink1" :href="publication.publicationLink1" target="_blank" class="btn btn-sm">
+                                        Read More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Work -->
+                <div class="work-category" v-if="socialWorks.length > 0">
+                    <h3><i class="fas fa-heart"></i> Social Work</h3>
+                    <div class="social-work-list">
+                        <div v-for="socialWork in socialWorks" :key="socialWork.id" class="social-work-item">
+                            <div class="social-work-image">
+                                <img :src="socialWork.socialWorkImg" :alt="socialWork.socialWorkName">
+                            </div>
+                            <div class="social-work-content">
+                                <h4>{{ socialWork.socialWorkName }}</h4>
+                                <p>{{ socialWork.socialWorkDescription }}</p>
+                                <div v-if="socialWork.socialWorkStartDate" class="social-work-date">
+                                    {{ formatDuration(socialWork.socialWorkStartDate, socialWork.socialWorkEndDate) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internships -->
+                <div class="work-category" v-if="internships.length > 0">
+                    <h3><i class="fas fa-building"></i> Internships</h3>
+                    <div class="internships-list">
+                        <div v-for="internship in internships" :key="internship.id" class="internship-item">
+                            <div class="internship-image">
+                                <img :src="internship.internshipImg" :alt="internship.internshipName">
+                            </div>
+                            <div class="internship-content">
+                                <h4>{{ internship.internshipName }}</h4>
+                                <p>{{ internship.internshipDescription }}</p>
+                                <div v-if="internship.internshipStartDate" class="internship-date">
+                                    {{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blogs Section -->
+    <section id="blogs" class="section blogs-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Latest Blogs</h2>
+                <div class="section-number">03</div>
+            </div>
+
+            <div class="blogs-content" id="blogsContent">
+                <div class="blogs-header">
+                    <a href="https://blogs.pranavv.co.in" target="_blank" class="btn btn-primary">
+                        Visit Blog Site <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="category-filters">
+                    <button v-for="category in categories" :key="category" 
+                            @click="selectCategory(category)"
+                            :class="['category-btn', { active: selectedCategory === category }]">
+                        {{ category }}
                     </button>
                 </div>
-            </section> -->
-            <div v-if="loading && page === 1" class="blogs-loading">
-                <div class="blogs-loading-spinner"></div>
-                <p>Loading blogs...</p>
+
+                <!-- Pinned Blogs -->
+                <div v-if="pinnedBlogs.length > 0" class="pinned-blogs">
+                    <h3><i class="fas fa-thumbtack"></i> Pinned Posts</h3>
+                    <div class="blogs-grid">
+                        <div v-for="blog in pinnedBlogs" :key="blog.id" class="blog-card pinned">
+                            <div class="blog-content">
+                                <div class="blog-meta">
+                                    <span class="blog-date">{{ formatDate(getLatestDate(blog)) }}</span>
+                                    <span class="blog-pin"><i class="fas fa-thumbtack"></i></span>
+                                </div>
+                                <h3>{{ blog.title }}</h3>
+                                <div v-html="blog.content ? blog.content.substring(0, 150) + '...' : ''" class="blog-excerpt"></div>
+                                <div class="blog-footer">
+                                    <span :class="['blog-type-tag', blog.isDevBlog ? 'dev-blog-tag' : 'full-blog-tag']">
+                                        {{ blog.isDevBlog ? 'Dev Blog' : 'Full Blog' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regular Blogs -->
+                <div class="blogs-grid">
+                    <div v-for="blog in filteredBlogs" :key="blog.id" class="blog-card">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">{{ formatDate(getLatestDate(blog)) }}</span>
+                            </div>
+                            <h3>{{ blog.title }}</h3>
+                            <div v-html="blog.content ? blog.content.substring(0, 150) + '...' : ''" class="blog-excerpt"></div>
+                            <div class="blog-footer">
+                                <span :class="['blog-type-tag', blog.isDevBlog ? 'dev-blog-tag' : 'full-blog-tag']">
+                                    {{ blog.isDevBlog ? 'Dev Blog' : 'Full Blog' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div v-if="loading" class="blogs-loading">
+                    <div class="spinner"></div>
+                    <p>{{ page === 1 ? 'Loading blogs...' : 'Loading more blogs...' }}</p>
+                </div>
+
+                <!-- End Message -->
+                <div v-if="!loading && !hasMore && blogs.length > 0" class="blogs-end">
+                    <p>End of Blogs Page :D</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Let's Talk</h2>
+                <div class="section-number">04</div>
             </div>
 
-            <div v-if="loading && page > 1" class="blogs-loading">
-                <div class="blogs-loading-spinner"></div>
-                <p>Loading more blogs...</p>
-            </div>
+            <div class="contact-content" id="contactContent">
+                <div class="contact-form-container">
+                    <form @submit.prevent="submitForm" class="contact-form">
+                        <div class="form-group">
+                            <input type="text" v-model="name" placeholder="Your Name" required :disabled="loading">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" v-model="email" placeholder="Your Email" required :disabled="loading">
+                        </div>
+                        <div class="form-group">
+                            <textarea v-model="message" placeholder="Your Message" rows="6" required :disabled="loading"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" :disabled="loading">
+                            {{ loading ? 'Sending...' : 'Send Message' }}
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
 
-            <div v-if="!loading && !hasMore && blogs.length > 0" class="blogs-loading">
-                <p>End of Blogs Page :D</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <a href="tel:+919953769729">+91 99537 69729</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <a href="mailto:pranav@verma.net.in">pranav@verma.net.in</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>made on earth by a human</p>
+                    <p><a href="https://github.com/PranavVerma-droid">Copyright © 2025 Pranav Verma</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be dynamically inserted here -->
             </div>
         </div>
     </div>
-    </div>
-    </div>
 
-    <section class="recent-blogs container" v-if="recentBlogs.length > 0"></section>
-    <div id="footer">
-        made on earth by a human <br> <a href="https://github.com/PranavVerma-droid">Copyright &COPY; 2025 Pranav
-            Verma</a>
-    </div>
-
-    <!-- Javascript Framework (Vue.js) -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.prod.js"></script>
-
-    <!-- Backend Config Files Javascript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pocketbase/0.25.2/pocketbase.umd.js"></script>
-
-    <!-- General App Settings Javascript -->
-    <script src="Home/Javascript/index.js?v=1.0.0" type=""></script>
-    <script src="Home/Javascript/particles.js?v=1.0.0"></script>
-    <script src="Home/Javascript/app.js?v=1.0.0"></script>
-
-    <!-- Backend Settings and Import Javascript -->
-    <script src="Home/Javascript/Firebase/about.js?v=1.0.0"></script>
-    <script src="Home/Javascript/Firebase/blogs.js?v=1.0.0"></script>
-    <script src="Home/Javascript/Firebase/works.js?v=1.0.0"></script>
-    <script src="Home/Javascript/Firebase/contact.js?v=1.0.0"></script>
-    <script src="Home/Javascript/Firebase/links.js?v=1.0.0"></script>
-
-    <!-- Miscellaneous Javascript -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
-    <script>
-        function showWorkInProgressAlert() {
-            alert("Work in Progress! Please Check back later!");
-        }
-    </script>
+    <script src="Home/Javascript/index.js"></script>
+    <script src="Home/Javascript/Firebase/about.js"></script>
+    <script src="Home/Javascript/Firebase/blogs.js"></script>
+    <script src="Home/Javascript/Firebase/works.js"></script>
+    <script src="Home/Javascript/Firebase/contact.js"></script>
+    <script src="Home/Javascript/Firebase/links.js"></script>
 </body>
-
 </html>
