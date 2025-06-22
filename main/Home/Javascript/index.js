@@ -32,7 +32,6 @@ async function loadProfilePicture() {
         if (user.icon) {
             const profilePicUrl = `https://pb-1.pranavv.co.in/api/files/${user.collectionId}/${user.id}/${user.icon}`;
             
-            // Set the profile picture that's already in the HTML
             const profileImg = document.getElementById('profileImg');
             if (profileImg) {
                 profileImg.src = profilePicUrl;

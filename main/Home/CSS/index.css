@@ -1169,6 +1169,40 @@ body {
     margin-bottom: 16px;
 }
 
+.workshop-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.workshop-links .btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(10, 33, 192, 0.2);
+}
+
+.workshop-links .btn:hover {
+    background: #0818a8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(10, 33, 192, 0.35);
+}
+
+.workshop-links .btn:active {
+    transform: translateY(0);
+}
+
 /* Lists */
 .competitions-list,
 .publications-list,
@@ -1247,11 +1281,50 @@ body {
     font-weight: 500;
 }
 
-.competition-links {
+.competition-links,
+.publication-links,
+.social-work-links,
+.internship-links {
     display: flex;
     gap: 8px;
     margin-top: 12px;
     flex-wrap: wrap;
+}
+
+.competition-links .btn,
+.publication-links .btn,
+.social-work-links .btn,
+.internship-links .btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(10, 33, 192, 0.2);
+}
+
+.competition-links .btn:hover,
+.publication-links .btn:hover,
+.social-work-links .btn:hover,
+.internship-links .btn:hover {
+    background: #0818a8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(10, 33, 192, 0.35);
+}
+
+.competition-links .btn:active,
+.publication-links .btn:active,
+.social-work-links .btn:active,
+.internship-links .btn:active {
+    transform: translateY(0);
 }
 
 /* Certificates Grid */
@@ -1300,6 +1373,41 @@ body {
 .certificate-date {
     font-size: 12px;
     color: var(--primary-color);
+}
+
+.certificate-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.certificate-links .btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(10, 33, 192, 0.2);
+}
+
+.certificate-links .btn:hover {
+    background: #0818a8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(10, 33, 192, 0.35);
+}
+
+.certificate-links .btn:active {
+    transform: translateY(0);
 }
 
 /* Blogs Section */
