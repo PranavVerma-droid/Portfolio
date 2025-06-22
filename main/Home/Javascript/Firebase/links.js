@@ -59,4 +59,4 @@ const appLinks = Vue.createApp({
   }
 });
 
-appLinks.mount('#linksTable');
+appLinks.mount('#socialLinks');

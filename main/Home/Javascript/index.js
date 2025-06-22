@@ -19,64 +19,41 @@
 */
 const pbIndex = new PocketBase('https://pb-1.pranavv.co.in');
 
-function showabout(){
-    $("#about_container").css("display","inherit");
-    $("#about_container").addClass("animate__animated animate__slideInLeft");
-    setTimeout(function(){
-        $("#about_container").removeClass("animate__animated animate__slideInLeft");
-    },800);
-}
-function closeabout(){
-    $("#about_container").addClass("animate__animated animate__slideOutLeft");
-    setTimeout(function(){
-        $("#about_container").removeClass("animate__animated animate__slideOutLeft");
-        $("#about_container").css("display","none");
-    },800);
-}
-function showwork(){
-    $("#work_container").css("display","inherit");
-    $("#work_container").addClass("animate__animated animate__slideInRight");
-    setTimeout(function(){
-        $("#work_container").removeClass("animate__animated animate__slideInRight");
-    },800);
-}
-function closework(){
-    $("#work_container").addClass("animate__animated animate__slideOutRight");
-    setTimeout(function(){
-        $("#work_container").removeClass("animate__animated animate__slideOutRight");
-        $("#work_container").css("display","none");
-    },800);
-}
-function showcontact(){
-    $("#contact_container").css("display","inherit");
-    $("#contact_container").addClass("animate__animated animate__slideInUp");
-    setTimeout(function(){
-        $("#contact_container").removeClass("animate__animated animate__slideInUp");
-    },800);
-}
-function closecontact(){
-    $("#contact_container").addClass("animate__animated animate__slideOutDown");
-    setTimeout(function(){
-        $("#contact_container").removeClass("animate__animated animate__slideOutDown");
-        $("#contact_container").css("display","none");
-    },800);
+// Show/hide sections for modern layout
+function showSection(sectionName) {
+    // Hide all sections first
+    document.querySelectorAll('.section').forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Show hero section by default
+    document.getElementById('hero').style.display = 'flex';
+    
+    // Show the requested section
+    const targetSection = document.getElementById(sectionName);
+    if (targetSection) {
+        targetSection.style.display = 'block';
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Update active nav link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.querySelector(`.nav-link[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
+    }
 }
 
-function showblogs() {
-    $("#blogs_container").css("display", "inherit");
-    $("#blogs_container").addClass("animate__slideInDown animate__animated");
-    setTimeout(function () {
-        $("#blogs_container").removeClass("animate__slideInDown animate__animated");
-    }, 800);
-}
+// Legacy functions for backward compatibility
+function showabout() { showSection('about'); }
+function showwork() { showSection('work'); }
+function showcontact() { showSection('contact'); }
+function showblogs() { showSection('blogs'); }
 
-function closeblogs() {
-    $("#blogs_container").addClass("animate__slideOutUp animate__animated");
-    setTimeout(function () {
-        $("#blogs_container").css("display", "none");
-        $("#blogs_container").removeClass("animate__slideOutUp animate__animated");
-    }, 800);
-}
+// No-op close functions for backward compatibility
+function closeabout() {}
+function closework() {}
+function closecontact() {}
+function closeblogs() {}
 
 async function showResume() {
     try {
@@ -114,6 +91,69 @@ async function showResume() {
     }
 }
 
+// Mobile Menu Functions
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navbar = document.querySelector('.navbar');
+    
+    if (mobileMenu.classList.contains('show')) {
+        closeMobileMenu();
+    } else {
+        openMobileMenu();
+    }
+}
+
+function openMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navbar = document.querySelector('.navbar');
+    
+    mobileMenu.classList.add('show');
+    navToggle.classList.add('active');
+    navbar.classList.add('mobile-menu-open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navbar = document.querySelector('.navbar');
+    
+    mobileMenu.classList.remove('show');
+    navToggle.classList.remove('active');
+    navbar.classList.remove('mobile-menu-open');
+    document.body.style.overflow = '';
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navbar = document.querySelector('.navbar');
+    
+    if (mobileMenu.classList.contains('show') && 
+        !mobileMenu.contains(event.target) && 
+        !navToggle.contains(event.target) && 
+        !navbar.contains(event.target)) {
+        closeMobileMenu();
+    }
+});
+
+// Close mobile menu on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeMobileMenu();
+    }
+});
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+        closeMobileMenu();
+    }
+});
+
 if (window.location.hash === '#blogs') {
     setTimeout(function() {
         showblogs();
@@ -139,14 +179,11 @@ if (window.location.hash === '#contact') {
 }
 
 setTimeout(function(){
-    $("#loading").addClass("animate__animated animate__fadeOut");
-    setTimeout(function(){
-      $("#loading").removeClass("animate__animated animate__fadeOut");
-      $("#loading").css("display","none");
-      $("#box").css("display","none");
-      $("#about").removeClass("animate__animated animate__fadeIn");
-      $("#contact").removeClass("animate__animated animate__fadeIn");
-      $("#work").removeClass("animate__animated animate__fadeIn");
-      $("#blogs").removeClass("animate__animated animate__fadeIn");
-    },1000);
-},1500);
+    const loading = document.getElementById("loading");
+    if (loading) {
+        loading.style.opacity = "0";
+        setTimeout(function(){
+            loading.style.display = "none";
+        }, 500);
+    }
+}, 1500);

@@ -77,4 +77,4 @@ const appContact = Vue.createApp({
     }
 });
 
-appContact.mount('#contact_container');
+appContact.mount('#contact');

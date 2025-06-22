@@ -63,11 +63,11 @@ const appAbout = Vue.createApp({
           fields: 'aboutMe'
         });
         
-        const aboutMePlaceholder = document.getElementById('about-me-placeholder');
+        const aboutMeElement = document.getElementById('about-me-text');
         if (userRecord?.aboutMe) {
-          aboutMePlaceholder.textContent = userRecord.aboutMe;
+          aboutMeElement.textContent = userRecord.aboutMe;
         } else {
-          aboutMePlaceholder.textContent = 'No about me information available.';
+          aboutMeElement.textContent = 'No about me information available.';
         }
       } catch (error) {
         console.error('Failed to load about me:', error);
@@ -133,8 +133,73 @@ const appAbout = Vue.createApp({
 
     visitLink(link) {
       window.open(link, '_blank');
+    },
+
+    openSkillModal(skill) {
+      const modal = document.getElementById('detailModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      
+      modalTitle.textContent = skill.skillName;
+      modalBody.innerHTML = `
+        <p>${skill.skillDescription}</p>
+        ${skill.skillUrl ? `<div class="skill-links"><a href="${skill.skillUrl}" target="_blank" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a></div>` : ''}
+      `;
+      
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    },
+
+    openTechModal(type) {
+      const modal = document.getElementById('detailModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      
+      if (type === 'languages') {
+        modalTitle.textContent = 'All Programming Languages';
+        const languagesGrid = this.languages.map(language => `
+          <div class="tech-item" onclick="window.open('${language.languageSource}', '_blank')" style="cursor: pointer;">
+            <img src="${language.languageImg}" alt="${language.languageName}">
+            <span>${language.languageName}</span>
+          </div>
+        `).join('');
+        
+        modalBody.innerHTML = `
+          <div class="tech-grid">${languagesGrid}</div>
+        `;
+      } else if (type === 'tools') {
+        modalTitle.textContent = 'All Development Tools';
+        const toolsGrid = this.tools.map(tool => `
+          <div class="tech-item">
+            <img src="${tool.toolImg}" alt="${tool.toolName}">
+            <span>${tool.toolName}</span>
+          </div>
+        `).join('');
+        
+        modalBody.innerHTML = `
+          <div class="tech-grid">${toolsGrid}</div>
+        `;
+      }
+      
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
     }
   }
 });
 
-appAbout.mount('#about_container');
+// Modal functions
+function closeModal() {
+  const modal = document.getElementById('detailModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('detailModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+}
+
+appAbout.mount('#about');
