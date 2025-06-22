@@ -327,6 +327,11 @@
                                 <div v-if="certificate.certificateIssueDate" class="certificate-date">
                                     {{ formatOnlyDate(certificate.certificateIssueDate) }}
                                 </div>
+                                <div class="certificate-links">
+                                    <a v-if="certificate.certificateUrl" :href="certificate.certificateUrl" target="_blank" class="btn btn-sm">
+                                        View Certificate
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -370,6 +375,14 @@
                                 <div v-if="socialWork.socialWorkStartDate" class="social-work-date">
                                     {{ formatDuration(socialWork.socialWorkStartDate, socialWork.socialWorkEndDate) }}
                                 </div>
+                                <div class="social-work-links">
+                                    <a v-if="socialWork.socialSource" :href="socialWork.socialSource" target="_blank" class="btn btn-sm">
+                                        View More
+                                    </a>
+                                    <a v-if="socialWork.socialWorkAdditionalUrl1" :href="socialWork.socialWorkAdditionalUrl1" target="_blank" class="btn btn-sm">Link 1</a>
+                                    <a v-if="socialWork.socialWorkAdditionalUrl2" :href="socialWork.socialWorkAdditionalUrl2" target="_blank" class="btn btn-sm">Link 2</a>
+                                    <a v-if="socialWork.socialWorkAdditionalUrl3" :href="socialWork.socialWorkAdditionalUrl3" target="_blank" class="btn btn-sm">Link 3</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -388,6 +401,11 @@
                                 <p>{{ internship.internshipDescription }}</p>
                                 <div v-if="internship.internshipStartDate" class="internship-date">
                                     {{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}
+                                </div>
+                                <div class="internship-links">
+                                    <a v-if="internship.internshipAdditionalUrl1" :href="internship.internshipAdditionalUrl1" target="_blank" class="btn btn-sm">Link 1</a>
+                                    <a v-if="internship.internshipAdditionalUrl2" :href="internship.internshipAdditionalUrl2" target="_blank" class="btn btn-sm">Link 2</a>
+                                    <a v-if="internship.internshipAdditionalUrl3" :href="internship.internshipAdditionalUrl3" target="_blank" class="btn btn-sm">Link 3</a>
                                 </div>
                             </div>
                         </div>
