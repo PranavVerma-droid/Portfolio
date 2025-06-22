@@ -241,6 +241,20 @@
                                      :class="{ 'truncated-text': project.projectDescription && project.projectDescription.length > 200 }"
                                      class="project-description"></div>
                                 <div class="project-actions">
+                                    <div class="project-links">
+                                        <a v-if="project.projectAdditionalUrl1" :href="project.projectAdditionalUrl1" target="_blank" class="btn btn-sm">
+                                            Link 1
+                                        </a>
+                                        <a v-if="project.projectAdditionalUrl2" :href="project.projectAdditionalUrl2" target="_blank" class="btn btn-sm">
+                                            Link 2
+                                        </a>
+                                        <a v-if="project.projectAdditionalUrl3" :href="project.projectAdditionalUrl3" target="_blank" class="btn btn-sm">
+                                            Link 3
+                                        </a>
+                                        <a v-if="project.projectAdditionalUrl4" :href="project.projectAdditionalUrl4" target="_blank" class="btn btn-sm">
+                                            Link 4
+                                        </a>
+                                    </div>
                                     <button v-if="project.projectDescription && project.projectDescription.length > 200" 
                                             @click="openProjectModal(project)" 
                                             class="read-more-btn">

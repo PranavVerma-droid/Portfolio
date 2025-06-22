@@ -293,26 +293,38 @@ const appWorks = Vue.createApp({
     },
 
     openProjectModal(project) {
-      const modal = document.getElementById('detailModal');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalBody = document.getElementById('modalBody');
+      this.selectedItem = project;
+      this.modalTitle = project.projectName;
       
-      modalTitle.textContent = project.projectName;
-      
-      const projectLinks = [];
-      if (project.projectAdditionalUrl1) projectLinks.push(`<a href="${project.projectAdditionalUrl1}" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> View Project</a>`);
-      if (project.projectAdditionalUrl2) projectLinks.push(`<a href="${project.projectAdditionalUrl2}" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> Source Code</a>`);
-      if (project.projectAdditionalUrl3) projectLinks.push(`<a href="${project.projectAdditionalUrl3}" target="_blank" class="btn btn-outline">Additional Link</a>`);
-      
-      modalBody.innerHTML = `
-        ${project.projectImage ? `<img src="${project.projectImage}" alt="${project.projectName}" style="max-width: 100%; margin-bottom: 20px;">` : ''}
-        <div>${project.projectDescription}</div>
-        ${project.projectStartDate ? `<p><strong>Duration:</strong> ${this.formatDuration(project.projectStartDate, project.projectEndDate)}</p>` : ''}
-        ${projectLinks.length > 0 ? `<div class="project-links">${projectLinks.join('')}</div>` : ''}
+      let modalContent = `
+          <img src="${project.projectImage}" alt="${project.projectName}" style="width: 100%; max-width: 400px; margin-bottom: 20px;">
+          <div class="modal-description" style="margin-bottom: 20px;">
+              ${project.projectDescription}
+          </div>
+          <div class="project-links" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
       `;
       
-      modal.style.display = 'block';
-      document.body.style.overflow = 'hidden';
+      if (project.projectAdditionalUrl1) {
+          modalContent += `<a href="${project.projectAdditionalUrl1}" target="_blank" class="btn btn-sm">Link 1</a>`;
+      }
+      if (project.projectAdditionalUrl2) {
+          modalContent += `<a href="${project.projectAdditionalUrl2}" target="_blank" class="btn btn-sm">Link 2</a>`;
+      }
+      if (project.projectAdditionalUrl3) {
+          modalContent += `<a href="${project.projectAdditionalUrl3}" target="_blank" class="btn btn-sm">Link 3</a>`;
+      }
+      if (project.projectAdditionalUrl4) {
+          modalContent += `<a href="${project.projectAdditionalUrl4}" target="_blank" class="btn btn-sm">Link 4</a>`;
+      }
+      
+      modalContent += `</div>`;
+      
+      if (project.projectStartDate) {
+          modalContent += `<div class="project-date">${this.formatDuration(project.projectStartDate, project.projectEndDate)}</div>`;
+      }
+      
+      document.getElementById('modalBody').innerHTML = modalContent;
+      document.getElementById('detailModal').style.display = 'block';
     },
 
     formatDuration(startDate, endDate) {
