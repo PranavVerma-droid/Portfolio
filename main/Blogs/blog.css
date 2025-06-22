@@ -438,7 +438,7 @@ code {
     font-weight: 500;
     color: var(--text-color);
     flex: 1;
-    min-width: 0;
+    min-width: 120px;
 }
 
 .admin-badge {
@@ -456,6 +456,7 @@ code {
     color: var(--text-muted);
     margin-left: auto;
     flex-shrink: 0;
+    min-width: 200px;
 }
 
 .comment-actions {
