@@ -359,7 +359,7 @@ body {
 .hero-visual {
     position: relative;
     height: 500px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .floating-shapes {
