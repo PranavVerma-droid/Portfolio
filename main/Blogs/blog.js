@@ -280,6 +280,7 @@ const app = Vue.createApp({
         });
         if (record) {
           this.blog = record;
+          this.updateMetadata(); // Add this line
           await this.loadComments();
           this.$nextTick(() => {
             document.querySelectorAll('pre').forEach(block => {
@@ -299,6 +300,43 @@ const app = Vue.createApp({
       } catch (error) {
         console.error('Failed to fetch blog:', error);
         this.error = error.message;
+      }
+    },
+
+    updateMetadata() {
+      if (!this.blog) return;
+      
+      // Extract text content from HTML for description
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = this.blog.contentV2 || '';
+      const textContent = tempDiv.textContent || tempDiv.innerText || '';
+      const description = textContent.substring(0, 160) + (textContent.length > 160 ? '...' : '');
+      
+      // Update page title
+      document.title = `${this.blog.title} - Pranav's Blog`;
+      
+      // Update meta description
+      document.querySelector('meta[name="description"]').setAttribute('content', description);
+      
+      // Update Open Graph tags
+      document.querySelector('meta[property="og:title"]').setAttribute('content', this.blog.title);
+      document.querySelector('meta[property="og:description"]').setAttribute('content', description);
+      document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
+      
+      // Update Twitter tags
+      document.querySelector('meta[property="twitter:title"]').setAttribute('content', this.blog.title);
+      document.querySelector('meta[property="twitter:description"]').setAttribute('content', description);
+      document.querySelector('meta[property="twitter:url"]').setAttribute('content', window.location.href);
+      
+      // Update article tags
+      if (this.blog.pubDateV2) {
+        document.querySelector('meta[property="article:published_time"]').setAttribute('content', this.blog.pubDateV2);
+      }
+      
+      // Update keywords if available
+      if (this.blog.tags) {
+        const keywords = Array.isArray(this.blog.tags) ? this.blog.tags.join(', ') : this.blog.tags;
+        document.querySelector('meta[name="keywords"]').setAttribute('content', `blog, technology, programming, ${keywords}`);
       }
     },
 

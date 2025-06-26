@@ -279,6 +279,7 @@ const app = Vue.createApp({
         const record = await pb.collection('devBlogs').getOne(blogId);
         if (record) {
           this.blog = record;
+          this.updateMetadata(); // Add this line
           this.extractLogs();
           await this.loadComments();
         } else {
@@ -288,6 +289,41 @@ const app = Vue.createApp({
         console.error('Failed to fetch dev blog:', error);
         this.error = error.message;
       }
+    },
+
+    updateMetadata() {
+      if (!this.blog) return;
+      
+      // Extract text content from introlog for description
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = this.blog.introlog || '';
+      const textContent = tempDiv.textContent || tempDiv.innerText || '';
+      const description = textContent.substring(0, 160) + (textContent.length > 160 ? '...' : '');
+      const fallbackDescription = `Development blog about ${this.blog.title} - Follow the project progress`;
+      
+      // Update page title
+      document.title = `${this.blog.title} - Pranav's Dev Blog`;
+      
+      // Update meta description
+      document.querySelector('meta[name="description"]').setAttribute('content', description || fallbackDescription);
+      
+      // Update Open Graph tags
+      document.querySelector('meta[property="og:title"]').setAttribute('content', this.blog.title);
+      document.querySelector('meta[property="og:description"]').setAttribute('content', description || fallbackDescription);
+      document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
+      
+      // Update Twitter tags
+      document.querySelector('meta[property="twitter:title"]').setAttribute('content', this.blog.title);
+      document.querySelector('meta[property="twitter:description"]').setAttribute('content', description || fallbackDescription);
+      document.querySelector('meta[property="twitter:url"]').setAttribute('content', window.location.href);
+      
+      // Update article tags
+      if (this.blog.pubDate) {
+        document.querySelector('meta[property="article:published_time"]').setAttribute('content', this.blog.pubDate);
+      }
+      
+      // Update keywords for dev blog
+      document.querySelector('meta[name="keywords"]').setAttribute('content', `development blog, programming, project updates, ${this.blog.title}`);
     },
 
     extractLogs() {
