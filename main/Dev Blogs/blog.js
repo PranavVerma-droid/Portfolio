@@ -626,6 +626,41 @@ const app = Vue.createApp({
             return blog.contentV2 ? blog.contentV2.substring(0, 100) + '...' : 'No preview available';
         }
     },
+
+    // Social sharing methods
+    shareOnTwitter() {
+      if (!this.blog) return;
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(`Check out this dev blog: ${this.blog.title}`);
+      const twitterUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}&via=PranavVermaXD`;
+      window.open(twitterUrl, '_blank');
+    },
+
+    shareOnLinkedIn() {
+      if (!this.blog) return;
+      const url = encodeURIComponent(window.location.href);
+      const title = encodeURIComponent(this.blog.title);
+      const summary = encodeURIComponent(this.blog.introlog ? this.blog.introlog.substring(0, 200).replace(/<[^>]*>/g, '') : 'Check out this dev blog');
+      const linkedinUrl = `https://www.linkedin.com/feed/update/urn:li:share/?text=${title}%20-%20${summary}%20${url}`;
+      window.open(linkedinUrl, '_blank');
+    },
+
+    shareOnWhatsApp() {
+      if (!this.blog) return;
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(`Check out this dev blog: ${this.blog.title} - ${url}`);
+      const whatsappUrl = `https://wa.me/?text=${text}`;
+      window.open(whatsappUrl, '_blank');
+    },
+
+    copyLink() {
+      if (!this.blog) return;
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy link: ', err);
+      });
+    },
   }
 });
 

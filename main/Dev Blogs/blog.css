@@ -2343,3 +2343,112 @@ p {
         position: static;
     }
 }
+
+/* Social Sharing Styles */
+.social-sharing {
+  margin: 2rem 0;
+  padding: 2rem;
+  border-top: 2px solid #e2e8f0;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.social-sharing h3 {
+  margin: 0 0 1.5rem 0;
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: white;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.twitter-btn {
+  background: #1da1f2;
+}
+
+.twitter-btn:hover {
+  background: #1a91da;
+}
+
+.linkedin-btn {
+  background: #0077b5;
+}
+
+.linkedin-btn:hover {
+  background: #006396;
+}
+
+.whatsapp-btn {
+  background: #25d366;
+}
+
+.whatsapp-btn:hover {
+  background: #22c55e;
+}
+
+.copy-btn {
+  background: #6b7280;
+}
+
+.copy-btn:hover {
+  background: #4b5563;
+}
+
+.share-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Dark mode styles for social sharing */
+.dark-mode .social-sharing {
+  background: #1e293b;
+  border-top-color: #334155;
+  border-bottom-color: #334155;
+}
+
+.dark-mode .social-sharing h3 {
+  color: #f1f5f9;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .share-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .share-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
