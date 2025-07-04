@@ -144,6 +144,46 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.post-content ul,
+.post-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+    line-height: 1.7;
+}
+
+.post-content ul {
+    list-style-type: disc;
+}
+
+.post-content ol {
+    list-style-type: decimal;
+}
+
+.post-content li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.post-content li:last-child {
+    margin-bottom: 0;
+}
+
+.post-content ul ul,
+.post-content ol ol,
+.post-content ul ol,
+.post-content ol ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.post-content ul ul {
+    list-style-type: circle;
+}
+
+.post-content ul ul ul {
+    list-style-type: square;
+}
+
 .post-content img {
     max-width: 100%;
     height: auto;
@@ -282,17 +322,22 @@ pre[class*="language-"] {
 
 code {
     font-family: 'Fira Code', 'Consolas', monospace;
+    vertical-align: -0.1em;
 }
 
 :not(pre) > code {
     background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
     padding: 0.2em 0.4em;
-    border-radius: 4px;
     font-size: 0.9em;
+    color: #e83e8c;
+    font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace !important;
+    vertical-align: -0.1em;
 }
 
 .dark-mode :not(pre) > code {
     background: rgba(255, 255, 255, 0.1);
+    vertical-align: -0.1em;
 }
 
 /* Comments Section */
@@ -690,6 +735,7 @@ pre[class*="language-"].line-numbers {
     font-size: 0.9em;
     color: #e83e8c;
     font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace !important;
+    vertical-align: -0.1em;
 }
 
 .token.comment,
