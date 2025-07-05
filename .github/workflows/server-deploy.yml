@@ -57,11 +57,11 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: wait-for-builds
-    
     steps:
-      - name: Deploy to Server
+      - name: Deploy to server
         run: |
           echo "Starting deployment..."
+          git config --global --add safe.directory /var/www/portfolio
           cd /var/www/portfolio || exit 1
           echo "Resetting local changes..."
           git reset --hard HEAD
