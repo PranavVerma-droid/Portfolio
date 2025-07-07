@@ -819,6 +819,41 @@ body {
     font-weight: 500;
 }
 
+/* Education Links */
+.edu-links {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.edu-links .btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(10, 33, 192, 0.2);
+}
+
+.edu-links .btn:hover {
+    background: #0818a8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(10, 33, 192, 0.35);
+}
+
+.edu-links .btn:active {
+    transform: translateY(0);
+}
+
 /* Skills List */
 .skill-item {
     margin-bottom: 24px;

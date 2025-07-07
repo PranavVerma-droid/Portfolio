@@ -140,6 +140,14 @@
                                     <span class="edu-date" v-if="edu.eduStartDate">
                                         {{ formatEducationDuration(edu.eduStartDate, edu.eduEndDate) }}
                                     </span>
+                                    <div class="edu-links" v-if="edu.eduLink1 || edu.eduLink2">
+                                        <a v-if="edu.eduLink1" :href="edu.eduLink1" target="_blank" class="btn btn-sm">
+                                            Link 1
+                                        </a>
+                                        <a v-if="edu.eduLink2" :href="edu.eduLink2" target="_blank" class="btn btn-sm">
+                                            Link 2
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
