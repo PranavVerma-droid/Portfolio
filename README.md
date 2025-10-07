@@ -12,6 +12,8 @@ Backup URL's:
 
 This Code is [Licensed](LICENSE)!
 
+> Initially, I had only the [Portfolio](main) Page. Then, I decided to make a separate [Blogs](blogs) Homepage. I set it to Redirect to the [`blog.html`](main/blog.html) of the Main Page, when clicking on a blog in the [Blogs](blogs) page.
+
 
 ### Tools Used:
     - HTML + CSS + JS

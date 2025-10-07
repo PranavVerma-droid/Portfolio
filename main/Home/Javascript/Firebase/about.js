@@ -8,14 +8,28 @@ const appAbout = Vue.createApp({
       languages: [],
       skills: [],
       education: [],
+      projects: [], // Add this
       skillUrl: "",
       aboutMe: ''
     };
   },
 
+  computed: {
+    totalTechnologies() {
+      return this.languages.length + this.tools.length;
+    }
+  },
+
   mounted() {
     this.checkAuth();
     this.loadAll();
+    
+    // Animate counters after data is loaded
+    setTimeout(() => {
+      document.querySelectorAll('.stat-number[data-count]').forEach(element => {
+        animateCounter(element);
+      });
+    }, 1000);
   },
 
   methods: {
@@ -31,7 +45,8 @@ const appAbout = Vue.createApp({
         this.loadLanguages(),
         this.loadSkills(),
         this.loadEducation(),
-        this.loadAboutMe()
+        this.loadAboutMe(),
+        this.fetchProjects()
       ]);
     },
 
@@ -89,6 +104,17 @@ const appAbout = Vue.createApp({
         this.education = records;
       } catch (error) {
         console.error('Failed to load education:', error);
+      }
+    },
+
+    async fetchProjects() {
+      try {
+        const records = await pbAbout.collection('projects').getFullList({
+          sort: '-projectStartDate',
+        });
+        this.projects = records;
+      } catch (error) {
+        console.error('Error fetching projects:', error);
       }
     },
 
