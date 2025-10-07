@@ -100,10 +100,24 @@ const appAbout = Vue.createApp({
     
     async loadEducation() {
       try {
-        const records = await pbAbout.collection('education').getFullList();
+        const records = await pbAbout.collection('education').getFullList({
+          sort: '-eduStartDate'
+        });
         this.education = records;
+        console.log('Education loaded:', this.education); // Debug log
+        
+        // Trigger counter animation after education loads
+        this.$nextTick(() => {
+          const counters = document.querySelectorAll('.stat-number[data-count]');
+          counters.forEach(counter => {
+            if (counter.textContent === '0') {
+              animateCounter(counter);
+            }
+          });
+        });
       } catch (error) {
         console.error('Failed to load education:', error);
+        this.education = [];
       }
     },
 
@@ -119,16 +133,29 @@ const appAbout = Vue.createApp({
     },
 
     formatEducationDuration(startDate, endDate) {
-      if (!startDate) return '';
+      // If both dates are empty, return empty string
+      if (!startDate && !endDate) return '';
       
+      // If only start date exists
+      if (!startDate && endDate) {
+        const endDateTime = new Date(endDate);
+        const endMonth = endDateTime.toLocaleString('default', { month: 'long' });
+        const endYear = endDateTime.getFullYear();
+        return `Until ${endMonth} ${endYear}`;
+      }
+      
+      // If only end date is missing (ongoing)
+      if (startDate && !endDate) {
+        const startDateTime = new Date(startDate);
+        const startMonth = startDateTime.toLocaleString('default', { month: 'long' });
+        const startYear = startDateTime.getFullYear();
+        return `${startMonth} ${startYear} - Present`;
+      }
+      
+      // Both dates exist
       const startDateTime = new Date(startDate);
       const startMonth = startDateTime.toLocaleString('default', { month: 'long' });
       const startYear = startDateTime.getFullYear();
-      
-      // If no end date, just return the start date
-      if (!endDate) {
-        return `${startMonth} ${startYear}`;
-      }
       
       const endDateTime = new Date(endDate);
       const endMonth = endDateTime.toLocaleString('default', { month: 'long' });

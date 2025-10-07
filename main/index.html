@@ -238,6 +238,40 @@
                                 <div class="stat-label">Years Experience</div>
                             </div>
                         </div>
+                        
+                        <div class="skills-category">
+                            <h3 class="category-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                Education & Achievements
+                            </h3>
+                            <div class="education-timeline">
+                                <div v-for="edu in education" :key="edu.id" class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <img v-if="edu.eduLogo" :src="edu.eduLogo" :alt="edu.eduTitle" class="timeline-logo">
+                                            <div class="timeline-info">
+                                                <h4>{{ edu.eduTitle }}</h4>
+                                                <p v-if="edu.eduStartDate || edu.eduEndDate" class="timeline-duration">
+                                                    {{ formatEducationDuration(edu.eduStartDate, edu.eduEndDate) }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div v-if="edu.eduDescription" class="timeline-description" v-html="edu.eduDescription"></div>
+                                        <div v-if="edu.eduLink1 || edu.eduLink2" class="timeline-links">
+                                            <a v-if="edu.eduLink1" :href="edu.eduLink1" target="_blank" class="timeline-link">
+                                                <i class="fas fa-external-link-alt"></i>
+                                                <span>View Details</span>
+                                            </a>
+                                            <a v-if="edu.eduLink2" :href="edu.eduLink2" target="_blank" class="timeline-link">
+                                                <i class="fas fa-link"></i>
+                                                <span>Additional Link</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="about-skills">
@@ -274,23 +308,6 @@
                                     <span>View All</span>
                                     <i class="fas fa-arrow-right"></i>
                                 </button>
-                            </div>
-                        </div>
-                        
-                        <div class="skills-category">
-                            <h3 class="category-title">
-                                <i class="fas fa-graduation-cap"></i>
-                                Education
-                            </h3>
-                            <div class="education-timeline">
-                                <div v-for="edu in education" :key="edu.id" class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h4>{{ edu.eduInstituteName }}</h4>
-                                        <p class="timeline-degree">{{ edu.eduDegreeName }}</p>
-                                        <p class="timeline-duration">{{ formatEducationDuration(edu.eduStartDate, edu.eduEndDate) }}</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         
@@ -437,7 +454,10 @@
                 <div class="work-content" data-content="certificates">
                     <div class="certificates-grid">
                         <div v-for="certificate in certificates" :key="certificate.id" class="certificate-card">
-                            <div class="certificate-badge">
+                            <div v-if="certificate.certificateImg" class="certificate-image">
+                                <img :src="certificate.certificateImg" :alt="certificate.certificateName">
+                            </div>
+                            <div v-else class="certificate-badge">
                                 <i class="fas fa-award"></i>
                             </div>
                             <h3>{{ certificate.certificateName }}</h3>
@@ -458,6 +478,9 @@
                 <div class="work-content" data-content="workshops">
                     <div class="workshops-grid">
                         <div v-for="workshop in workshops" :key="workshop.id" class="workshop-card">
+                            <div v-if="workshop.workshopImg" class="workshop-image">
+                                <img :src="workshop.workshopImg" :alt="workshop.workshopName">
+                            </div>
                             <div class="workshop-badge" :class="{ 'online': workshop.isOnline }">
                                 <i :class="workshop.isOnline ? 'fas fa-video' : 'fas fa-map-marker-alt'"></i>
                                 <span>{{ workshop.isOnline ? 'Online' : 'In-Person' }}</span>
@@ -678,18 +701,40 @@
     <script src="Home/Javascript/Firebase/about.js"></script>
     
     <script>
-        // Enhanced cursor follower
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
-        
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let outlineX = 0;
+        let outlineY = 0;
+
+        // Update mouse position
         window.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-            
-            cursorOutline.style.left = e.clientX + 'px';
-            cursorOutline.style.top = e.clientY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
-        
+
+        // Animate cursor with requestAnimationFrame
+        function animateCursor() {
+            // Dot follows cursor immediately
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            
+            // Outline follows with smooth interpolation (lerp)
+            // Lower value = smoother but slower, higher value = faster but more jittery
+            const speed = 0.7;
+            
+            outlineX += (mouseX - outlineX) * speed;
+            outlineY += (mouseY - outlineY) * speed;
+            
+            cursorOutline.style.left = outlineX + 'px';
+            cursorOutline.style.top = outlineY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+
+        animateCursor();
         // Work tabs functionality
         document.querySelectorAll('.work-tab').forEach(tab => {
             tab.addEventListener('click', () => {
