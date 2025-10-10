@@ -8,14 +8,28 @@ const appAbout = Vue.createApp({
       languages: [],
       skills: [],
       education: [],
+      projects: [], // Add this
       skillUrl: "",
       aboutMe: ''
     };
   },
 
+  computed: {
+    totalTechnologies() {
+      return this.languages.length + this.tools.length;
+    }
+  },
+
   mounted() {
     this.checkAuth();
     this.loadAll();
+    
+    // Animate counters after data is loaded
+    setTimeout(() => {
+      document.querySelectorAll('.stat-number[data-count]').forEach(element => {
+        animateCounter(element);
+      });
+    }, 1000);
   },
 
   methods: {
@@ -31,7 +45,8 @@ const appAbout = Vue.createApp({
         this.loadLanguages(),
         this.loadSkills(),
         this.loadEducation(),
-        this.loadAboutMe()
+        this.loadAboutMe(),
+        this.fetchProjects()
       ]);
     },
 
@@ -85,24 +100,60 @@ const appAbout = Vue.createApp({
     
     async loadEducation() {
       try {
-        const records = await pbAbout.collection('education').getFullList();
+        const records = await pbAbout.collection('education').getFullList({
+          sort: '-eduStartDate'
+        });
         this.education = records;
+        
+        this.$nextTick(() => {
+          const counters = document.querySelectorAll('.stat-number[data-count]');
+          counters.forEach(counter => {
+            if (counter.textContent === '0') {
+              animateCounter(counter);
+            }
+          });
+        });
       } catch (error) {
         console.error('Failed to load education:', error);
+        this.education = [];
+      }
+    },
+
+    async fetchProjects() {
+      try {
+        const records = await pbAbout.collection('projects').getFullList({
+          sort: '-projectStartDate',
+        });
+        this.projects = records;
+      } catch (error) {
+        console.error('Error fetching projects:', error);
       }
     },
 
     formatEducationDuration(startDate, endDate) {
-      if (!startDate) return '';
+      // If both dates are empty, return empty string
+      if (!startDate && !endDate) return '';
       
+      // If only start date exists
+      if (!startDate && endDate) {
+        const endDateTime = new Date(endDate);
+        const endMonth = endDateTime.toLocaleString('default', { month: 'long' });
+        const endYear = endDateTime.getFullYear();
+        return `Until ${endMonth} ${endYear}`;
+      }
+      
+      // If only end date is missing (ongoing)
+      if (startDate && !endDate) {
+        const startDateTime = new Date(startDate);
+        const startMonth = startDateTime.toLocaleString('default', { month: 'long' });
+        const startYear = startDateTime.getFullYear();
+        return `${startMonth} ${startYear} - Present`;
+      }
+      
+      // Both dates exist
       const startDateTime = new Date(startDate);
       const startMonth = startDateTime.toLocaleString('default', { month: 'long' });
       const startYear = startDateTime.getFullYear();
-      
-      // If no end date, just return the start date
-      if (!endDate) {
-        return `${startMonth} ${startYear}`;
-      }
       
       const endDateTime = new Date(endDate);
       const endMonth = endDateTime.toLocaleString('default', { month: 'long' });
@@ -158,7 +209,7 @@ const appAbout = Vue.createApp({
       if (type === 'languages') {
         modalTitle.textContent = 'All Programming Languages';
         const languagesGrid = this.languages.map(language => `
-          <div class="tech-item" onclick="window.open('${language.languageSource}', '_blank')" style="cursor: pointer;">
+          <div class="tech-item" onclick="window.open('${language.languageSource}', '_blank')" style="cursor: pointer;" title="Click to view ${language.languageName} source">
             <img src="${language.languageImg}" alt="${language.languageName}">
             <span>${language.languageName}</span>
           </div>
