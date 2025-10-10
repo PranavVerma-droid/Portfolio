@@ -104,9 +104,7 @@ const appAbout = Vue.createApp({
           sort: '-eduStartDate'
         });
         this.education = records;
-        console.log('Education loaded:', this.education); // Debug log
         
-        // Trigger counter animation after education loads
         this.$nextTick(() => {
           const counters = document.querySelectorAll('.stat-number[data-count]');
           counters.forEach(counter => {

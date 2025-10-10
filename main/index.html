@@ -3,9 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Pranav Verma - Software Developer & Tech Enthusiast Portfolio">
     <meta name="theme-color" content="#ff3232">
+    <meta name="format-detection" content="telephone=no">
     <title>Pranav Verma | Portfolio</title>
 
     <!-- Preload Critical Assets -->
@@ -66,23 +67,23 @@
             </div>
 
             <div class="nav-menu">
-                <a href="#hero" class="nav-link active" data-text="home">
+                <a href="#hero" class="nav-link active" data-section="hero">
                     <i class="fas fa-home"></i>
                     <span>Home</span>
                 </a>
-                <a href="#about" class="nav-link" onclick="showSection('about')" data-text="about">
+                <a href="#about" class="nav-link" data-section="about">
                     <i class="fas fa-user"></i>
                     <span>About</span>
                 </a>
-                <a href="#work" class="nav-link" onclick="showSection('work')" data-text="work">
+                <a href="#work" class="nav-link" data-section="work">
                     <i class="fas fa-briefcase"></i>
                     <span>Work</span>
                 </a>
-                <a href="#blogs" class="nav-link" onclick="showSection('blogs')" data-text="blogs">
+                <a href="#blogs" class="nav-link" data-section="blogs">
                     <i class="fas fa-blog"></i>
                     <span>Blogs</span>
                 </a>
-                <a href="#contact" class="nav-link" onclick="showSection('contact')" data-text="contact">
+                <a href="#contact" class="nav-link" data-section="contact">
                     <i class="fas fa-envelope"></i>
                     <span>Contact</span>
                 </a>
@@ -92,7 +93,7 @@
                 </button>
             </div>
 
-            <button class="nav-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle Navigation">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
@@ -100,26 +101,29 @@
         </div>
     </nav>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+    
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu">
         <div class="mobile-menu-content">
-            <a href="#hero" class="mobile-link" onclick="closeMobileMenu()">
+            <a href="#hero" class="mobile-link" data-section="hero">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="#about" class="mobile-link" onclick="showSection('about'); closeMobileMenu()">
+            <a href="#about" class="mobile-link" data-section="about">
                 <i class="fas fa-user"></i>
                 <span>About</span>
             </a>
-            <a href="#work" class="mobile-link" onclick="showSection('work'); closeMobileMenu()">
+            <a href="#work" class="mobile-link" data-section="work">
                 <i class="fas fa-briefcase"></i>
                 <span>Work</span>
             </a>
-            <a href="#blogs" class="mobile-link" onclick="showSection('blogs'); closeMobileMenu()">
+            <a href="#blogs" class="mobile-link" data-section="blogs">
                 <i class="fas fa-blog"></i>
                 <span>Blogs</span>
             </a>
-            <a href="#contact" class="mobile-link" onclick="showSection('contact'); closeMobileMenu()">
+            <a href="#contact" class="mobile-link" data-section="contact">
                 <i class="fas fa-envelope"></i>
                 <span>Contact</span>
             </a>
@@ -691,9 +695,9 @@
     </main>
 
     <!-- Modal -->
-    <div id="detailModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">
+    <div id="detailModal" class="modal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close Modal">
                 <i class="fas fa-times"></i>
             </button>
             <h2 id="modalTitle" class="modal-title"></h2>
@@ -724,50 +728,200 @@
     <script src="Home/Javascript/Firebase/about.js"></script>
 
     <script>
-        const cursorDot = document.querySelector('[data-cursor-dot]');
-        const cursorOutline = document.querySelector('[data-cursor-outline]');
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let outlineX = 0;
-        let outlineY = 0;
-
-        // Update mouse position
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        // Animate cursor with requestAnimationFrame
-        function animateCursor() {
-            // Dot follows cursor immediately
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
-
-            // Outline follows with smooth interpolation (lerp)
-            // Lower value = smoother but slower, higher value = faster but more jittery
-            const speed = 0.7;
-
-            outlineX += (mouseX - outlineX) * speed;
-            outlineY += (mouseY - outlineY) * speed;
-
-            cursorOutline.style.left = outlineX + 'px';
-            cursorOutline.style.top = outlineY + 'px';
-
-            requestAnimationFrame(animateCursor);
+        // Improved mobile navigation functionality
+        let isMenuOpen = false;
+        
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const navToggle = document.getElementById('navToggle');
+            const body = document.body;
+            
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                mobileMenu.classList.add('show');
+                mobileMenuOverlay.classList.add('show');
+                navToggle.classList.add('active');
+                body.style.overflow = 'hidden';
+                body.style.position = 'fixed';
+                body.style.width = '100%';
+            } else {
+                mobileMenu.classList.remove('show');
+                mobileMenuOverlay.classList.remove('show');
+                navToggle.classList.remove('active');
+                body.style.overflow = '';
+                body.style.position = '';
+                body.style.width = '';
+            }
         }
 
-        animateCursor();
+        function closeMobileMenu() {
+            if (isMenuOpen) {
+                toggleMobileMenu();
+            }
+        }
+
+        // Navigation event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const navToggle = document.getElementById('navToggle');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            navToggle.addEventListener('click', toggleMobileMenu);
+            mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+            
+            // Navigation links - both desktop and mobile
+            const allNavLinks = document.querySelectorAll('.nav-link, .mobile-link');
+            
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const sectionId = this.getAttribute('data-section');
+                    if (sectionId) {
+                        showSection(sectionId);
+                        closeMobileMenu();
+                        
+                        // Update active states
+                        document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
+                        document.querySelectorAll('.mobile-link').forEach(ml => ml.classList.remove('active'));
+                        
+                        // Add active to corresponding links
+                        document.querySelectorAll(`[data-section="${sectionId}"]`).forEach(el => {
+                            el.classList.add('active');
+                        });
+                    }
+                });
+            });
+            
+            // Prevent zoom on iOS
+            document.addEventListener('gesturestart', function (e) {
+                e.preventDefault();
+            });
+            
+            // Prevent double-tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // Close mobile menu on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isMenuOpen) {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Improved showSection function
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = ['hero', 'about', 'work', 'blogs', 'contact'];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    if (id === sectionId) {
+                        section.style.display = 'block';
+                        // Add animation class if needed
+                        setTimeout(() => section.classList.add('animate-in'), 50);
+                    } else {
+                        section.style.display = 'none';
+                        section.classList.remove('animate-in');
+                    }
+                }
+            });
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Close modal on overlay click
+        function closeModalOnOverlay(event) {
+            if (event.target === event.currentTarget) {
+                closeModal();
+            }
+        }
+
+        // Touch event improvements for mobile
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+            
+            const touchElements = document.querySelectorAll('.btn, .work-tab, .filter-btn, .project-card, .blog-card, .tech-badge');
+            
+            touchElements.forEach(element => {
+                let touchTimeout;
+                
+                element.addEventListener('touchstart', function(e) {
+                    clearTimeout(touchTimeout);
+                    this.classList.add('touch-active');
+                }, { passive: true });
+                
+                element.addEventListener('touchend', function(e) {
+                    clearTimeout(touchTimeout);
+                    touchTimeout = setTimeout(() => {
+                        this.classList.remove('touch-active');
+                    }, 150);
+                }, { passive: true });
+                
+                element.addEventListener('touchcancel', function(e) {
+                    clearTimeout(touchTimeout);
+                    this.classList.remove('touch-active');
+                }, { passive: true });
+            });
+        }
+
+        // Enhanced cursor functionality (desktop only)
+        if (window.innerWidth > 768) {
+            const cursorDot = document.querySelector('[data-cursor-dot]');
+            const cursorOutline = document.querySelector('[data-cursor-outline]');
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let outlineX = 0;
+            let outlineY = 0;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                cursorDot.style.left = mouseX + 'px';
+                cursorDot.style.top = mouseY + 'px';
+
+                const speed = 0.7;
+                outlineX += (mouseX - outlineX) * speed;
+                outlineY += (mouseY - outlineY) * speed;
+
+                cursorOutline.style.left = outlineX + 'px';
+                cursorOutline.style.top = outlineY + 'px';
+
+                requestAnimationFrame(animateCursor);
+            }
+
+            animateCursor();
+        }
+
         // Work tabs functionality
-        document.querySelectorAll('.work-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetTab = tab.dataset.tab;
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.work-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
 
-                document.querySelectorAll('.work-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.work-content').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.work-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.work-content').forEach(c => c.classList.remove('active'));
 
-                tab.classList.add('active');
-                document.querySelector(`[data-content="${targetTab}"]`).classList.add('active');
+                    tab.classList.add('active');
+                    const targetContent = document.querySelector(`[data-content="${targetTab}"]`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
             });
         });
 
@@ -802,7 +956,6 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-in');
 
-                    // Animate counters when about section becomes visible
                     if (entry.target.id === 'about') {
                         setTimeout(() => {
                             entry.target.querySelectorAll('[data-count]').forEach(animateCounter);
