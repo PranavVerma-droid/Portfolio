@@ -533,6 +533,14 @@
                     <div class="section-line"></div>
                 </div>
 
+                <div class="blog-cta">
+                    <a href="https://blogs.pranavv.co.in" target="_blank" class="blog-cta-btn">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Visit Blog Site</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
                 <div class="blog-filters">
                     <button v-for="category in categories" :key="category" @click="selectCategory(category)"
                         :class="['filter-btn', { active: selectedCategory === category }]">
