@@ -211,7 +211,7 @@ const appAbout = Vue.createApp({
       if (type === 'languages') {
         modalTitle.textContent = 'All Programming Languages';
         const languagesGrid = this.languages.map(language => `
-          <div class="tech-item" onclick="window.open('${language.languageSource}', '_blank')" style="cursor: pointer;">
+          <div class="tech-item" onclick="window.open('${language.languageSource}', '_blank')" style="cursor: pointer;" title="Click to view ${language.languageName} source">
             <img src="${language.languageImg}" alt="${language.languageName}">
             <span>${language.languageName}</span>
           </div>
