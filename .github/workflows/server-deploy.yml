@@ -55,7 +55,7 @@ jobs:
             throw new Error('Timeout waiting for Docker builds to complete');
 
   deploy:
-    runs-on: ubuntu-selfhosted
+    runs-on: db1
     needs: wait-for-builds
     steps:
       - name: Deploy to server
