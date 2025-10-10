@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Pranav Verma - Software Developer & Tech Enthusiast Portfolio">
     <meta name="theme-color" content="#ff3232">
     <title>Pranav Verma | Portfolio</title>
-    
+
     <!-- Preload Critical Assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="Home/CSS/index.css">
-    
+
     <!-- Vue.js -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    
+
     <!-- PocketBase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.3/dist/pocketbase.umd.js"></script>
 </head>
+
 <body>
     <!-- Loading Screen -->
     <div id="loading" class="loading-screen">
@@ -60,7 +64,7 @@
                     <span class="brand-bracket">/&gt;</span>
                 </div>
             </div>
-            
+
             <div class="nav-menu">
                 <a href="#hero" class="nav-link active" data-text="home">
                     <i class="fas fa-home"></i>
@@ -128,7 +132,7 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        
+
         <!-- Hero Section -->
         <section id="hero" class="section hero-section">
             <div class="hero-container">
@@ -137,7 +141,7 @@
                         <span class="badge-dot"></span>
                         <span class="badge-text">Programming</span>
                     </div>
-                    
+
                     <h1 class="hero-title">
                         <span class="title-line">
                             <span class="title-word">Hi, I'm</span>
@@ -149,15 +153,16 @@
                             <span class="title-word">Experiences</span>
                         </span>-->
                     </h1>
-                    
+
                     <p class="hero-subtitle">
                         Full-Stack Developer • Tech Innovator • Problem Solver
                     </p>
-                    
+
                     <div class="hero-description">
-                        <p>Transforming complex problems into elegant solutions through code, creativity, and continuous innovation.</p>
+                        <p>Transforming complex problems into elegant solutions through code, creativity, and continuous
+                            innovation.</p>
                     </div>
-                    
+
                     <div class="hero-actions">
                         <button class="btn btn-primary" onclick="showSection('work')">
                             <span>Explore Work</span>
@@ -168,16 +173,17 @@
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
-                    
+
                     <div id="socialLinks" class="hero-social">
                         <div v-for="social in socials" :key="social.id" class="social-item">
-                            <a :href="social.socialSource" target="_blank" :aria-label="social.socialName" class="social-link">
+                            <a :href="social.socialSource" target="_blank" :aria-label="social.socialName"
+                                class="social-link">
                                 <img :src="social.socialImg" :alt="social.socialName">
                             </a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="hero-visual">
                     <div class="profile-container">
                         <div class="profile-ring"></div>
@@ -185,7 +191,7 @@
                         <img id="profileImg" src="" alt="Profile Picture" class="profile-image">
                         <div class="profile-glow"></div>
                     </div>
-                    
+
                     <div class="floating-cards">
                         <div class="float-card card-1">
                             <i class="fas fa-code"></i>
@@ -202,7 +208,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="scroll-indicator">
                 <div class="scroll-mouse">
                     <div class="scroll-wheel"></div>
@@ -219,11 +225,11 @@
                     <h2 class="section-title">About Me</h2>
                     <div class="section-line"></div>
                 </div>
-                
+
                 <div class="about-content">
                     <div class="about-text">
                         <p id="about-me-text" class="about-description"></p>
-                        
+
                         <div class="about-stats">
                             <div class="stat-item">
                                 <div class="stat-number" :data-count="projects.length">0</div>
@@ -238,7 +244,7 @@
                                 <div class="stat-label">Years Experience</div>
                             </div>
                         </div>
-                        
+
                         <div class="skills-category">
                             <h3 class="category-title">
                                 <i class="fas fa-graduation-cap"></i>
@@ -249,7 +255,8 @@
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
                                         <div class="timeline-header">
-                                            <img v-if="edu.eduLogo" :src="edu.eduLogo" :alt="edu.eduTitle" class="timeline-logo">
+                                            <img v-if="edu.eduLogo" :src="edu.eduLogo" :alt="edu.eduTitle"
+                                                class="timeline-logo">
                                             <div class="timeline-info">
                                                 <h4>{{ edu.eduTitle }}</h4>
                                                 <p v-if="edu.eduStartDate || edu.eduEndDate" class="timeline-duration">
@@ -257,13 +264,16 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <div v-if="edu.eduDescription" class="timeline-description" v-html="edu.eduDescription"></div>
+                                        <div v-if="edu.eduDescription" class="timeline-description"
+                                            v-html="edu.eduDescription"></div>
                                         <div v-if="edu.eduLink1 || edu.eduLink2" class="timeline-links">
-                                            <a v-if="edu.eduLink1" :href="edu.eduLink1" target="_blank" class="timeline-link">
+                                            <a v-if="edu.eduLink1" :href="edu.eduLink1" target="_blank"
+                                                class="timeline-link">
                                                 <i class="fas fa-external-link-alt"></i>
                                                 <span>View Details</span>
                                             </a>
-                                            <a v-if="edu.eduLink2" :href="edu.eduLink2" target="_blank" class="timeline-link">
+                                            <a v-if="edu.eduLink2" :href="edu.eduLink2" target="_blank"
+                                                class="timeline-link">
                                                 <i class="fas fa-link"></i>
                                                 <span>Additional Link</span>
                                             </a>
@@ -273,7 +283,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="about-skills">
                         <div class="skills-category">
                             <h3 class="category-title">
@@ -281,8 +291,8 @@
                                 Programming Languages
                             </h3>
                             <div class="tech-showcase">
-                                <div v-for="(language, index) in languages.slice(0, 8)" :key="language.id" 
-                                     class="tech-badge" :style="{ animationDelay: index * 0.1 + 's' }">
+                                <div v-for="(language, index) in languages.slice(0, 8)" :key="language.id"
+                                    class="tech-badge" :style="{ animationDelay: index * 0.1 + 's' }">
                                     <img :src="language.languageImg" :alt="language.languageName">
                                     <span>{{ language.languageName }}</span>
                                 </div>
@@ -292,15 +302,15 @@
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div class="skills-category">
                             <h3 class="category-title">
                                 <i class="fas fa-tools"></i>
                                 Tools & Technologies
                             </h3>
                             <div class="tech-showcase">
-                                <div v-for="(tool, index) in tools.slice(0, 8)" :key="tool.id" 
-                                     class="tech-badge" :style="{ animationDelay: index * 0.1 + 's' }">
+                                <div v-for="(tool, index) in tools.slice(0, 8)" :key="tool.id" class="tech-badge"
+                                    :style="{ animationDelay: index * 0.1 + 's' }">
                                     <img :src="tool.toolImg" :alt="tool.toolName">
                                     <span>{{ tool.toolName }}</span>
                                 </div>
@@ -310,15 +320,15 @@
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div class="skills-category">
                             <h3 class="category-title">
                                 <i class="fas fa-star"></i>
                                 Core Competencies
                             </h3>
                             <div class="competencies-grid">
-                                <div v-for="skill in skills" :key="skill.id" 
-                                     class="competency-card" @click="openSkillModal(skill)">
+                                <div v-for="skill in skills" :key="skill.id" class="competency-card"
+                                    @click="openSkillModal(skill)">
                                     <div class="competency-icon">
                                         <i class="fas fa-check-circle"></i>
                                     </div>
@@ -340,7 +350,7 @@
                     <h2 class="section-title">My Work</h2>
                     <div class="section-line"></div>
                 </div>
-                
+
                 <div class="work-tabs">
                     <button class="work-tab active" data-tab="projects">
                         <i class="fas fa-laptop-code"></i>
@@ -363,11 +373,12 @@
                         <span>Workshops</span>
                     </button>
                 </div>
-                
+
                 <!-- Projects Tab -->
                 <div class="work-content active" data-content="projects">
                     <div class="projects-grid">
-                        <div v-for="project in projects" :key="project.id" class="project-card" @click="openProjectModal(project)">
+                        <div v-for="project in projects" :key="project.id" class="project-card"
+                            @click="openProjectModal(project)">
                             <div class="project-image">
                                 <img :src="project.projectImage" :alt="project.projectName">
                                 <div class="project-overlay">
@@ -387,14 +398,15 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Internships Tab -->
                 <div class="work-content" data-content="internships">
                     <div class="internships-list">
                         <div v-for="internship in internships" :key="internship.id" class="internship-card">
                             <div class="internship-header">
                                 <div class="internship-logo">
-                                    <img v-if="internship.internshipImg" :src="internship.internshipImg" :alt="internship.internshipInstituteName">
+                                    <img v-if="internship.internshipImg" :src="internship.internshipImg"
+                                        :alt="internship.internshipInstituteName">
                                     <i v-else class="fas fa-building"></i>
                                 </div>
                                 <div class="internship-details">
@@ -406,24 +418,27 @@
                                 </div>
                                 <div class="internship-duration">
                                     <i class="far fa-calendar"></i>
-                                    <span>{{ formatDuration(internship.internshipStartDate, internship.internshipEndDate) }}</span>
+                                    <span>{{ formatDuration(internship.internshipStartDate,
+                                        internship.internshipEndDate) }}</span>
                                 </div>
                             </div>
                             <div class="internship-description">
                                 <p>{{ internship.internshipDescription }}</p>
                             </div>
                             <div v-if="internship.internshipAdditionalUrl1" class="internship-links">
-                                <a v-if="internship.internshipAdditionalUrl1" :href="internship.internshipAdditionalUrl1" target="_blank" class="link-btn">
+                                <a v-if="internship.internshipAdditionalUrl1"
+                                    :href="internship.internshipAdditionalUrl1" target="_blank" class="link-btn">
                                     <i class="fas fa-link"></i>
                                 </a>
-                                <a v-if="internship.internshipAdditionalUrl2" :href="internship.internshipAdditionalUrl2" target="_blank" class="link-btn">
+                                <a v-if="internship.internshipAdditionalUrl2"
+                                    :href="internship.internshipAdditionalUrl2" target="_blank" class="link-btn">
                                     <i class="fas fa-link"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Publications Tab -->
                 <div class="work-content" data-content="publications">
                     <div class="publications-grid">
@@ -441,7 +456,8 @@
                                 </span>
                             </div>
                             <div v-if="publication.publicationLink1" class="publication-links">
-                                <a v-if="publication.publicationLink1" :href="publication.publicationLink1" target="_blank" class="link-btn">
+                                <a v-if="publication.publicationLink1" :href="publication.publicationLink1"
+                                    target="_blank" class="link-btn">
                                     <i class="fas fa-external-link-alt"></i>
                                     <span>Read Paper</span>
                                 </a>
@@ -449,7 +465,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Certificates Tab -->
                 <div class="work-content" data-content="certificates">
                     <div class="certificates-grid">
@@ -460,20 +476,23 @@
                             <div v-else class="certificate-badge">
                                 <i class="fas fa-award"></i>
                             </div>
-                            <h3>{{ certificate.certificateName }}</h3>
-                            <p class="certificate-issuer">{{ certificate.certificateIssue }}</p>
-                            <p class="certificate-date">
-                                <i class="far fa-calendar"></i>
-                                {{ formatOnlyDate(certificate.certificateIssueDate) }}
-                            </p>
-                            <a v-if="certificate.certificateUrl" :href="certificate.certificateUrl" target="_blank" class="certificate-link">
-                                <span>View Certificate</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <div class="certificate-content">
+                                <h3>{{ certificate.certificateName }}</h3>
+                                <p class="certificate-issuer">{{ certificate.certificateIssue }}</p>
+                                <p class="certificate-date">
+                                    <i class="far fa-calendar"></i>
+                                    {{ formatOnlyDate(certificate.certificateIssueDate) }}
+                                </p>
+                                <a v-if="certificate.certificateUrl" :href="certificate.certificateUrl" target="_blank"
+                                    class="certificate-link">
+                                    <span>View Certificate</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Workshops Tab -->
                 <div class="work-content" data-content="workshops">
                     <div class="workshops-grid">
@@ -481,21 +500,23 @@
                             <div v-if="workshop.workshopImg" class="workshop-image">
                                 <img :src="workshop.workshopImg" :alt="workshop.workshopName">
                             </div>
-                            <div class="workshop-badge" :class="{ 'online': workshop.isOnline }">
-                                <i :class="workshop.isOnline ? 'fas fa-video' : 'fas fa-map-marker-alt'"></i>
-                                <span>{{ workshop.isOnline ? 'Online' : 'In-Person' }}</span>
-                            </div>
-                            <h3>{{ workshop.workshopName }}</h3>
-                            <p class="workshop-issuer">{{ workshop.workshopIssuerName }}</p>
-                            <p class="workshop-date">
-                                <i class="far fa-calendar"></i>
-                                {{ formatOnlyDate(workshop.workshopParticipationDate) }}
-                            </p>
-                            <div v-if="workshop.workshopAdditionalUrl1" class="workshop-links">
-                                <a :href="workshop.workshopAdditionalUrl1" target="_blank" class="link-btn">
-                                    <i class="fas fa-link"></i>
-                                    <span>Learn More</span>
-                                </a>
+                            <div class="workshop-content">
+                                <div class="workshop-badge" :class="{ 'online': workshop.isOnline }">
+                                    <i :class="workshop.isOnline ? 'fas fa-video' : 'fas fa-map-marker-alt'"></i>
+                                    <span>{{ workshop.isOnline ? 'Online' : 'In-Person' }}</span>
+                                </div>
+                                <h3>{{ workshop.workshopName }}</h3>
+                                <p class="workshop-issuer">{{ workshop.workshopIssuerName }}</p>
+                                <p class="workshop-date">
+                                    <i class="far fa-calendar"></i>
+                                    {{ formatOnlyDate(workshop.workshopParticipationDate) }}
+                                </p>
+                                <div v-if="workshop.workshopAdditionalUrl1" class="workshop-links">
+                                    <a :href="workshop.workshopAdditionalUrl1" target="_blank" class="link-btn">
+                                        <i class="fas fa-link"></i>
+                                        <span>Learn More</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -511,22 +532,22 @@
                     <h2 class="section-title">Blog & Insights</h2>
                     <div class="section-line"></div>
                 </div>
-                
+
                 <div class="blog-filters">
-                    <button v-for="category in categories" :key="category" 
-                            @click="selectCategory(category)"
-                            :class="['filter-btn', { active: selectedCategory === category }]">
+                    <button v-for="category in categories" :key="category" @click="selectCategory(category)"
+                        :class="['filter-btn', { active: selectedCategory === category }]">
                         {{ category }}
                     </button>
                 </div>
-                
+
                 <div v-if="pinnedBlogs.length > 0" class="pinned-blogs">
                     <h3 class="subsection-title">
                         <i class="fas fa-thumbtack"></i>
                         Pinned Posts
                     </h3>
                     <div class="blogs-grid featured">
-                        <article v-for="blog in pinnedBlogs" :key="blog.id" class="blog-card featured" @click="openBlog(blog)">
+                        <article v-for="blog in pinnedBlogs" :key="blog.id" class="blog-card featured"
+                            @click="openBlog(blog)">
                             <div class="blog-badge pinned">
                                 <i class="fas fa-star"></i>
                                 <span>Featured</span>
@@ -549,7 +570,7 @@
                         </article>
                     </div>
                 </div>
-                
+
                 <div class="blogs-container" @scroll="handleScroll">
                     <div class="blogs-grid">
                         <article v-for="blog in filteredBlogs" :key="blog.id" class="blog-card" @click="openBlog(blog)">
@@ -573,7 +594,7 @@
                             </div>
                         </article>
                     </div>
-                    
+
                     <div v-if="loading" class="loading-more">
                         <div class="spinner"></div>
                         <p>Loading more posts...</p>
@@ -590,12 +611,13 @@
                     <h2 class="section-title">Get In Touch</h2>
                     <div class="section-line"></div>
                 </div>
-                
+
                 <div class="contact-content">
                     <div class="contact-info">
                         <h3>Let's create something amazing together</h3>
-                        <p>Whether you have a project in mind, need consultation, or just want to say hello, I'm always open to discussing new opportunities and ideas.</p>
-                        
+                        <p>Whether you have a project in mind, need consultation, or just want to say hello, I'm always
+                            open to discussing new opportunities and ideas.</p>
+
                         <div class="contact-methods">
                             <div class="contact-method">
                                 <div class="method-icon">
@@ -626,35 +648,36 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <form class="contact-form" @submit="submitForm">
                         <div class="form-group">
                             <label for="name">Name *</label>
                             <input type="text" id="name" v-model="name" required placeholder="John Doe">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="email">Email *</label>
                             <input type="email" id="email" v-model="email" required placeholder="john@example.com">
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="phone">Phone</label>
                                 <input type="tel" id="phone" v-model="phone" placeholder="+1 234 567 8900">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="company">Company</label>
                                 <input type="text" id="company" v-model="company" placeholder="Your Company">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="message">Message *</label>
-                            <textarea id="message" v-model="message" required rows="6" placeholder="Tell me about your project..."></textarea>
+                            <textarea id="message" v-model="message" required rows="6"
+                                placeholder="Tell me about your project..."></textarea>
                         </div>
-                        
+
                         <button type="submit" class="btn btn-primary" :disabled="loading">
                             <span v-if="!loading">Send Message</span>
                             <span v-else>Sending...</span>
@@ -699,7 +722,7 @@
     <script src="Home/Javascript/Firebase/contact.js"></script>
     <script src="Home/Javascript/Firebase/blogs.js"></script>
     <script src="Home/Javascript/Firebase/about.js"></script>
-    
+
     <script>
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
@@ -720,17 +743,17 @@
             // Dot follows cursor immediately
             cursorDot.style.left = mouseX + 'px';
             cursorDot.style.top = mouseY + 'px';
-            
+
             // Outline follows with smooth interpolation (lerp)
             // Lower value = smoother but slower, higher value = faster but more jittery
             const speed = 0.7;
-            
+
             outlineX += (mouseX - outlineX) * speed;
             outlineY += (mouseY - outlineY) * speed;
-            
+
             cursorOutline.style.left = outlineX + 'px';
             cursorOutline.style.top = outlineY + 'px';
-            
+
             requestAnimationFrame(animateCursor);
         }
 
@@ -739,24 +762,24 @@
         document.querySelectorAll('.work-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 const targetTab = tab.dataset.tab;
-                
+
                 document.querySelectorAll('.work-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.work-content').forEach(c => c.classList.remove('active'));
-                
+
                 tab.classList.add('active');
                 document.querySelector(`[data-content="${targetTab}"]`).classList.add('active');
             });
         });
-        
+
         // Counter animation
         const animateCounter = (element) => {
             const target = parseInt(element.dataset.count);
             if (!target || isNaN(target)) return;
-            
+
             const duration = 2000;
             const step = target / (duration / 16);
             let current = 0;
-            
+
             const timer = setInterval(() => {
                 current += step;
                 if (current >= target) {
@@ -767,18 +790,18 @@
                 }
             }, 16);
         };
-        
+
         // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.2,
             rootMargin: '0px 0px -100px 0px'
         };
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-in');
-                    
+
                     // Animate counters when about section becomes visible
                     if (entry.target.id === 'about') {
                         setTimeout(() => {
@@ -788,10 +811,11 @@
                 }
             });
         }, observerOptions);
-        
+
         document.querySelectorAll('.section').forEach(section => {
             observer.observe(section);
         });
     </script>
 </body>
+
 </html>
