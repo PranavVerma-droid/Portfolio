@@ -632,7 +632,13 @@ body {
 .social-link img {
     width: 24px;
     height: 24px;
+    /* Remove filter to preserve SVG colors, or adjust as needed */
     filter: brightness(0) invert(1);
+    transition: var(--transition);
+}
+
+.social-link:hover img {
+    filter: none;
 }
 
 .hero-visual {
