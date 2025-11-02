@@ -6,7 +6,7 @@ on:
 
 jobs:
   wait-for-builds:
-    runs-on: db1
+    runs-on: ubuntu-selfhosted
     steps:
       - name: Wait for Docker Builds
         uses: actions/github-script@v7
@@ -55,7 +55,7 @@ jobs:
             throw new Error('Timeout waiting for Docker builds to complete');
 
   deploy:
-    runs-on: db1
+    runs-on: ubuntu-selfhosted
     needs: wait-for-builds
     steps:
       - name: Deploy to server
