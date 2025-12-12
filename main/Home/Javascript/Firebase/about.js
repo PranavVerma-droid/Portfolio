@@ -59,15 +59,11 @@ const appAbout = Vue.createApp({
 
     async loadAboutMe() {
       try {
-        const userRecord = await pbAbout.collection('users').getOne('4b404bw4707l2s2', {
-          fields: 'aboutMe'
-        });
+        const generalRecord = await pbAbout.collection('general').getOne('mq08m3pb8cu9mfo');
         
         const aboutMeElement = document.getElementById('about-me-text');
-        if (userRecord?.aboutMe) {
-          aboutMeElement.textContent = userRecord.aboutMe;
-        } else {
-          aboutMeElement.textContent = 'No about me information available.';
+        if (aboutMeElement && generalRecord?.about) {
+          aboutMeElement.textContent = generalRecord.about;
         }
       } catch (error) {
         console.error('Failed to load about me:', error);

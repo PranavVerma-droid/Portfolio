@@ -55,8 +55,45 @@ const appLinks = Vue.createApp({
 
     visitLink(link) {
       window.open(link, '_blank');
+    },
+
+    getImageUrl(record, filename) {
+      if (!filename) return '';
+      return pbLinks.files.getUrl(record, filename);
     }
-  }
+  },
+
+  template: `
+    <div>
+      <h3>Connect With Me</h3>
+      <div class="social-grid">
+        <div v-if="loading" style="grid-column: 1/-1; text-align: center;">
+          <p>Loading...</p>
+        </div>
+        <div v-else-if="error" style="grid-column: 1/-1; text-align: center;">
+          <p style="color: var(--color-text-muted);">{{ error }}</p>
+        </div>
+        <div v-else-if="socials.length === 0" style="grid-column: 1/-1; text-align: center;">
+          <p style="color: var(--color-text-muted);">No social links available.</p>
+        </div>
+        <template v-else>
+          <a v-for="social in socials" 
+             :key="social.id"
+             :href="social.socialSource" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="social-link"
+             @click.prevent="visitLink(social.socialSource)">
+            <img v-if="social.socialIcon" 
+                 :src="social.socialIcon" 
+                 :alt="social.socialName"
+                 style="width: 24px; height: 24px; object-fit: contain; filter: var(--icon-filter, brightness(0) invert(1));">
+            <span>{{ social.socialName }}</span>
+          </a>
+        </template>
+      </div>
+    </div>
+  `
 });
 
 appLinks.mount('#socialLinks');

@@ -65,7 +65,8 @@ const appBlogs = Vue.createApp({
             filter: 'isDraft = false'
           }),
           pbBlogs.collection('devBlogs').getList(this.page, this.perPage, {
-            sort: '-pubDate'
+            sort: '-pubDate',
+            filter: 'isDraft = false'
           })
         ]);
 
@@ -93,7 +94,7 @@ const appBlogs = Vue.createApp({
         }
 
         const categorySet = new Set(['All']);
-        this.blogs.forEach(blog => {
+        [...this.blogs, ...this.pinnedBlogs].forEach(blog => {
           if (blog.category) categorySet.add(blog.category);
         });
         this.categories = Array.from(categorySet);

@@ -167,7 +167,7 @@
                 <section class="recent-posts" v-if="recentBlogs.length > 0">
                     <h3>Recent Posts</h3>
                     <div v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-post">
-                        <h4><a :href="recentBlog.isDevBlog ? 'devblog.html?id=' + recentBlog.id : 'blog.html?id=' + recentBlog.id">
+                        <h4><a :href="(recentBlog.isDevBlog ? 'devblog.html?id=' : 'blog.html?id=') + recentBlog.id">
                             {{ recentBlog.title }}
                         </a></h4>
                         <p>{{ getPreview(recentBlog) }}</p>
