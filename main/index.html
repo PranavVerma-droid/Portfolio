@@ -212,8 +212,9 @@
                 <!-- Blog cards will be populated by JavaScript -->
             </div>
             
-            <div class="text-center mt-3">
+            <div class="text-center mt-3" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <button class="btn btn-secondary" onclick="openBlogsModal()">View All Blogs</button>
+                <a href="https://blogs.pranavv.co.in" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Blog Page</a>
             </div>
             
             <div class="loading-indicator" id="blogLoading">
@@ -315,7 +316,7 @@
 
     <!-- Scripts -->
     <!-- Vue 3 (only for contact form) -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     
     <!-- PocketBase -->
     <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.19.0/dist/pocketbase.umd.js"></script>

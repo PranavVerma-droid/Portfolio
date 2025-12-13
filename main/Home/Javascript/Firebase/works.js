@@ -127,12 +127,7 @@ const appWorks = Vue.createApp({
         });
         this.projects = records;
         
-        // Process project images display
-        console.log("Loaded projects:", this.projects);
-        
-        this.projects.forEach(project => {
-          console.log("Processing project:", project.projectName);
-          
+        this.projects.forEach(project => {          
           // Check if the project has an image field with multiple formats
           if (project.projectImage) {
             if (typeof project.projectImage === 'object' && project.projectImage.length > 0) {
@@ -151,8 +146,6 @@ const appWorks = Vue.createApp({
             // No image field, try to use link preview
             this.setLinkPreviewOrPlaceholder(project);
           }
-          
-          console.log("Final image URL:", project.projectImage);
         });
       } catch (error) {
         console.error('Failed to load projects:', error);

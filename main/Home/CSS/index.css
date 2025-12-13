@@ -1627,6 +1627,26 @@ img {
     }
 }
 
+@media (min-width: 769px) {
+    /* Ensure education items display correctly in modal on desktop */
+    .modal-body .education-item {
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+    
+    .modal-body .education-logo {
+        width: 80px;
+        height: 80px;
+        flex-shrink: 0;
+    }
+    
+    .modal-body .education-item:hover {
+        transform: translateX(10px);
+    }
+}
+
 @media (max-width: 768px) {
     :root {
         --nav-height: 70px;

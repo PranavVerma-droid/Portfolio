@@ -490,9 +490,6 @@ async function loadDevBlogs() {
             const dateB = new Date(b.pubDateV2 || b.created);
             return dateB - dateA; // Sort descending (newest first)
         });
-        
-        console.log('Total blogs (including devBlogs):', allBlogs.length);
-        console.log('DevBlogs count:', allDevBlogs.length);
     } catch (error) {
         console.error('Failed to load dev blogs:', error);
     }
@@ -1167,9 +1164,6 @@ function openBlogsModal() {
     // Show all blogs including devBlogs (both pinned and non-pinned)
     const displayBlogs = allBlogs.length > 0 ? allBlogs : [];
     
-    console.log('Opening blogs modal with', displayBlogs.length, 'blogs');
-    console.log('DevBlogs in allBlogs:', displayBlogs.filter(b => b.isDevBlog).length);
-    
     modalTitle.textContent = 'All Blog Posts';
     modalBody.innerHTML = `
         <div class="blogs-grid">
@@ -1239,6 +1233,11 @@ function openSkillDetail(skillId) {
         <div style="line-height: 1.8; font-size: 1rem; color: var(--color-text-secondary);">
             ${skill.skillDescription || '<p>No description available.</p>'}
         </div>
+        ${skill.skillUrl ? `
+            <div style="margin-top: 2rem;">
+                <a href="${skill.skillUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Learn More →</a>
+            </div>
+        ` : ''}
     `;
     
     modal.classList.add('active');
@@ -1256,59 +1255,11 @@ function openCoreSkillsModal() {
                 <div class="skill-item" onclick="openSkillDetail('${skill.id}')" style="cursor: pointer;">
                     <h4>${skill.skillName}</h4>
                     ${skill.skillDescription ? `<p>${truncateText(skill.skillDescription, 100)}</p>` : ''}
-                </div>
-            `).join('')}
-        </div>
-    `;
-    
-    modal.classList.add('active');
-}
-
-function openEducationModal() {
-    const modal = document.getElementById('viewAllModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    const education = window.educationData || [];
-    
-    modalTitle.textContent = 'All Education';
-    modalBody.innerHTML = `
-        <div class="education-list">
-            ${education.map(edu => `
-                <div class="education-item">
-                    ${edu.eduLogo ? `
-                        <img src="${edu.eduLogo}" alt="${edu.eduTitle}" class="education-logo">
+                    ${skill.skillUrl ? `
+                        <div class="project-links" style="margin-top: var(--spacing-sm);">
+                            <a href="${skill.skillUrl}" target="_blank" rel="noopener noreferrer" class="project-link" onclick="event.stopPropagation()" title="Learn More">🔗</a>
+                        </div>
                     ` : ''}
-                    <div class="education-content">
-                        <h4 class="education-degree">${edu.eduTitle}</h4>
-                        <p class="education-description">${edu.eduDescription || ''}</p>
-                        <p class="education-duration">${formatDuration(edu.eduStartDate, edu.eduEndDate)}</p>
-                        ${(edu.eduLink1 || edu.eduLink2) ? `
-                            <div class="education-links">
-                                ${edu.eduLink1 ? `<a href="${edu.eduLink1}" target="_blank" class="education-link">Link 1 →</a>` : ''}
-                                ${edu.eduLink2 ? `<a href="${edu.eduLink2}" target="_blank" class="education-link">Link 2 →</a>` : ''}
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-    
-    modal.classList.add('active');
-}
-
-function openCoreSkillsModal() {
-    const modal = document.getElementById('viewAllModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    
-    modalTitle.textContent = 'All Core Skills';
-    modalBody.innerHTML = `
-        <div class="skills-list">
-            ${allSkills.map(skill => `
-                <div class="skill-item" onclick="openSkillDetail('${skill.id}')" style="cursor: pointer;">
-                    <h4>${skill.skillName}</h4>
-                    ${skill.skillDescription ? `<p>${truncateText(skill.skillDescription, 100)}</p>` : ''}
                 </div>
             `).join('')}
         </div>
