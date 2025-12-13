@@ -519,25 +519,26 @@ const app = Vue.createApp({
     },
 
     initDarkMode() {
-      const savedMode = localStorage.getItem('darkMode');
-      if (savedMode === 'true') {
+      const savedMode = localStorage.getItem('theme');
+      // Default to dark mode
+      if (savedMode === 'light') {
+        this.isDarkMode = false;
+        document.body.classList.add('light-mode');
+      } else {
         this.isDarkMode = true;
-        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
       }
-      this.$nextTick(() => {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-          themeToggle.addEventListener('click', this.toggleDarkMode);
-        } else {
-          console.warn("Theme toggle button not found");
-        }
-      });
     },
 
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('darkMode', this.isDarkMode);
+      if (this.isDarkMode) {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      }
     },
 
     initScrollProgress() {

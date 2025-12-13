@@ -206,21 +206,23 @@
                                 <div v-for="comment in paginatedComments" :key="comment.createdAt" 
                                     class="comment" :class="{ 'loading': comment.isLoading }">
                                     <div class="comment-header">
-                                        <img :src="getCommentUserIcon(comment.userId)" alt="User Icon" class="user-avatar">
-                                        <span class="comment-author">
-                                            {{ getCommentUserName(comment.userId) }}
-                                            <span v-if="isUserAdmin(comment.userId)" class="admin-badge">Admin</span>
-                                        </span>
-                                        <div class="comment-meta">
-                                            <span class="comment-date">
+                                        <div class="comment-author">
+                                            <div>
+                                                <img :src="getCommentUserIcon(comment.userId)" alt="User Icon" class="user-avatar">
+                                                <span>
+                                                    {{ getCommentUserName(comment.userId) }}
+                                                </span>
+                                                <span v-if="isUserAdmin(comment.userId)" class="admin-badge">Admin</span>
+                                            </div>
+                                            <div class="comment-meta">
                                                 {{ formatDateTime(comment.createdAt) }}
-                                            </span>
-                                            <span class="comment-uid">User ID: {{ comment.userId }}</span>
+                                            </div>
                                         </div>
-                                        <div v-if="isCommentOwner(comment)" class="comment-actions">
-                                            <button v-if="!comment.isEditing" @click="startEditing(comment)" class="edit-btn">Edit</button>
-                                            <button @click="deleteComment(comment)" class="delete-btn">Delete</button>
-                                        </div>
+                                        <div class="comment-user-id">User ID: {{ comment.userId }}</div>
+                                    </div>
+                                    <div v-if="isCommentOwner(comment)" class="comment-actions">
+                                        <button v-if="!comment.isEditing" @click="startEditing(comment)" class="edit-btn">Edit</button>
+                                        <button @click="deleteComment(comment)" class="delete-btn">Delete</button>
                                     </div>
                                     <div v-if="comment.isLoading" class="loading-overlay">
                                         <div class="loading-spinner"></div>

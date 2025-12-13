@@ -15,7 +15,7 @@ try {
                 page: 1,
                 perPage: 10,
                 hasMore: true,
-                isDarkMode: localStorage.getItem('darkMode') !== 'false', // Default to true unless explicitly set to false
+                isDarkMode: localStorage.getItem('theme') !== 'light', // Default to dark unless explicitly light
                 categoryColors: {
                     'Technology': '#4a9eff',
                     'Programming': '#2ecc71',
@@ -29,9 +29,10 @@ try {
         },
 
         mounted() {
-            if (!localStorage.getItem('darkMode')) {
-                localStorage.setItem('darkMode', 'true');
+            if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', 'dark');
             }
+            this.isDarkMode = localStorage.getItem('theme') !== 'light';
             this.loadFromCache();
             this.fetchAllBlogs();
             this.applyTheme();
@@ -206,12 +207,16 @@ try {
 
             toggleTheme() {
                 this.isDarkMode = !this.isDarkMode;
-                localStorage.setItem('darkMode', this.isDarkMode);
+                localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
                 this.applyTheme();
             },
 
             applyTheme() {
-                document.body.classList.toggle('dark-mode', this.isDarkMode);
+                if (this.isDarkMode) {
+                    document.body.classList.remove('light-mode');
+                } else {
+                    document.body.classList.add('light-mode');
+                }
                 document.body.dispatchEvent(new CustomEvent('themeChange', {
                     detail: { isDark: this.isDarkMode }
                 }));
