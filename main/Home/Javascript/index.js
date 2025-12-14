@@ -513,10 +513,10 @@ async function loadDevBlogs() {
 // Render Initial Content (Max 3 items)
 // ============================================
 function renderInitialContent() {
-    renderProjects(3);
+    renderProjects(6);
     renderPublications(3);
     renderInternships(3);
-    renderCertificates(3);
+    renderCertificates(6);
     renderBlogs(3);
     renderEducation();
     renderTechStack();

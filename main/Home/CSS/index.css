@@ -20,7 +20,7 @@
     --color-border: #333333;
     --color-hover: #404040;
     
-    /* Icon filters for dark mode */
+    /* Icon filters for dark mode - white icon */
     --icon-filter: brightness(0) invert(1);
     
     /* Typography */
@@ -68,7 +68,7 @@
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
     
-    /* Icon filters for light mode */
+    /* Icon filters for light mode - black icon */
     --icon-filter: brightness(0);
 }
 
@@ -241,6 +241,7 @@ img {
     width: 20px;
     height: 20px;
     display: block;
+    filter: var(--icon-filter);
 }
 
 .theme-toggle:hover {
@@ -600,9 +601,12 @@ img {
 }
 
 .about-text {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
     line-height: 1.8;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    margin-bottom: var(--spacing-lg);
 }
 
 .education-wrapper {
