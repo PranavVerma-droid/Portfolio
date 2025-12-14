@@ -1,6 +1,7 @@
 # 🌏 Portfolio 🌏
 
-![image](.github/images/home-image.png)
+![image](.github/images/home-image-1.png)
+![image](.github/images/home-image-2.png)
 
 Main URL's: 
   -   https://pranavv.co.in/ <br>
