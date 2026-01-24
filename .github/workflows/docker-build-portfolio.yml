@@ -1,22 +1,19 @@
-name: Blogs Docker Build
+name: Portfolio Docker Build
 
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Blogs Docker image
+    - name: Build the Main Portfolio Docker image
       run: |
-        cd blogs
-        docker build . --tag ghcr.io/pranavverma-droid/portfolio-blogs:latest
+        cd main
+        docker build . --tag ghcr.io/pranavverma-droid/portfolio-main:latest
     - name: Login to GitHub Container Registry
       run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u PranavVerma-droid --password-stdin
     - name: Push the Docker image
-      run: docker push ghcr.io/pranavverma-droid/portfolio-blogs:latest
+      run: docker push ghcr.io/pranavverma-droid/portfolio-main:latest
