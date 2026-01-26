@@ -38,6 +38,7 @@
                 <a href="#about" class="nav-link" data-section="about">About</a>
                 <a href="#work" class="nav-link" data-section="work">Work</a>
                 <a href="#blogs" class="nav-link" data-section="blogs">Blogs</a>
+                <a href="#more-about" class="nav-link" data-section="more-about">Personal</a>
                 <a href="#contact" class="nav-link" data-section="contact">Contact</a>
             </div>
             
@@ -225,11 +226,41 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="section" id="contact">
+    <!-- More About Me Section -->
+    <section class="section" id="more-about">
         <div class="container">
             <div class="section-header">
                 <span class="section-number">04.</span>
+                <h2 class="section-title">More About Me</h2>
+                <p class="section-subtitle">Beyond the code</p>
+            </div>
+            
+            <!-- Last Listened Song - Mini Player -->
+            <div id="lastListenedSong" class="music-mini-player">
+                <div class="music-mini-header">🎵 Last Listened</div>
+                <div class="music-loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+            
+            <div class="more-about-grid">
+                <!-- Trips -->
+                <div class="more-about-card">
+                    <h3 class="subsection-title">✈️ Trips & Adventures</h3>
+                    <div class="trips-placeholder">
+                        <p>Work in progress...</p>
+                        <p class="text-muted">Coming soon: Photos and stories from my travels around the world!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section section-dark" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">05.</span>
                 <h2 class="section-title">Get In Touch</h2>
                 <p class="section-subtitle">Let's create something amazing together</p>
             </div>
@@ -325,6 +356,9 @@
     
     <!-- Particles.js -->
     <script src="Home/Javascript/particles.js"></script>
+    
+    <!-- Personal info (ListenBrainz) -->
+    <script src="Home/Javascript/Firebase/personal.js"></script>
     
     <!-- Contact form Vue app -->
     <script src="Home/Javascript/Firebase/contact.js"></script>
