@@ -1466,10 +1466,6 @@ function openTripDetail(tripId) {
         ? `📅 ${formatDate(trip.startDate)}${trip.endDate ? ' – ' + formatDate(trip.endDate) : ''}`
         : '';
 
-    const coverHtml = trip.coverImageUrl
-        ? `<img src="${trip.coverImageUrl}" alt="${trip.name}" class="trip-detail-cover">`
-        : '';
-
     const mapUrl = (trip.location && trip.location.lat != null && trip.location.lon != null)
         ? `https://www.google.com/maps?q=${trip.location.lat},${trip.location.lon}`
         : null;
@@ -1486,24 +1482,22 @@ function openTripDetail(tripId) {
             </div>`
         : '';
 
-    const albumLinkHtml = trip.photoAlbumLink
-        ? `<div class="trip-album-link">
-                <a href="${trip.photoAlbumLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📷 View Full Album</a>
-                ${mapUrl ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-left: 0.5rem;">🗺️ View on Map</a>` : ''}
-            </div>`
-        : mapUrl
-            ? `<div class="trip-album-link"><a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">🗺️ View on Map</a></div>`
-            : '';
+    const linksHtml = (() => {
+        const btns = [];
+        if (trip.photoAlbumLink) btns.push(`<a href="${trip.photoAlbumLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📷 View Full Album</a>`);
+        if (mapUrl) btns.push(`<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">🗺️ View on Map</a>`);
+        if (trip.notionLink) btns.push(`<a href="${trip.notionLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">📓 Notion</a>`);
+        return btns.length ? `<div class="trip-album-link">${btns.join('')}</div>` : '';
+    })();
 
     document.getElementById('modalBody').innerHTML = `
-        ${coverHtml}
         <div class="trip-detail-meta">
             ${trip.country ? `<span>🌍 ${trip.country}</span>` : ''}
             ${dateStr ? `<span>${dateStr}</span>` : ''}
         </div>
         ${trip.description ? `<div class="trip-detail-description">${trip.description}</div>` : ''}
         ${galleryHtml}
-        ${albumLinkHtml}
+        ${linksHtml}
     `;
 
     modal.classList.add('active');
