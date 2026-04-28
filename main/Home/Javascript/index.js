@@ -527,6 +527,11 @@ function renderInitialContent() {
     renderCoreSkills();
     renderTrips();
     // Social links are handled by Vue app in links.js
+
+    const tripIdParam = new URL(window.location).searchParams.get('trip-id');
+    if (tripIdParam) {
+        openTripDetail(tripIdParam);
+    }
 }
 
 // ============================================
@@ -1333,6 +1338,11 @@ function openSkillsModal() {
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.remove('active');
+    const url = new URL(window.location);
+    if (url.searchParams.has('trip-id')) {
+        url.searchParams.delete('trip-id');
+        history.pushState({}, '', url);
+    }
 }
 
 // ============================================
@@ -1458,6 +1468,10 @@ function buildTripCard(trip) {
 function openTripDetail(tripId) {
     const trip = allTrips.find(t => t.id === tripId);
     if (!trip) return;
+
+    const url = new URL(window.location);
+    url.searchParams.set('trip-id', tripId);
+    history.pushState({tripId}, '', url);
 
     const modal = document.getElementById('viewAllModal');
     document.getElementById('modalTitle').textContent = trip.name;
