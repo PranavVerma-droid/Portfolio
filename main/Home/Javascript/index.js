@@ -22,6 +22,9 @@ let allTools = [];
 let allWorkshops = [];
 let allCompetitions = [];
 let allSocialWorks = [];
+let allTrips = [];
+
+const TRIPS_PREVIEW_COUNT = 6;
 
 // ============================================
 // Initialize on Page Load
@@ -258,7 +261,8 @@ async function loadAllData() {
             loadSkills(),
             loadLanguages(),
             loadTools(),
-            loadEducation()
+            loadEducation(),
+            loadTrips()
         ]);
         
         // Load blogs sequentially to ensure proper merging
@@ -521,6 +525,7 @@ function renderInitialContent() {
     renderEducation();
     renderTechStack();
     renderCoreSkills();
+    renderTrips();
     // Social links are handled by Vue app in links.js
 }
 
@@ -1385,6 +1390,135 @@ function formatProjectDuration(startDate, endDate) {
 }
 
 // ============================================
+// Load Trips
+// ============================================
+async function loadTrips() {
+    try {
+        const records = await pb.collection('trips').getFullList({
+            sort: '-isFeatured,-startDate'
+        });
+        allTrips = records.map(trip => {
+            if (trip.coverImage) {
+                trip.coverImageUrl = pb.files.getUrl(trip, trip.coverImage);
+            }
+            if (trip.photos && trip.photos.length) {
+                trip.photoUrls = trip.photos.map(p => pb.files.getUrl(trip, p));
+            }
+            return trip;
+        });
+    } catch (error) {
+        console.error('Failed to load trips:', error);
+    }
+}
+
+// ============================================
+// Render Trips
+// ============================================
+function renderTrips() {
+    const grid = document.getElementById('tripsGrid');
+    const emptyEl = document.getElementById('tripsEmpty');
+    const viewAllBtn = document.getElementById('tripsViewAllBtn');
+
+    if (!grid) return;
+
+    if (!allTrips.length) {
+        emptyEl.style.display = 'block';
+        return;
+    }
+
+    const preview = allTrips.slice(0, TRIPS_PREVIEW_COUNT);
+    grid.innerHTML = preview.map(trip => buildTripCard(trip)).join('');
+
+    if (allTrips.length > TRIPS_PREVIEW_COUNT) {
+        viewAllBtn.style.display = 'block';
+    }
+}
+
+function buildTripCard(trip) {
+    const imageHtml = trip.coverImageUrl
+        ? `<img src="${trip.coverImageUrl}" alt="${trip.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'trip-card-image-placeholder\\'>✈️</div>'">`
+        : `<div class="trip-card-image-placeholder">✈️</div>`;
+
+    const dateStr = trip.startDate
+        ? `📅 ${formatDate(trip.startDate)}${trip.endDate ? ' – ' + formatDate(trip.endDate) : ''}`
+        : '';
+
+    return `
+        <div class="trip-card" onclick="openTripDetail('${trip.id}')">
+            <div class="trip-card-image">${imageHtml}</div>
+            <div class="trip-card-content">
+                <div class="trip-card-country">${trip.country || ''}</div>
+                <div class="trip-card-title">${trip.name}</div>
+                ${dateStr ? `<div class="trip-card-dates">${dateStr}</div>` : ''}
+            </div>
+        </div>
+    `;
+}
+
+function openTripDetail(tripId) {
+    const trip = allTrips.find(t => t.id === tripId);
+    if (!trip) return;
+
+    const modal = document.getElementById('viewAllModal');
+    document.getElementById('modalTitle').textContent = trip.name;
+
+    const dateStr = trip.startDate
+        ? `📅 ${formatDate(trip.startDate)}${trip.endDate ? ' – ' + formatDate(trip.endDate) : ''}`
+        : '';
+
+    const coverHtml = trip.coverImageUrl
+        ? `<img src="${trip.coverImageUrl}" alt="${trip.name}" class="trip-detail-cover">`
+        : '';
+
+    const mapUrl = (trip.location && trip.location.lat != null && trip.location.lon != null)
+        ? `https://www.google.com/maps?q=${trip.location.lat},${trip.location.lon}`
+        : null;
+
+    const galleryHtml = (trip.photoUrls && trip.photoUrls.length)
+        ? `<div class="trip-detail-gallery">
+                <h4 class="subsection-title">Photos & Videos</h4>
+                <div class="trip-gallery-grid">
+                    ${[...trip.photoUrls].sort((a, b) => isTripVideoUrl(a) - isTripVideoUrl(b)).map(url => isTripVideoUrl(url)
+                        ? `<video src="${url}" autoplay muted loop playsinline></video>`
+                        : `<img src="${url}" alt="Trip photo" loading="lazy" onclick="openLightbox('${url}')" style="cursor:zoom-in;">`
+                    ).join('')}
+                </div>
+            </div>`
+        : '';
+
+    const albumLinkHtml = trip.photoAlbumLink
+        ? `<div class="trip-album-link">
+                <a href="${trip.photoAlbumLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📷 View Full Album</a>
+                ${mapUrl ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-left: 0.5rem;">🗺️ View on Map</a>` : ''}
+            </div>`
+        : mapUrl
+            ? `<div class="trip-album-link"><a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">🗺️ View on Map</a></div>`
+            : '';
+
+    document.getElementById('modalBody').innerHTML = `
+        ${coverHtml}
+        <div class="trip-detail-meta">
+            ${trip.country ? `<span>🌍 ${trip.country}</span>` : ''}
+            ${dateStr ? `<span>${dateStr}</span>` : ''}
+        </div>
+        ${trip.description ? `<div class="trip-detail-description">${trip.description}</div>` : ''}
+        ${galleryHtml}
+        ${albumLinkHtml}
+    `;
+
+    modal.classList.add('active');
+}
+
+function openTripsModal() {
+    const modal = document.getElementById('viewAllModal');
+    document.getElementById('modalTitle').textContent = 'All Trips';
+    document.getElementById('modalBody').innerHTML = `
+        <div class="trips-grid">${allTrips.map(t => buildTripCard(t)).join('')}</div>
+    `;
+    modal.classList.add('active');
+}
+
+// ============================================
 // Window Functions (accessible globally)
 // ============================================
 window.openProjectDetail = openProjectDetail;
@@ -1402,3 +1536,33 @@ window.openSkillDetail = openSkillDetail;
 window.openBlogLink = openBlogLink;
 window.filterBlogs = filterBlogs;
 window.closeModal = closeModal;
+window.openTripDetail = openTripDetail;
+window.openTripsModal = openTripsModal;
+window.openLightbox = openLightbox;
+window.closeLightbox = closeLightbox;
+
+// ============================================
+// Lightbox
+// ============================================
+function isTripVideoUrl(url) {
+    const ext = url.split('?')[0].split('.').pop().toLowerCase();
+    return ['mp4', 'webm', 'mov', 'avi', 'mkv', 'm4v'].includes(ext);
+}
+
+function openLightbox(url) {
+    document.getElementById('lightboxImg').src = url;
+    document.getElementById('lightbox').classList.add('active');
+}
+
+function closeLightbox(e) {
+    if (e && e.target !== document.getElementById('lightbox') && !e.currentTarget.classList.contains('lightbox-close')) return;
+    document.getElementById('lightbox').classList.remove('active');
+    document.getElementById('lightboxImg').src = '';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active')) {
+        document.getElementById('lightbox').classList.remove('active');
+        document.getElementById('lightboxImg').src = '';
+    }
+});

@@ -243,14 +243,20 @@
                 </div>
             </div>
             
-            <div class="more-about-grid">
-                <!-- Trips -->
-                <div class="more-about-card">
+            <!-- Trips Subsection -->
+            <div class="trips-subsection">
+                <div class="subsection-header-row">
                     <h3 class="subsection-title">✈️ Trips & Adventures</h3>
-                    <div class="trips-placeholder">
-                        <p>Work in progress...</p>
-                        <p class="text-muted">Coming soon: Photos and stories from my travels around the world!</p>
-                    </div>
+                    <p class="section-subtitle">Places I've explored</p>
+                </div>
+                <div class="trips-grid" id="tripsGrid">
+                    <!-- Trip cards populated by JS -->
+                </div>
+                <div class="text-center mt-3" id="tripsViewAllBtn" style="display: none;">
+                    <button class="btn btn-secondary" onclick="openTripsModal()">View All Trips</button>
+                </div>
+                <div class="trips-empty" id="tripsEmpty" style="display: none;">
+                    <p class="text-muted">No trips added yet — check back soon!</p>
                 </div>
             </div>
         </div>
@@ -345,6 +351,12 @@
                 <!-- Content will be populated by JavaScript -->
             </div>
         </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged photo">
     </div>
 
     <!-- Scripts -->
