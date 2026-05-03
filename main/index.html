@@ -137,13 +137,15 @@
                 <option value="publications">Publications</option>
                 <option value="internships">Internships</option>
                 <option value="certificates">Certificates</option>
+                <option value="competitions">Competitions</option>
             </select>
-            
+
             <div class="work-nav">
                 <button class="work-nav-btn active" data-work="projects">Projects</button>
                 <button class="work-nav-btn" data-work="publications">Publications</button>
                 <button class="work-nav-btn" data-work="internships">Internships</button>
                 <button class="work-nav-btn" data-work="certificates">Certificates</button>
+                <button class="work-nav-btn" data-work="competitions">Competitions</button>
             </div>
             
             <!-- Projects Tab -->
@@ -183,6 +185,16 @@
                 </div>
                 <div class="text-center mt-3">
                     <button class="btn btn-secondary" onclick="openCertificatesModal()">View All Certificates</button>
+                </div>
+            </div>
+
+            <!-- Competitions Tab -->
+            <div class="work-section" id="competitions-section">
+                <div class="competitions-grid" id="competitionsGrid">
+                    <!-- Competition cards will be populated by JavaScript -->
+                </div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-secondary" onclick="openCompetitionsModal()">View All Competitions</button>
                 </div>
             </div>
         </div>

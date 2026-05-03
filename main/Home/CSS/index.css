@@ -1022,6 +1022,12 @@ img {
     gap: var(--spacing-md);
 }
 
+.competitions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
 .certificate-card {
     background: var(--color-bg-dark);
     border: 1px solid var(--color-border);
@@ -2120,7 +2126,8 @@ img {
     
     .projects-grid,
     .blogs-grid,
-    .certificates-grid {
+    .certificates-grid,
+    .competitions-grid {
         grid-template-columns: 1fr;
     }
     

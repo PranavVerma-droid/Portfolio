@@ -521,6 +521,7 @@ function renderInitialContent() {
     renderPublications(3);
     renderInternships(3);
     renderCertificates(6);
+    renderCompetitions(6);
     renderBlogs(3);
     renderEducation();
     renderTechStack();
@@ -756,6 +757,35 @@ function renderCertificates(limit = null) {
             </div>
         </div>
     `}).join('');
+}
+
+// ============================================
+// Render Competitions
+// ============================================
+function renderCompetitions(limit = null) {
+    const container = document.getElementById('competitionsGrid');
+    const competitions = limit ? allCompetitions.slice(0, limit) : allCompetitions;
+
+    if (competitions.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted);">No competitions available yet.</p>';
+        return;
+    }
+
+    container.innerHTML = competitions.map(comp => `
+        <div class="certificate-card">
+            <div class="certificate-content">
+                <h4 class="certificate-title">${comp.competitionName}</h4>
+                <p class="certificate-issuer">${comp.competitionDescription}</p>
+                <p class="certificate-date">${formatDate(comp.competitionParticipationDate)}</p>
+                <div class="project-links" style="margin-top: var(--spacing-sm);">
+                    ${comp.competitionAdditionalUrl1 ? `<a href="${comp.competitionAdditionalUrl1}" target="_blank" class="project-link" title="Link 1">🔗</a>` : ''}
+                    ${comp.competitionAdditionalUrl2 ? `<a href="${comp.competitionAdditionalUrl2}" target="_blank" class="project-link" title="Link 2">🔗</a>` : ''}
+                    ${comp.competitionAdditionalUrl3 ? `<a href="${comp.competitionAdditionalUrl3}" target="_blank" class="project-link" title="Link 3">🔗</a>` : ''}
+                    ${comp.competitionAdditionalUrl4 ? `<a href="${comp.competitionAdditionalUrl4}" target="_blank" class="project-link" title="Link 4">🔗</a>` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
 
 // ============================================
@@ -1166,6 +1196,35 @@ function openCertificatesModal() {
     modal.classList.add('active');
 }
 
+function openCompetitionsModal() {
+    const modal = document.getElementById('viewAllModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    modalTitle.textContent = 'All Competitions';
+    modalBody.innerHTML = `
+        <div class="competitions-grid">
+            ${allCompetitions.map(comp => `
+                <div class="certificate-card">
+                    <div class="certificate-content">
+                        <h4 class="certificate-title">${comp.competitionName}</h4>
+                        <p class="certificate-issuer">${comp.competitionDescription}</p>
+                        <p class="certificate-date">${formatDate(comp.competitionParticipationDate)}</p>
+                        <div class="project-links" style="margin-top: var(--spacing-sm);">
+                            ${comp.competitionAdditionalUrl1 ? `<a href="${comp.competitionAdditionalUrl1}" target="_blank" class="project-link" title="Link 1">🔗</a>` : ''}
+                            ${comp.competitionAdditionalUrl2 ? `<a href="${comp.competitionAdditionalUrl2}" target="_blank" class="project-link" title="Link 2">🔗</a>` : ''}
+                            ${comp.competitionAdditionalUrl3 ? `<a href="${comp.competitionAdditionalUrl3}" target="_blank" class="project-link" title="Link 3">🔗</a>` : ''}
+                            ${comp.competitionAdditionalUrl4 ? `<a href="${comp.competitionAdditionalUrl4}" target="_blank" class="project-link" title="Link 4">🔗</a>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+
+    modal.classList.add('active');
+}
+
 function openBlogsModal() {
     const modal = document.getElementById('viewAllModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -1536,6 +1595,7 @@ window.openProjectsModal = openProjectsModal;
 window.openPublicationsModal = openPublicationsModal;
 window.openInternshipsModal = openInternshipsModal;
 window.openCertificatesModal = openCertificatesModal;
+window.openCompetitionsModal = openCompetitionsModal;
 window.openBlogsModal = openBlogsModal;
 window.openEducationModal = openEducationModal;
 window.openCoreSkillsModal = openCoreSkillsModal;
