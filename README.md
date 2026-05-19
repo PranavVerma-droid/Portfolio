@@ -11,7 +11,7 @@ Backup URL's:
   -   https://pranavverma-droid.github.io/Portfolio/main/
   -   https://pranavverma-droid.github.io/Portfolio/blogs/ <br><br>
 
-This Code is [Licensed](LICENSE)!
+This Code is [Licensed](LICENSE)! 
 
 
 ### Tools Used:
