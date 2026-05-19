@@ -62,8 +62,8 @@ jobs:
         run: |
           echo "Starting deployment..."
 
-          git config --global --add safe.directory /var/www/db1/portfolio/portfolio
-          cd /var/www/db1/portfolio/portfolio || exit 1
+          git config --global --add safe.directory /data/services/db1/portfolio/portfolio
+          cd /data/services/db1/portfolio/portfolio || exit 1
 
           echo "Resetting local changes..."
           git reset --hard HEAD
@@ -74,8 +74,8 @@ jobs:
           git reset --hard origin/master
 
           echo "Pulling latest Docker images..."
-          cd /var/www/db1/portfolio || exit 1
-          docker compose pull || exit 1
+          cd /data/services/db1/portfolio || exit 1
+          docker compose pull web blogs || exit 1
 
           echo "Starting containers..."
           docker compose up -d || exit 1
