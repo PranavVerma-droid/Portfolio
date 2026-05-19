@@ -78,7 +78,7 @@ jobs:
           docker compose pull web blogs || exit 1
 
           echo "Starting containers..."
-          docker compose up -d || exit 1
+          docker compose up -d web blogs || exit 1
 
           echo "Deployment completed successfully"
         shell: bash
