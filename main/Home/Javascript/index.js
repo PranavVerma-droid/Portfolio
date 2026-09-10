@@ -939,36 +939,75 @@ function getExcerpt(blog) {
 function renderEducation() {
     const container = document.getElementById('educationList');
     const viewMoreBtn = document.getElementById('viewMoreEducation');
-    const education = window.educationData || [];
+    const all = window.educationData || [];
+    const education = all.filter(edu => edu.eduType !== 'score');
     const displayEducation = education.slice(0, 3); // Max 3
-    
+
     if (displayEducation.length === 0) {
         container.innerHTML = '<p style="color: var(--color-text-muted);">No education information available.</p>';
-        return;
-    }
-    
-    container.innerHTML = displayEducation.map(edu => `
-        <div class="education-item">
-            ${edu.eduLogo ? `
-                <img src="${edu.eduLogo}" alt="${edu.eduTitle}" class="education-logo">
-            ` : ''}
-            <div class="education-content">
-                <h4 class="education-degree">${edu.eduTitle}</h4>
-                <p class="education-description">${edu.eduDescription || ''}</p>
-                <p class="education-duration">${formatDuration(edu.eduStartDate, edu.eduEndDate)}</p>
-                ${(edu.eduLink1 || edu.eduLink2) ? `
-                    <div class="education-links">
-                        ${edu.eduLink1 ? `<a href="${edu.eduLink1}" target="_blank" class="education-link">Link 1 →</a>` : ''}
-                        ${edu.eduLink2 ? `<a href="${edu.eduLink2}" target="_blank" class="education-link">Link 2 →</a>` : ''}
-                    </div>
+    } else {
+        container.innerHTML = displayEducation.map(edu => `
+            <div class="education-item">
+                ${edu.eduLogo ? `
+                    <img src="${edu.eduLogo}" alt="${edu.eduTitle}" class="education-logo">
                 ` : ''}
+                <div class="education-content">
+                    <h4 class="education-degree">${edu.eduTitle}</h4>
+                    <p class="education-description">${edu.eduDescription || ''}</p>
+                    <p class="education-duration">${formatDuration(edu.eduStartDate, edu.eduEndDate)}</p>
+                    ${(edu.eduLink1 || edu.eduLink2) ? `
+                        <div class="education-links">
+                            ${edu.eduLink1 ? `<a href="${edu.eduLink1}" target="_blank" class="education-link">Link 1 →</a>` : ''}
+                            ${edu.eduLink2 ? `<a href="${edu.eduLink2}" target="_blank" class="education-link">Link 2 →</a>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
             </div>
-        </div>
-    `).join('');
-    
+        `).join('');
+    }
+
     // Show View More button if there are more than 3 items
-    if (viewMoreBtn && education.length > 3) {
-        viewMoreBtn.style.display = 'inline-flex';
+    if (viewMoreBtn) {
+        viewMoreBtn.style.display = education.length > 3 ? 'inline-flex' : 'none';
+    }
+
+    renderTestScores();
+}
+
+function renderTestScores() {
+    const container = document.getElementById('testScoresList');
+    const viewMoreBtn = document.getElementById('viewMoreTestScores');
+    if (!container) return;
+
+    const all = window.educationData || [];
+    const scores = all.filter(edu => edu.eduType === 'score');
+    const displayScores = scores.slice(0, 3);
+
+    if (displayScores.length === 0) {
+        container.innerHTML = '<p style="color: var(--color-text-muted);">No test scores available.</p>';
+    } else {
+        container.innerHTML = displayScores.map(edu => `
+            <div class="education-item">
+                ${edu.eduLogo ? `
+                    <img src="${edu.eduLogo}" alt="${edu.eduTitle}" class="education-logo">
+                ` : ''}
+                <div class="education-content">
+                    <h4 class="education-degree">${edu.eduTitle}</h4>
+                    <p class="education-description">${edu.eduDescription || ''}</p>
+                    <p class="education-duration">${formatDuration(edu.eduStartDate, edu.eduEndDate)}</p>
+                    ${(edu.eduLink1 || edu.eduLink2) ? `
+                        <div class="education-links">
+                            ${edu.eduLink1 ? `<a href="${edu.eduLink1}" target="_blank" class="education-link">Link 1 →</a>` : ''}
+                            ${edu.eduLink2 ? `<a href="${edu.eduLink2}" target="_blank" class="education-link">Link 2 →</a>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    if (viewMoreBtn) {
+        viewMoreBtn.style.display = scores.length > 3 ? 'inline-flex' : 'none';
     }
 }
 
@@ -1260,8 +1299,8 @@ function openEducationModal() {
     const modal = document.getElementById('viewAllModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
-    const education = window.educationData || [];
-    
+    const education = (window.educationData || []).filter(edu => edu.eduType !== 'score');
+
     modalTitle.textContent = 'All Education';
     modalBody.innerHTML = `
         <div class="education-list">
@@ -1285,7 +1324,40 @@ function openEducationModal() {
             `).join('')}
         </div>
     `;
-    
+
+    modal.classList.add('active');
+}
+
+function openTestScoresModal() {
+    const modal = document.getElementById('viewAllModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const scores = (window.educationData || []).filter(edu => edu.eduType === 'score');
+
+    modalTitle.textContent = 'All Test Scores';
+    modalBody.innerHTML = `
+        <div class="education-list">
+            ${scores.map(edu => `
+                <div class="education-item">
+                    ${edu.eduLogo ? `
+                        <img src="${edu.eduLogo}" alt="${edu.eduTitle}" class="education-logo">
+                    ` : ''}
+                    <div class="education-content">
+                        <h4 class="education-degree">${edu.eduTitle}</h4>
+                        <p class="education-description">${edu.eduDescription || ''}</p>
+                        <p class="education-duration">${formatDuration(edu.eduStartDate, edu.eduEndDate)}</p>
+                        ${(edu.eduLink1 || edu.eduLink2) ? `
+                            <div class="education-links">
+                                ${edu.eduLink1 ? `<a href="${edu.eduLink1}" target="_blank" class="education-link">Link 1 →</a>` : ''}
+                                ${edu.eduLink2 ? `<a href="${edu.eduLink2}" target="_blank" class="education-link">Link 2 →</a>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+
     modal.classList.add('active');
 }
 
@@ -1598,6 +1670,7 @@ window.openCertificatesModal = openCertificatesModal;
 window.openCompetitionsModal = openCompetitionsModal;
 window.openBlogsModal = openBlogsModal;
 window.openEducationModal = openEducationModal;
+window.openTestScoresModal = openTestScoresModal;
 window.openCoreSkillsModal = openCoreSkillsModal;
 window.openSkillsModal = openSkillsModal;
 window.openSkillDetail = openSkillDetail;
