@@ -16,20 +16,49 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wght@300;400&display=swap" rel="stylesheet">
     
     <!-- Styles -->
+    <link rel="stylesheet" href="Home/CSS/sky.css">
     <link rel="stylesheet" href="Home/CSS/index.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
+    <!-- Loader: always carries a fact -->
+    <div id="loader" aria-hidden="true">
+        <div class="loader-in">
+            <svg viewBox="0 0 100 40">
+                <polyline points="4,8 28,32 52,16 76,34 96,6"/>
+                <circle cx="4" cy="8" r="1.6" style="animation-delay:.1s"/>
+                <circle cx="28" cy="32" r="1.6" style="animation-delay:.5s"/>
+                <circle cx="52" cy="16" r="2" style="animation-delay:.9s"/>
+                <circle cx="76" cy="34" r="1.6" style="animation-delay:1.3s"/>
+                <circle cx="96" cy="6" r="1.6" style="animation-delay:1.7s"/>
+            </svg>
+            <span class="fact-label">Charting the sky · did you know</span>
+            <p class="fact-text" data-fact>There are 88 officially recognised constellations, covering the whole sky between them.</p>
+        </div>
+    </div>
+
+    <!-- Atmosphere -->
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="aurora" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
     <!-- Navigation -->
     <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="#home" class="nav-logo">
-                <span class="logo-dot"></span>
+                <svg class="brand-mark" viewBox="0 0 100 40" aria-hidden="true">
+                    <polyline points="4,8 28,32 52,16 76,34 96,6"/>
+                    <circle cx="4" cy="8" r="3.4"/>
+                    <circle cx="28" cy="32" r="3.4"/>
+                    <circle class="bright" cx="52" cy="16" r="4.4"/>
+                    <circle cx="76" cy="34" r="3.4"/>
+                    <circle cx="96" cy="6" r="3.4"/>
+                </svg>
                 <span id="navLogoText">Pranav's Portfolio</span>
             </a>
             
@@ -57,15 +86,26 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-background">
-            <div class="grid-overlay"></div>
-            <div id="particles-js" class="particles"></div>
+        <div class="hero-background" aria-hidden="true">
+            <svg class="hero-constellation" viewBox="0 0 760 520">
+                <polyline points="60,380 190,300 300,340 410,210 560,250 700,90"/>
+                <polyline points="410,210 450,60 600,30"/>
+                <polyline class="trace" points="60,380 190,300 300,340 410,210 560,250 700,90"/>
+                <circle class="halo" cx="60" cy="380" r="14"/><circle cx="60" cy="380" r="2.6"/>
+                <circle class="halo" cx="190" cy="300" r="12"/><circle cx="190" cy="300" r="2"/>
+                <circle class="halo" cx="300" cy="340" r="12"/><circle cx="300" cy="340" r="2.2"/>
+                <circle class="halo" cx="410" cy="210" r="18"/><circle cx="410" cy="210" r="3.2"/>
+                <circle class="halo" cx="560" cy="250" r="12"/><circle cx="560" cy="250" r="2"/>
+                <circle class="halo" cx="700" cy="90" r="16"/><circle cx="700" cy="90" r="2.8"/>
+                <circle class="halo" cx="450" cy="60" r="10"/><circle cx="450" cy="60" r="1.8"/>
+                <circle class="halo" cx="600" cy="30" r="10"/><circle cx="600" cy="30" r="1.8"/>
+            </svg>
         </div>
         
         <div class="container hero-content">
             <div class="hero-text">
-                <h1 class="hero-greeting">Hello, I'm</h1>
-                <h2 class="hero-title" id="heroName">Pranav Verma</h2>
+                <p class="hero-greeting">Hello, I'm</p>
+                <h1 class="hero-title" id="heroName">Pranav <em>Verma</em></h1>
                 <p class="hero-subtitle" id="heroTagline">Developer • Researcher • Innovator</p>
                 <div class="separator"></div>
                 <div class="hero-cta">
@@ -78,14 +118,19 @@
                 <img src="" alt="Profile Picture" id="heroProfileImg" style="display: none;">
             </div>
         </div>
+
+        <div class="ticker">
+            <a href="#about" class="scroll-cue"><span></span>Scroll to begin</a>
+            <span class="chapters"><b>I</b> About · <b>II</b> Work · <b>III</b> Blog · <b>IV</b> Personal · <b>V</b> Contact</span>
+        </div>
     </section>
 
     <!-- About Section -->
     <section class="section section-dark" id="about">
         <div class="container">
-            <div class="section-header">
-                <span class="section-number">01.</span>
-                <h2 class="section-title">About Me</h2>
+            <div class="section-header rise">
+                <div class="chap-head"><span class="section-number">I.</span><span class="chap-name">About</span></div>
+                <h2 class="section-title">About <em>me</em></h2>
             </div>
             
             <div class="about-content">
@@ -135,9 +180,9 @@
     <!-- Work Section -->
     <section class="section" id="work">
         <div class="container">
-            <div class="section-header">
-                <span class="section-number">02.</span>
-                <h2 class="section-title">My Work</h2>
+            <div class="section-header rise">
+                <div class="chap-head"><span class="section-number">II.</span><span class="chap-name">Work</span></div>
+                <h2 class="section-title">The <em>work</em></h2>
             </div>
             
             <select class="work-nav-select" id="workNavSelect">
@@ -211,9 +256,9 @@
     <!-- Blogs Section -->
     <section class="section section-dark" id="blogs">
         <div class="container">
-            <div class="section-header">
-                <span class="section-number">03.</span>
-                <h2 class="section-title">Blog</h2>
+            <div class="section-header rise">
+                <div class="chap-head"><span class="section-number">III.</span><span class="chap-name">Blog</span></div>
+                <h2 class="section-title">From the <em>blog</em></h2>
                 <p class="section-subtitle">Thoughts, tutorials, and insights</p>
             </div>
             
@@ -249,15 +294,15 @@
     <!-- More About Me Section -->
     <section class="section" id="more-about">
         <div class="container">
-            <div class="section-header">
-                <span class="section-number">04.</span>
-                <h2 class="section-title">More About Me</h2>
+            <div class="section-header rise">
+                <div class="chap-head"><span class="section-number">IV.</span><span class="chap-name">Personal</span></div>
+                <h2 class="section-title">More <em>about me</em></h2>
                 <p class="section-subtitle">Beyond the code</p>
             </div>
             
             <!-- Last Listened Song - Mini Player -->
             <div id="lastListenedSong" class="music-mini-player">
-                <div class="music-mini-header">🎵 Last Listened</div>
+                <div class="music-mini-header">Last listened</div>
                 <div class="music-loading">
                     <div class="spinner"></div>
                 </div>
@@ -266,7 +311,7 @@
             <!-- Trips Subsection -->
             <div class="trips-subsection">
                 <div class="subsection-header-row">
-                    <h3 class="subsection-title">✈️ Trips & Adventures</h3>
+                    <h3 class="subsection-title">Trips &amp; <em>adventures</em></h3>
                     <p class="section-subtitle">Places I've explored</p>
                 </div>
                 <div class="trips-grid" id="tripsGrid">
@@ -285,9 +330,9 @@
     <!-- Contact Section -->
     <section class="section section-dark" id="contact">
         <div class="container">
-            <div class="section-header">
-                <span class="section-number">05.</span>
-                <h2 class="section-title">Get In Touch</h2>
+            <div class="section-header rise">
+                <div class="chap-head"><span class="section-number">V.</span><span class="chap-name">Contact</span></div>
+                <h2 class="section-title">Get in <em>touch</em></h2>
                 <p class="section-subtitle">Let's create something amazing together</p>
             </div>
             
@@ -338,10 +383,10 @@
             <div class="footer-content">
                 <div class="footer-left">
                     <div class="footer-logo">
-                        <span class="logo-dot"></span>
+                        <span class="logo-dot" aria-hidden="true"></span>
                         <span id="footerName">Pranav Verma</span>
                     </div>
-                    <p>&copy; 2024 All rights reserved.</p>
+                    <p>&copy; 2024 All rights reserved · charted under the night sky</p>
                 </div>
                 
                 <div class="footer-right">
@@ -386,8 +431,8 @@
     <!-- PocketBase -->
     <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.19.0/dist/pocketbase.umd.js"></script>
     
-    <!-- Particles.js -->
-    <script src="Home/Javascript/particles.js"></script>
+    <!-- Night sky: stars, loader, rise-in -->
+    <script src="Home/Javascript/sky.js"></script>
     
     <!-- Personal info (ListenBrainz) -->
     <script src="Home/Javascript/Firebase/personal.js"></script>
@@ -397,9 +442,6 @@
     
     <!-- Social links Vue app -->
     <script src="Home/Javascript/Firebase/links.js"></script>
-    
-    <!-- Particles config -->
-    <script src="Home/Javascript/app.js"></script>
     
     <!-- Main integration script -->
     <script src="Home/Javascript/index.js"></script>

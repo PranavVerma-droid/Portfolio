@@ -57,7 +57,7 @@ function displayMusicPlayer(songData) {
     const linkEnd = musicBrainzLink ? '</a>' : '</div>';
     
     container.innerHTML = `
-        <div class="music-mini-header">🎵 Last Listened</div>
+        <div class="music-mini-header">Last listened</div>
         <div class="music-player-content">
             ${linkStart}
                 <div class="album-art">

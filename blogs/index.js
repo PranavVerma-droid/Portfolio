@@ -230,10 +230,7 @@ try {
 
             getCategoryStyle(category) {
                 const color = this.categoryColors[category] || '#4a9eff';
-                return {
-                    background: color,
-                    boxShadow: `0 2px 10px ${color}40`
-                };
+                return { '--c': color };
             }
         }
     });

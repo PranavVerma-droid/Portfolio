@@ -1,0 +1,224 @@
+/*
+    Copyright (C) 2024  Pranav Verma
+    Licensed under GNU AGPL v3
+
+    Shared design language: a storybook told in chapters under one long night
+    sky. Thin serif display type with italic accents, a quiet grotesk for
+    reading, and a mono voice for labels. Used by every page on the site.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wght@300;400&display=swap');
+
+/* ============================================
+   Tokens: night (default) and daybreak (light)
+   ============================================ */
+:root {
+    --night: #07081a;                       /* deepest sky, page ground */
+    --night-2: #0f1130;                     /* raised surfaces */
+    --dusk: #2a1f4f;                        /* violet haze */
+    --rose: #f2a9a2;                        /* aurora rose, emphasis */
+    --gold: #f4d48e;                        /* starlight, the accent */
+    --moon: #f4ede1;                        /* text */
+    --moon-2: rgba(244, 237, 225, .8);      /* body copy */
+    --mist: #a7a3c6;                        /* secondary text */
+    --teal: #8fd9cf;                        /* aurora teal, data */
+    --line: rgba(167, 163, 198, .18);
+    --line-strong: rgba(244, 237, 225, .3);
+    --glass: rgba(15, 17, 48, .62);
+    --glass-2: rgba(42, 31, 79, .32);
+    --gold-line: rgba(244, 212, 142, .45);  /* gilded borders, hover rings */
+    --gold-faint: rgba(244, 212, 142, .22);
+    --glow-gold: rgba(244, 212, 142, .55);
+    --glow-rose: rgba(242, 169, 162, .25);
+    --shade: rgba(7, 8, 26, .72);
+
+    --f-display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+    --f-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --f-mono: "Martian Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+    --gutter: clamp(16px, 5vw, 72px);
+    --measure: 62ch;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+
+    color-scheme: dark;
+}
+
+.light-mode {
+    --night: #f3ecdf;
+    --night-2: #fbf7ef;
+    --dusk: #d9cfe6;
+    --rose: #b04f5a;
+    --gold: #94651a;
+    --moon: #17183a;
+    --moon-2: rgba(23, 24, 58, .82);
+    --mist: #5d5a7e;
+    --teal: #2a7c72;
+    --line: rgba(23, 24, 58, .14);
+    --line-strong: rgba(23, 24, 58, .3);
+    --glass: rgba(255, 252, 245, .72);
+    --glass-2: rgba(217, 207, 230, .4);
+    --gold-line: rgba(148, 101, 26, .42);
+    --gold-faint: rgba(148, 101, 26, .2);
+    --glow-gold: rgba(148, 101, 26, .3);
+    --glow-rose: rgba(176, 79, 90, .14);
+    --shade: rgba(243, 236, 223, .82);
+
+    color-scheme: light;
+}
+
+/* ============================================
+   Base
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--night);
+    color: var(--moon);
+    font: 400 17px/1.65 var(--f-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-variant-numeric: lining-nums;
+    overflow-x: hidden;
+    transition: background-color .5s ease, color .5s ease;
+}
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--rose); color: var(--night); }
+
+em { font-style: italic; }
+
+/* ============================================
+   Atmosphere: fixed sky + grain + aurora wash
+   ============================================ */
+#sky {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.light-mode #sky { filter: invert(1) hue-rotate(180deg); opacity: .4; }
+
+.grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: .09;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.light-mode .grain { opacity: .14; mix-blend-mode: multiply; }
+
+.aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(60% 45% at 85% 0%, rgba(42, 31, 79, .55), transparent 70%),
+        radial-gradient(45% 35% at 10% 100%, rgba(242, 169, 162, .08), transparent 70%);
+}
+
+.light-mode .aurora {
+    background:
+        radial-gradient(60% 45% at 85% 0%, rgba(217, 207, 230, .7), transparent 70%),
+        radial-gradient(45% 35% at 10% 100%, rgba(176, 79, 90, .07), transparent 70%);
+}
+
+/* ============================================
+   Loader: always carries a fact
+   ============================================ */
+#loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--night);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    transition: opacity .9s ease, visibility .9s;
+    /* safety net: the loader leaves on its own even if scripts never run */
+    animation: loader-out .9s ease 4s forwards;
+}
+
+#loader.done { opacity: 0; visibility: hidden; }
+
+@keyframes loader-out { to { opacity: 0; visibility: hidden; } }
+
+.loader-in {
+    display: grid;
+    justify-items: center;
+    gap: 22px;
+    max-width: 520px;
+    text-align: center;
+}
+
+.loader-in svg { width: 140px; overflow: visible; }
+.loader-in polyline {
+    stroke: var(--gold);
+    stroke-width: .6;
+    fill: none;
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+    animation: draw 2s ease forwards;
+}
+.loader-in circle { fill: var(--moon); opacity: 0; animation: pop .5s ease forwards; }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes pop { to { opacity: 1; } }
+
+.fact-label {
+    font: 400 10.5px/1 var(--f-mono);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.fact-text {
+    margin: 0;
+    font: italic 400 clamp(20px, 3.4vw, 27px)/1.3 var(--f-display);
+    color: var(--moon);
+    text-wrap: balance;
+}
+
+/* ============================================
+   Shared voice
+   ============================================ */
+.eyebrow {
+    font: 400 11px/1.6 var(--f-mono);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.brand-mark { width: 30px; height: auto; overflow: visible; flex-shrink: 0; }
+.brand-mark polyline { stroke: var(--gold); stroke-width: 1; fill: none; opacity: .7; }
+.brand-mark circle { fill: var(--moon); }
+.brand-mark circle.bright { fill: var(--gold); }
+
+/* entrance: content is visible at rest; it only drifts into place */
+.rise { transform: translateY(18px); transition: transform 1s var(--ease); }
+.rise.in { transform: none; }
+
+/* thin, quiet scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--dusk) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--dusk); border-radius: 99px; border: 2px solid var(--night); }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .rise { transform: none; }
+}

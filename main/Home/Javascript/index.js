@@ -1577,8 +1577,8 @@ function renderTrips() {
 
 function buildTripCard(trip) {
     const imageHtml = trip.coverImageUrl
-        ? `<img src="${trip.coverImageUrl}" alt="${trip.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'trip-card-image-placeholder\\'>✈️</div>'">`
-        : `<div class="trip-card-image-placeholder">✈️</div>`;
+        ? `<img src="${trip.coverImageUrl}" alt="${trip.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'trip-card-image-placeholder\\'>✦</div>'">`
+        : `<div class="trip-card-image-placeholder">✦</div>`;
 
     const dateStr = trip.startDate
         ? `📅 ${formatDate(trip.startDate)}${trip.endDate ? ' – ' + formatDate(trip.endDate) : ''}`

@@ -18,10 +18,17 @@ This Code is [Licensed](LICENSE)!
     - HTML + CSS + JS
     - Vue.js
     - Prism.js
-    - Particle.js 
-    - Firebase
+    - PocketBase
     - Animate.css
-    - JQuery
+
+### Design
+Every page shares one design language: a storybook told in chapters under a night sky.
+Thin serif display type (Cormorant Garamond) with italic rose accents, Hanken Grotesk for
+reading and Martian Mono for labels, over a twinkling canvas star field with a fact-carrying
+loader. A "daybreak" light theme is kept behind the theme toggle.
+
+  - Tokens and atmosphere: `main/Home/CSS/sky.css` and `main/Home/Javascript/sky.js`
+  - The blogs site ships as its own container, so it carries copies: `blogs/sky.css`, `blogs/sky.js`
 
 ## Docker Deploy 🐋
 To run this code via **docker**, pull the repository via:

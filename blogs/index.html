@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pranav's Blogs</title>
+    <link rel="stylesheet" href="sky.css">
     <link rel="stylesheet" href="index.css">
 
     <!-- Favicon -->
@@ -24,23 +25,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Loader: always carries a fact -->
+    <div id="loader" aria-hidden="true">
+        <div class="loader-in">
+            <svg viewBox="0 0 100 40">
+                <polyline points="4,8 28,32 52,16 76,34 96,6"/>
+                <circle cx="4" cy="8" r="1.6" style="animation-delay:.1s"/>
+                <circle cx="28" cy="32" r="1.6" style="animation-delay:.5s"/>
+                <circle cx="52" cy="16" r="2" style="animation-delay:.9s"/>
+                <circle cx="76" cy="34" r="1.6" style="animation-delay:1.3s"/>
+                <circle cx="96" cy="6" r="1.6" style="animation-delay:1.7s"/>
+            </svg>
+            <span class="fact-label">Gathering the posts · did you know</span>
+            <p class="fact-text" data-fact>There are 88 officially recognised constellations, covering the whole sky between them.</p>
+        </div>
+    </div>
+
+    <!-- Atmosphere -->
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="aurora" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
     <div id="blogs_container_mount">
-        <header id="header">
+        <header id="header" data-solid-nav>
             <nav class="nav-container">
-                <a href="/" class="nav-logo">Pranav's Blogs</a>
-                <button class="theme-toggle" @click="toggleTheme">
+                <a href="/" class="nav-logo">
+                    <svg class="brand-mark" viewBox="0 0 100 40" aria-hidden="true">
+                        <polyline points="4,8 28,32 52,16 76,34 96,6"/>
+                        <circle cx="4" cy="8" r="3.4"/><circle cx="28" cy="32" r="3.4"/>
+                        <circle class="bright" cx="52" cy="16" r="4.4"/>
+                        <circle cx="76" cy="34" r="3.4"/><circle cx="96" cy="6" r="3.4"/>
+                    </svg>
+                    Pranav's Blogs
+                </a>
+                <a href="https://pranavv.co.in" class="pill">Portfolio</a>
+                <button class="theme-toggle" @click="toggleTheme" :aria-label="(isDarkMode ? 'Light' : 'Dark') + ' mode'">
                     <i :class="isDarkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
-                    {{ isDarkMode ? 'Light' : 'Dark' }} Mode
+                    <span class="label">{{ isDarkMode ? 'Light' : 'Dark' }} mode</span>
                 </button>
             </nav>
         </header>
 
-        <div class="hero-section">
-            <h1 class="hero-title">Pranav's Blog</h1>
+        <section class="hero-section">
+            <p class="eyebrow">The blog · thoughts, tutorials &amp; project logs</p>
+            <h1 class="hero-title">Pranav's <em>Blog</em></h1>
             <p class="hero-subtitle">Thoughts, Tutorials, and Insights to my Projects</p>
-        </div>
+            <a href="#posts" class="scroll-indicator"><span></span>Scroll to read</a>
+        </section>
 
-        <div class="container">
+        <div class="container" id="posts">
             <div class="blog-filters">
                 <select v-model="selectedCategory">
                     <option v-for="category in categories" :key="category" :value="category">
@@ -51,7 +84,8 @@
 
             <!-- Pinned Blogs -->
             <div v-if="pinnedBlogs.length" class="pinned-blogs">
-                <h2 class="section-header">Featured Posts</h2>
+                <div class="chap-head"><span class="chap-no">I.</span><span class="chap-name">Featured</span></div>
+                <h2 class="section-header">Featured <em>posts</em></h2>
                 <div class="blog-grid">
                     <div v-for="blog in pinnedBlogs" 
                          :key="blog.id" 
@@ -71,7 +105,8 @@
 
             <!-- Regular Blogs -->
             <div class="blogs-section">
-                <h2 class="section-header">All Posts</h2>
+                <div class="chap-head"><span class="chap-no">{{ pinnedBlogs.length ? 'II.' : 'I.' }}</span><span class="chap-name">Archive</span></div>
+                <h2 class="section-header">All <em>posts</em></h2>
                 <div class="blog-grid">
                     <div v-for="blog in filteredBlogs" 
                          :key="blog.id" 
@@ -96,10 +131,16 @@
             <button v-if="hasMore && !loading" 
                     @click="fetchAllBlogs" 
                     class="load-more-btn">
-                Load More
+                Load more
             </button>
         </div>
+
+        <footer class="site-footer">
+            <span>Pranav's Blogs · charted under the night sky</span>
+            <a href="https://pranavv.co.in">pranavv.co.in</a>
+        </footer>
     </div>
     <script src="index.js"></script>
+    <script src="sky.js"></script>
 </body>
 </html>
