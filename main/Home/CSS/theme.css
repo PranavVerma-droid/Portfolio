@@ -2,9 +2,9 @@
     Copyright (C) 2024  Pranav Verma
     Licensed under GNU AGPL v3
 
-    Shared design language: a storybook told in chapters under one long night
-    sky. Thin serif display type with italic accents, a quiet grotesk for
-    reading, and a mono voice for labels. Used by every page on the site.
+    Shared design language: pages told in chapters. Thin serif display type
+    with italic accents, a quiet grotesk for reading, and a mono voice for
+    labels, over a deep ink ground. Used by every page on the site.
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wght@300;400&display=swap');
@@ -13,15 +13,15 @@
    Tokens: night (default) and daybreak (light)
    ============================================ */
 :root {
-    --night: #07081a;                       /* deepest sky, page ground */
+    --night: #07081a;                       /* deep ink, page ground */
     --night-2: #0f1130;                     /* raised surfaces */
     --dusk: #2a1f4f;                        /* violet haze */
-    --rose: #f2a9a2;                        /* aurora rose, emphasis */
-    --gold: #f4d48e;                        /* starlight, the accent */
+    --rose: #f2a9a2;                        /* soft rose, emphasis */
+    --gold: #f4d48e;                        /* warm gold, the accent */
     --moon: #f4ede1;                        /* text */
     --moon-2: rgba(244, 237, 225, .8);      /* body copy */
     --mist: #a7a3c6;                        /* secondary text */
-    --teal: #8fd9cf;                        /* aurora teal, data */
+    --teal: #8fd9cf;                        /* teal, dates and data */
     --line: rgba(167, 163, 198, .18);
     --line-strong: rgba(244, 237, 225, .3);
     --glass: rgba(15, 17, 48, .62);
@@ -91,19 +91,8 @@ body {
 em { font-style: italic; }
 
 /* ============================================
-   Atmosphere: fixed sky + grain + aurora wash
+   Atmosphere: grain + a soft colour wash
    ============================================ */
-#sky {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.light-mode #sky { filter: invert(1) hue-rotate(180deg); opacity: .4; }
-
 .grain {
     position: fixed;
     inset: 0;
@@ -133,62 +122,6 @@ em { font-style: italic; }
 }
 
 /* ============================================
-   Loader: always carries a fact
-   ============================================ */
-#loader {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: var(--night);
-    display: grid;
-    place-items: center;
-    padding: 24px;
-    transition: opacity .9s ease, visibility .9s;
-    /* safety net: the loader leaves on its own even if scripts never run */
-    animation: loader-out .9s ease 4s forwards;
-}
-
-#loader.done { opacity: 0; visibility: hidden; }
-
-@keyframes loader-out { to { opacity: 0; visibility: hidden; } }
-
-.loader-in {
-    display: grid;
-    justify-items: center;
-    gap: 22px;
-    max-width: 520px;
-    text-align: center;
-}
-
-.loader-in svg { width: 140px; overflow: visible; }
-.loader-in polyline {
-    stroke: var(--gold);
-    stroke-width: .6;
-    fill: none;
-    stroke-dasharray: 80;
-    stroke-dashoffset: 80;
-    animation: draw 2s ease forwards;
-}
-.loader-in circle { fill: var(--moon); opacity: 0; animation: pop .5s ease forwards; }
-
-@keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes pop { to { opacity: 1; } }
-
-.fact-label {
-    font: 400 10.5px/1 var(--f-mono);
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--gold);
-}
-
-.fact-text {
-    margin: 0;
-    font: italic 400 clamp(20px, 3.4vw, 27px)/1.3 var(--f-display);
-    color: var(--moon);
-    text-wrap: balance;
-}
-
-/* ============================================
    Shared voice
    ============================================ */
 .eyebrow {
@@ -198,10 +131,20 @@ em { font-style: italic; }
     color: var(--gold);
 }
 
-.brand-mark { width: 30px; height: auto; overflow: visible; flex-shrink: 0; }
-.brand-mark polyline { stroke: var(--gold); stroke-width: 1; fill: none; opacity: .7; }
-.brand-mark circle { fill: var(--moon); }
-.brand-mark circle.bright { fill: var(--gold); }
+/* the small gold dot beside the site name */
+.logo-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--gold);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .45; }
+}
 
 /* entrance: content is visible at rest; it only drifts into place */
 .rise { transform: translateY(18px); transition: transform 1s var(--ease); }

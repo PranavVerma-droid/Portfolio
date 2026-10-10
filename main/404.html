@@ -26,7 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Page Not Found</title>
     <link rel="icon" href="/favicon.jpeg" type="image/jpeg">
-    <link rel="stylesheet" href="/Home/CSS/sky.css">
+    <link rel="stylesheet" href="/Home/CSS/theme.css">
     <style>
         .lost {
             position: relative;
@@ -75,31 +75,22 @@
         }
 
         .lost .home:hover { transform: translateY(-2px); box-shadow: 0 10px 40px -8px var(--glow-gold); }
-
-        .lost .fact { margin-top: 70px; display: grid; gap: 12px; max-width: 520px; }
-        .lost .fact .fact-text { font-size: clamp(18px, 2.4vw, 22px); }
     </style>
 </head>
 
 <body>
-    <canvas id="sky" aria-hidden="true"></canvas>
     <div class="aurora" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
     <main class="lost">
-        <span class="eyebrow">Error 404 · off the chart</span>
+        <span class="eyebrow">Error 404 · page not found</span>
         <div class="code" aria-hidden="true">404</div>
-        <h1>This page drifted into <em>another universe</em>.</h1>
-        <p>The page you are looking for is not in this sky. Let's take you back home.</p>
+        <h1>This page might be in <em>another universe</em>.</h1>
+        <p>The page you are looking for doesn't exist or has moved. Let's take you back home.</p>
         <a class="home" href="/index.html">Go back to the home page</a>
-
-        <div class="fact">
-            <span class="fact-label">While you're here · did you know</span>
-            <p class="fact-text" data-fact>There are 88 officially recognised constellations, covering the whole sky between them.</p>
-        </div>
     </main>
 
-    <script src="/Home/Javascript/sky.js"></script>
+    <script src="/Home/Javascript/site.js"></script>
 </body>
 
 </html>

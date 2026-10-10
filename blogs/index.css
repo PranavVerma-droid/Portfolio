@@ -2,8 +2,8 @@
     Copyright (C) 2024  Pranav Verma
     Licensed under GNU AGPL v3
 
-    The blog index: a night-sky cover, then the posts as storybook cards.
-    Tokens and atmosphere live in sky.css.
+    The blog index: a large serif cover, then the posts as glass cards.
+    Tokens and atmosphere live in theme.css.
 */
 
 #blogs_container_mount { position: relative; z-index: 1; }
@@ -249,7 +249,7 @@
     box-shadow: 0 40px 120px -30px var(--glow-rose), 0 20px 60px -20px rgba(0, 0, 0, .6);
 }
 
-/* featured posts are the gilded cards of the deck */
+/* featured posts get a gilded inner frame */
 .blog-card.pinned {
     background: linear-gradient(160deg, rgba(42, 31, 79, .6), rgba(15, 17, 48, .45));
     border-color: var(--gold-line);

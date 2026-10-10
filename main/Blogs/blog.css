@@ -2,8 +2,8 @@
     Copyright (C) 2024  Pranav Verma
     Licensed under GNU AGPL v3
 
-    A single post, set like a page of a storybook under the night sky.
-    Tokens and atmosphere live in Home/CSS/sky.css. Dev blogs add their own
+    A single post, set like a page of a book.
+    Tokens and atmosphere live in Home/CSS/theme.css. Dev blogs add their own
     log styles on top of this sheet in "Dev Blogs/blog.css".
 */
 
@@ -130,7 +130,14 @@ a { color: inherit; }
     text-align: center;
 }
 
-.post-loading .fact-text { max-width: 520px; }
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--line);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1.1s linear infinite;
+}
 
 /* ============================================
    Post
@@ -343,7 +350,7 @@ pre[class*="language-"] {
 .post-content pre code,
 pre[class*="language-"] code { color: #e8e1d4; text-shadow: none !important; }
 
-/* syntax colours drawn from the sky */
+/* syntax colours drawn from the palette */
 .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #8a86ab; font-style: italic; }
 .token.string, .token.attr-value, .token.char { color: #8fd9cf; }
 .token.number, .token.boolean, .token.constant { color: #f2a9a2; }

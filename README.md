@@ -22,13 +22,13 @@ This Code is [Licensed](LICENSE)!
     - Animate.css
 
 ### Design
-Every page shares one design language: a storybook told in chapters under a night sky.
-Thin serif display type (Cormorant Garamond) with italic rose accents, Hanken Grotesk for
-reading and Martian Mono for labels, over a twinkling canvas star field with a fact-carrying
-loader. A "daybreak" light theme is kept behind the theme toggle.
+Every page shares one design language, told in chapters: thin serif display type
+(Cormorant Garamond) with italic rose accents, Hanken Grotesk for reading and Martian Mono
+for labels, gold pill buttons and glass cards over a deep ink ground. A warm light theme is
+kept behind the theme toggle.
 
-  - Tokens and atmosphere: `main/Home/CSS/sky.css` and `main/Home/Javascript/sky.js`
-  - The blogs site ships as its own container, so it carries copies: `blogs/sky.css`, `blogs/sky.js`
+  - Tokens and shared styles: `main/Home/CSS/theme.css`, shared behaviour: `main/Home/Javascript/site.js`
+  - The blogs site ships as its own container, so it carries copies: `blogs/theme.css`, `blogs/site.js`
 
 ## Docker Deploy 🐋
 To run this code via **docker**, pull the repository via:

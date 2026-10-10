@@ -2,9 +2,9 @@
     Copyright (C) 2024  Pranav Verma
     Licensed under GNU AGPL v3
 
-    Layout: a storybook told in chapters. A night-sky hero, then one long sky
-    where each section is a chapter of the tale, set in thin serif with
-    italic accents. Tokens and atmosphere live in sky.css.
+    Layout: a page told in chapters. A large serif hero, then each section
+    opens as a numbered chapter, set in thin serif with italic accents.
+    Tokens and atmosphere live in theme.css.
 */
 
 /* ============================================
@@ -126,20 +126,6 @@ img { max-width: 100%; border-radius: 10px; }
     color: var(--moon);
 }
 
-.logo-dot {
-    width: 7px;
-    height: 7px;
-    background: var(--gold);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--gold);
-    animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: .45; }
-}
-
 .nav-menu {
     display: flex;
     align-items: center;
@@ -257,41 +243,6 @@ img { max-width: 100%; border-radius: 10px; }
         linear-gradient(180deg, transparent 70%, var(--night) 100%);
 }
 
-/* a constellation drawn behind the hero */
-.hero-constellation {
-    position: absolute;
-    right: 0;
-    top: 9%;
-    width: min(600px, 44vw);
-    height: auto;
-    overflow: visible;
-    opacity: .9;
-}
-
-.hero-constellation polyline {
-    fill: none;
-    stroke: var(--gold);
-    stroke-opacity: .35;
-    stroke-width: .8;
-    stroke-dasharray: 3 5;
-}
-
-.hero-constellation .trace {
-    stroke-dasharray: 1400;
-    stroke-dashoffset: 1400;
-    stroke-opacity: .55;
-    animation: draw 4.5s ease .6s forwards;
-}
-
-.hero-constellation circle { fill: var(--moon); }
-.hero-constellation circle.halo { fill: var(--gold); opacity: .14; animation: halo 4s ease-in-out infinite; }
-.hero-constellation circle.halo:nth-of-type(2n) { animation-delay: -2s; }
-
-@keyframes halo {
-    0%, 100% { opacity: .1; }
-    50% { opacity: .3; }
-}
-
 .hero-content {
     position: relative;
     z-index: 1;
@@ -365,7 +316,7 @@ img { max-width: 100%; border-radius: 10px; }
     animation: fadeInUp 1s var(--ease) .5s both;
 }
 
-/* the portrait, as a small moon with an orbit */
+/* the portrait, framed with a thin gold ring */
 .hero-profile-pic {
     position: relative;
     width: clamp(220px, 24vw, 320px);
@@ -375,32 +326,6 @@ img { max-width: 100%; border-radius: 10px; }
     background: radial-gradient(circle at 35% 30%, var(--dusk), var(--night-2) 70%);
     animation: fadeInUp 1.2s var(--ease) .5s both;
 }
-
-.hero-profile-pic::before {
-    content: '';
-    position: absolute;
-    inset: -22px;
-    border-radius: 50%;
-    border: 1px dashed var(--gold-line);
-    animation: orbit 60s linear infinite;
-}
-
-.hero-profile-pic::after {
-    content: '';
-    position: absolute;
-    top: -26px;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    margin-left: -4px;
-    border-radius: 50%;
-    background: var(--gold);
-    box-shadow: 0 0 14px var(--gold);
-    transform-origin: 4px calc(clamp(220px, 24vw, 320px) / 2 + 26px);
-    animation: orbit 18s linear infinite;
-}
-
-@keyframes orbit { to { transform: rotate(360deg); } }
 
 .hero-profile-pic img {
     position: relative;
@@ -604,7 +529,7 @@ img { max-width: 100%; border-radius: 10px; }
 
 .about-text-content { flex: 1; min-width: 0; }
 
-/* the opening paragraph reads like the manifesto: big, thin and serif */
+/* the opening paragraph reads as a statement: big, thin and serif */
 .about-text {
     max-width: 30em;
     margin: 0 0 var(--spacing-lg);
@@ -870,7 +795,7 @@ img { max-width: 100%; border-radius: 10px; }
     gap: clamp(18px, 2.4vw, 28px);
 }
 
-/* cards: a framed page of the storybook */
+/* cards: framed glass panels */
 .project-card,
 .certificate-card,
 .trip-card {
@@ -1646,7 +1571,7 @@ img { max-width: 100%; border-radius: 10px; }
 }
 
 /* ============================================
-   Modal: a storybook card with a gilded inner frame
+   Modal: a card with a gilded inner frame
    ============================================ */
 .modal {
     display: none;
@@ -1832,7 +1757,6 @@ img { max-width: 100%; border-radius: 10px; }
 @media (max-width: 1024px) {
     .contact-wrapper { grid-template-columns: 1fr; }
     .blog-card.featured { grid-column: span 1; }
-    .hero-constellation { opacity: .5; }
 }
 
 @media (min-width: 769px) {
@@ -1888,10 +1812,7 @@ img { max-width: 100%; border-radius: 10px; }
         gap: 48px;
     }
 
-    .hero-profile-pic { width: 180px; margin-left: 22px; }
-    .hero-profile-pic::after { transform-origin: 4px calc(90px + 26px); }
-
-    .hero-constellation { width: 120vw; right: -30vw; top: 8%; opacity: .35; }
+    .hero-profile-pic { width: 180px; }
 
     .ticker .chapters { display: none; }
 
@@ -2043,7 +1964,7 @@ img { max-width: 100%; border-radius: 10px; }
    ============================================ */
 @media print {
     .nav, .scroll-top, .modal, .hero-cta, .ticker, .theme-toggle,
-    #sky, .grain, .aurora, #loader, .hero-constellation { display: none !important; }
+    .grain, .aurora { display: none !important; }
 
     body { background: white; color: black; }
     .section { page-break-inside: avoid; }

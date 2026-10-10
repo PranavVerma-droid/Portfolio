@@ -19,31 +19,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wght@300;400&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="Home/CSS/sky.css">
+    <link rel="stylesheet" href="Home/CSS/theme.css">
     <link rel="stylesheet" href="Home/CSS/index.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    <!-- Loader: always carries a fact -->
-    <div id="loader" aria-hidden="true">
-        <div class="loader-in">
-            <svg viewBox="0 0 100 40">
-                <polyline points="4,8 28,32 52,16 76,34 96,6"/>
-                <circle cx="4" cy="8" r="1.6" style="animation-delay:.1s"/>
-                <circle cx="28" cy="32" r="1.6" style="animation-delay:.5s"/>
-                <circle cx="52" cy="16" r="2" style="animation-delay:.9s"/>
-                <circle cx="76" cy="34" r="1.6" style="animation-delay:1.3s"/>
-                <circle cx="96" cy="6" r="1.6" style="animation-delay:1.7s"/>
-            </svg>
-            <span class="fact-label">Charting the sky · did you know</span>
-            <p class="fact-text" data-fact>There are 88 officially recognised constellations, covering the whole sky between them.</p>
-        </div>
-    </div>
-
     <!-- Atmosphere -->
-    <canvas id="sky" aria-hidden="true"></canvas>
     <div class="aurora" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
@@ -51,14 +34,7 @@
     <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="#home" class="nav-logo">
-                <svg class="brand-mark" viewBox="0 0 100 40" aria-hidden="true">
-                    <polyline points="4,8 28,32 52,16 76,34 96,6"/>
-                    <circle cx="4" cy="8" r="3.4"/>
-                    <circle cx="28" cy="32" r="3.4"/>
-                    <circle class="bright" cx="52" cy="16" r="4.4"/>
-                    <circle cx="76" cy="34" r="3.4"/>
-                    <circle cx="96" cy="6" r="3.4"/>
-                </svg>
+                <span class="logo-dot" aria-hidden="true"></span>
                 <span id="navLogoText">Pranav's Portfolio</span>
             </a>
             
@@ -87,20 +63,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-background" aria-hidden="true">
-            <svg class="hero-constellation" viewBox="0 0 760 520">
-                <polyline points="60,380 190,300 300,340 410,210 560,250 700,90"/>
-                <polyline points="410,210 450,60 600,30"/>
-                <polyline class="trace" points="60,380 190,300 300,340 410,210 560,250 700,90"/>
-                <circle class="halo" cx="60" cy="380" r="14"/><circle cx="60" cy="380" r="2.6"/>
-                <circle class="halo" cx="190" cy="300" r="12"/><circle cx="190" cy="300" r="2"/>
-                <circle class="halo" cx="300" cy="340" r="12"/><circle cx="300" cy="340" r="2.2"/>
-                <circle class="halo" cx="410" cy="210" r="18"/><circle cx="410" cy="210" r="3.2"/>
-                <circle class="halo" cx="560" cy="250" r="12"/><circle cx="560" cy="250" r="2"/>
-                <circle class="halo" cx="700" cy="90" r="16"/><circle cx="700" cy="90" r="2.8"/>
-                <circle class="halo" cx="450" cy="60" r="10"/><circle cx="450" cy="60" r="1.8"/>
-                <circle class="halo" cx="600" cy="30" r="10"/><circle cx="600" cy="30" r="1.8"/>
-            </svg>
-        </div>
+            </div>
         
         <div class="container hero-content">
             <div class="hero-text">
@@ -386,7 +349,7 @@
                         <span class="logo-dot" aria-hidden="true"></span>
                         <span id="footerName">Pranav Verma</span>
                     </div>
-                    <p>&copy; 2024 All rights reserved · charted under the night sky</p>
+                    <p>&copy; 2024 All rights reserved.</p>
                 </div>
                 
                 <div class="footer-right">
@@ -431,8 +394,8 @@
     <!-- PocketBase -->
     <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.19.0/dist/pocketbase.umd.js"></script>
     
-    <!-- Night sky: stars, loader, rise-in -->
-    <script src="Home/Javascript/sky.js"></script>
+    <!-- Shared behaviours: rise-in, solid nav -->
+    <script src="Home/Javascript/site.js"></script>
     
     <!-- Personal info (ListenBrainz) -->
     <script src="Home/Javascript/Firebase/personal.js"></script>
