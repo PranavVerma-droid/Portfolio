@@ -1,0 +1,36 @@
+---
+/* Index rows for misc entries: year, title, a dates line, description, links. */
+import TextLink from './TextLink.astro';
+interface Entry {
+  id: string;
+  year: string;
+  title: string;
+  /** Mono line under the title, e.g. "2011-04 → 2026-04". */
+  meta?: string;
+  status?: string;
+  description: string;
+  links: { href: string; label: string }[];
+}
+interface Props { items: Entry[] }
+const { items } = Astro.props;
+---
+<ol class="index">
+  {items.map((e) => (
+    <li class="row">
+      <span class="date">{e.year}</span>
+      <div>
+        <div class="row-title">
+          <span>{e.title}</span>
+          {e.status && <span class="status">{e.status}</span>}
+        </div>
+        {e.meta && <p class="row-meta">{e.meta}</p>}
+        {e.description && <div class="row-desc rich" set:html={e.description} />}
+        {e.links.length > 0 && (
+          <ul class="row-links">
+            {e.links.map((l) => <li><TextLink href={l.href}>{l.label}</TextLink></li>)}
+          </ul>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

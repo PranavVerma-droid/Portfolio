@@ -247,3 +247,6 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .social:hover .social-icon { background-color: var(--link-hover); }
 .emails { margin-top: 0; }
 .emails.more { margin-top: var(--space-3); }
+
+/* ---------- misc ---------- */
+.row-meta { margin: 0; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 13px; line-height: 20px; color: var(--ink-muted); }

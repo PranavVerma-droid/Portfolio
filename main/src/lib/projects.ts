@@ -7,6 +7,7 @@
 import { list, type BaseRecord } from './pb';
 import { richText } from './richtext';
 import { isoDate, year } from './format';
+import { toLinks } from './links';
 import { toDevLog, type BlogRecord, type DevBlogRecord, type DevLog } from './posts';
 
 /* ---------- PocketBase records ---------- */
@@ -53,30 +54,6 @@ export interface Project {
   writeup?: Writeup;
 }
 
-/* Short labels for the hosts that come up; anything else shows its domain. */
-const HOST_LABELS: Record<string, string> = {
-  'github.com': 'github',
-  'gitlab.com': 'gitlab',
-  'huggingface.co': 'hugging face',
-  'youtube.com': 'youtube',
-  'youtu.be': 'youtube',
-  'linkedin.com': 'linkedin',
-  'reddit.com': 'reddit',
-  'x.com': 'x',
-  'twitter.com': 'x',
-  'kaggle.com': 'kaggle',
-  'devpost.com': 'devpost',
-};
-
-function linkLabel(href: string): string {
-  try {
-    const host = new URL(href).hostname.replace(/^www\./, '');
-    return HOST_LABELS[host] ?? host;
-  } catch {
-    return href;
-  }
-}
-
 function slugify(s: string): string {
   return s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'project';
 }
@@ -100,7 +77,7 @@ function toProject(r: ProjectRecord): Omit<Project, 'slug'> {
     description: richText(r.descriptions),
     role: r.role ?? '',
     tags: (r.slugs ?? '').split('_').map((t) => t.trim()).filter(Boolean),
-    links: [r.url1, r.url2, r.url3, r.url4].filter(Boolean).map((href) => ({ href, label: linkLabel(href) })),
+    links: toLinks([r.url1, r.url2, r.url3, r.url4]),
     start,
     end,
     inProgress: !end,

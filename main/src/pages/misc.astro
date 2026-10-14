@@ -1,0 +1,34 @@
+---
+/* Everything that isn't projects or writing. Linked from the nav only, not the home page. */
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import EntryIndex from '../components/EntryIndex.astro';
+import Empty from '../components/Empty.astro';
+import { getEducation, type Education } from '../lib/education';
+
+const { institutes, scores } = await getEducation();
+const month = (d: string) => d.slice(0, 7);
+
+const institute = (e: Education) => ({
+  ...e,
+  meta: e.start || e.end ? `${month(e.start) || '?'} → ${e.end ? month(e.end) : 'present'}` : undefined,
+  status: e.start && !e.end ? 'current' : undefined,
+});
+const score = (e: Education) => ({ ...e, meta: e.start ? month(e.start) : undefined });
+---
+<Base title="Misc" description="Education, test scores and other things about Pranav Verma." section="misc">
+  <div class="page">
+    <div class="title-block">
+      <h1 class="display">Misc</h1>
+      <p class="lede muted">Everything that isn't a project or a post.</p>
+    </div>
+
+    <Section label="Education" id="education">
+      {institutes.length ? <EntryIndex items={institutes.map(institute)} /> : <Empty />}
+    </Section>
+
+    <Section label="Test scores" id="scores">
+      {scores.length ? <EntryIndex items={scores.map(score)} /> : <Empty />}
+    </Section>
+  </div>
+</Base>

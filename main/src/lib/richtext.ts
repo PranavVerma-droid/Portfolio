@@ -30,6 +30,14 @@ const options: sanitizeHtml.IOptions = {
   exclusiveFilter: (frame) => frame.tag === 'p' && !frame.text.trim() && !frame.mediaChildren.length,
 };
 
+/** Like richText, but text with no HTML tags keeps its line breaks. */
+export function richOrPlain(text: string | undefined | null): string {
+  if (!text?.trim()) return '';
+  if (/<[a-z][^>]*>/i.test(text)) return richText(text);
+  const escaped = text.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return richText(escaped.split(/\n\s*\n/).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join(''));
+}
+
 export function richText(html: string | undefined | null): string {
   if (!html) return '';
   return externalLinks(sanitizeHtml(html, options));
