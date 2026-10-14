@@ -1,0 +1,26 @@
+---
+/*
+  A compact wrap of chips. The description appears in a card under the list on hover or keyboard focus
+  (and on tap for chips without a link). Chips with a link open it in a new tab.
+*/
+import type { Chip } from '../lib/skills';
+interface Props { items: Chip[]; id: string }
+const { items, id } = Astro.props;
+---
+<ul class="chips">
+  {items.map((c, i) => {
+    const tip = `${id}-tip-${i}`;
+    return (
+      <li class="chip-item">
+        {c.href ? (
+          <a class="chip chip-link" href={c.href} target="_blank" rel="noopener noreferrer" aria-describedby={c.description ? tip : undefined}>
+            {c.name}<span class="arrow" aria-label=" (opens in a new tab)">↗</span>
+          </a>
+        ) : (
+          <span class="chip" tabindex={c.description ? 0 : undefined} aria-describedby={c.description ? tip : undefined}>{c.name}</span>
+        )}
+        {c.description && <span class="chip-card" id={tip} role="tooltip">{c.description}</span>}
+      </li>
+    );
+  })}
+</ul>

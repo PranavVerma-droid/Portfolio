@@ -250,3 +250,15 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 
 /* ---------- misc ---------- */
 .row-meta { margin: 0; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+
+/* chips: languages and skills. The card is the description, shown on hover/focus. */
+.chips { position: relative; display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+/* Cards are positioned against the whole list (not the chip) so they always span the column and stay on screen. */
+.chip-item { position: static; }
+.chip { display: inline-block; font-family: var(--font-mono); font-size: 13px; line-height: 20px; padding: 2px var(--space-2); color: var(--ink); border: var(--stroke-hairline) solid var(--rule-strong); border-radius: var(--radius-sm); text-decoration: none; cursor: default; transition: color 120ms, border-color 120ms, background-color 120ms; }
+.chip-link { cursor: pointer; }
+.chip:hover, .chip:focus-visible { background: var(--paper-sunk); }
+.chip-link:hover { color: var(--link-hover); border-color: var(--link-hover); }
+.chip .arrow { font-size: .85em; }
+.chip-card { position: absolute; z-index: 5; top: calc(100% + var(--space-2)); left: 0; right: 0; padding: var(--space-2) var(--space-3); background: var(--paper); color: var(--ink); border: var(--stroke-hairline) solid var(--rule-strong); border-radius: var(--radius-md); font-family: var(--font-serif); font-size: 15px; line-height: 22px; text-wrap: pretty; visibility: hidden; opacity: 0; transition: opacity 120ms, visibility 120ms; pointer-events: none; }
+.chip-item:hover .chip-card, .chip:focus-visible + .chip-card, .chip:focus + .chip-card { visibility: visible; opacity: 1; }
