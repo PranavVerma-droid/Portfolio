@@ -6,10 +6,10 @@ import { getProjects } from '../../lib/projects';
 
 const projects = await getProjects();
 ---
-<Base title="Work" description="Projects by Pranav Verma, newest first." section="work">
+<Base title="Projects" description="Projects by Pranav Verma, newest first." section="projects">
   <div class="page">
     <div class="title-block">
-      <h1 class="display">Work</h1>
+      <h1 class="display">Projects</h1>
       <p class="lede muted">Everything I've built, newest first. Projects with a write-up link to it.</p>
     </div>
     {projects.length ? <ProjectIndex items={projects} /> : <Empty />}

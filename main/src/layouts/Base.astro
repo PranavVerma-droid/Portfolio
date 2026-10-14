@@ -1,13 +1,13 @@
 ---
 /* Page shell: head, header, footer. Copyright (C) 2026 Pranav Verma. Licensed under GNU AGPL v3. */
 import '../styles/site.css';
-import SiteHeader from '../components/SiteHeader.astro';
+import SiteHeader, { type NavSection } from '../components/SiteHeader.astro';
 
 interface Props {
   title?: string;
   description: string;
-  /** Which nav item is current. Omit on the home page, which has no nav. */
-  section?: 'work' | 'writing' | 'now' | 'infra' | 'none';
+  /** Which nav item is current. Omit on the home page. */
+  section?: NavSection;
   noindex?: boolean;
 }
 

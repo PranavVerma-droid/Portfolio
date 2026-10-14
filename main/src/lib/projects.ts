@@ -171,4 +171,4 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
 }
 
 /** The project's page, if it has a write-up to show. */
-export const projectHref = (p: Project) => (p.writeup ? `/work/${p.slug}/` : undefined);
+export const projectHref = (p: Project) => (p.writeup ? `/projects/${p.slug}/` : undefined);

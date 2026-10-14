@@ -28,7 +28,7 @@ const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds com
     {projects.length > 0 && (
       <Section label="Projects" id="projects">
         {pinned.length > 0 && <ProjectIndex items={pinned} />}
-        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href="/work/">All work →</TextLink></p>
+        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href="/projects/">All projects →</TextLink></p>
       </Section>
     )}
   </div>

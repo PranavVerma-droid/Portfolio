@@ -10,7 +10,7 @@ const w = p.writeup;
 const dates = p.start || p.end ? `${p.start || '?'} → ${p.end || 'present'}` : '';
 const description = stripHtml(p.description).slice(0, 160) || p.name;
 ---
-<Base title={p.name} description={description} section="work">
+<Base title={p.name} description={description} section="projects">
   <article class="page">
     <div class="title-block">
       <p class="meta-line">
@@ -58,6 +58,6 @@ const description = stripHtml(p.description).slice(0, 160) || p.name;
       </div>
     )}
 
-    <p><TextLink href="/work/">All work</TextLink></p>
+    <p><TextLink href="/projects/">All projects</TextLink></p>
   </article>
 </Base>
