@@ -1,9 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
 import Empty from '../components/Empty.astro';
+import { getGeneral } from '../lib/general';
+
+const general = await getGeneral();
+const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
 ---
-<Base description="Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.">
+<Base description={description}>
   <div class="page">
-    <Empty />
+    {general ? (
+      <Section label="About" id="about">
+        <div class="prose" set:html={general.about} />
+        {general.resume && (
+          <p class="more">
+            <a class="link" href={general.resume.href} download>Download résumé</a>
+            {general.resume.type && <span class="date"> {general.resume.type}</span>}
+          </p>
+        )}
+      </Section>
+    ) : <Empty />}
   </div>
 </Base>

@@ -143,6 +143,7 @@ main { display: block; }
 .prose p, .prose li { text-wrap: pretty; }
 .prose ul, .prose ol { padding-left: 1.2em; }
 .prose li + li { margin-top: var(--space-2); }
+mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-radius: var(--radius-sm); }
 .prose sup a { font-family: var(--font-mono); font-size: 12px; text-decoration: none; color: var(--signal); }
 :not(pre) > code { font-size: .82em; background: var(--paper-sunk); padding: 1px 4px; border-radius: var(--radius-sm); }
 .footnotes { font-size: 16px; line-height: 24px; color: var(--ink-muted); border-top: var(--stroke-hairline) solid var(--rule); padding-top: var(--space-4); }
@@ -209,7 +210,7 @@ main { display: block; }
 .rich > * + * { margin-top: var(--space-3); }
 .rich a { color: var(--link); text-decoration: underline; text-decoration-color: var(--rule-strong); text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 120ms, text-decoration-color 120ms; }
 .rich a:hover { color: var(--link-hover); text-decoration-color: var(--link-hover); }
-.more { margin: var(--space-3) 0 0; }
+.more { margin: var(--space-6) 0 0; }
 .email { font-size: 14px; }
 
 /* editor output inside case studies and essays */
