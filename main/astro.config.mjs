@@ -8,6 +8,10 @@ export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   trailingSlash: 'ignore',
+  // Trip photos are resized on request by Astro's image endpoint (/_image), which only accepts these hosts.
+  image: {
+    domains: ['pb-1.pranavv.co.in'],
+  },
   env: {
     schema: {
       // 'secret' so it is read at runtime, not inlined at build time.
