@@ -12,6 +12,7 @@ import { getProjects } from '../lib/projects';
 import { getPosts } from '../lib/posts';
 import { getSocials, EMAILS } from '../lib/socials';
 import { getEducation, instituteEntry } from '../lib/education';
+import { url } from '../lib/url';
 
 const HOME_POSTS = 5;
 
@@ -46,14 +47,14 @@ const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds com
     {projects.length > 0 && (
       <Section label="Projects" id="projects">
         {pinned.length > 0 && <ProjectIndex items={pinned} />}
-        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href="/projects/">All projects →</TextLink></p>
+        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href={url('/projects/')}>All projects →</TextLink></p>
       </Section>
     )}
 
     {posts.length > 0 && (
       <Section label="Writing" id="writing">
         <PostList items={posts.slice(0, HOME_POSTS)} />
-        <p class="more"><TextLink href="/writing/">All writing →</TextLink></p>
+        <p class="more"><TextLink href={url('/writing/')}>All writing →</TextLink></p>
       </Section>
     )}
 

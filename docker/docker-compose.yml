@@ -1,0 +1,16 @@
+#    Copyright (C) 2026  Pranav Verma
+#    Licensed under GNU AGPL v3. See LICENSE at the root of this project.
+#
+#    Runs the v3 site. Copy next to a .env (see .env.example) and run:
+#      docker compose pull && docker compose up -d
+
+name: pranavs-portfolio
+services:
+  web:
+    image: ghcr.io/pranavverma-droid/portfolio-main:latest
+    container_name: portfolio-main
+    ports:
+      - "${PORT:-5646}:8080"
+    environment:
+      PB_URL: ${PB_URL:-https://pb-1.pranavv.co.in}
+    restart: always

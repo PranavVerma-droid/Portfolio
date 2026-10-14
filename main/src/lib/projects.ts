@@ -8,6 +8,7 @@ import { list, type BaseRecord } from './pb';
 import { richText } from './richtext';
 import { isoDate, year } from './format';
 import { toLinks } from './links';
+import { url } from './url';
 import { toDevLog, type BlogRecord, type DevBlogRecord, type DevLog } from './posts';
 
 /* ---------- PocketBase records ---------- */
@@ -114,4 +115,4 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
 }
 
 /** The project's page, if it has a write-up to show. */
-export const projectHref = (p: Project) => (p.writeup ? `/projects/${p.slug}/` : undefined);
+export const projectHref = (p: Project) => (p.writeup ? url(`/projects/${p.slug}/`) : undefined);

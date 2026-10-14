@@ -2,6 +2,7 @@
 /* Page shell: head, header, footer. Copyright (C) 2026 Pranav Verma. Licensed under GNU AGPL v3. */
 import '../styles/site.css';
 import SiteHeader, { type NavSection } from '../components/SiteHeader.astro';
+import { url } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -32,7 +33,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap">
   <script is:inline>try{var t=localStorage.getItem('pv-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-  <script is:inline src="/theme.js" defer></script>
+  <script is:inline src={url('/theme.js')} defer></script>
   <slot name="head" />
 </head>
 <body>

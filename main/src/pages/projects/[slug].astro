@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import TextLink from '../../components/TextLink.astro';
 import DevLog from '../../components/DevLog.astro';
 import { getProjectBySlug } from '../../lib/projects';
+import { url } from '../../lib/url';
 import { stripHtml } from '../../lib/format';
 
 const p = await getProjectBySlug(Astro.params.slug!);
@@ -45,6 +46,6 @@ const description = stripHtml(p.description).slice(0, 160) || p.name;
       </div>
     )}
 
-    <p><TextLink href="/projects/">All projects</TextLink></p>
+    <p><TextLink href={url('/projects/')}>All projects</TextLink></p>
   </article>
 </Base>
