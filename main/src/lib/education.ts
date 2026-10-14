@@ -5,7 +5,7 @@
 import { list, type BaseRecord } from './pb';
 import { richOrPlain } from './richtext';
 import { toLinks } from './links';
-import { isoDate, year } from './format';
+import { isoDate, monthRange, year } from './format';
 
 interface EducationRecord extends BaseRecord {
   eduTitle: string;
@@ -51,3 +51,10 @@ export async function getEducation(): Promise<{ institutes: Education[]; scores:
   const of = (type: string) => records.filter((r) => r.eduType?.trim().toLowerCase() === type).map(toEducation).sort(newestFirst);
   return { institutes: of('education'), scores: of('score') };
 }
+
+/** An institute as an EntryIndex row: dates under the name, "current" while there's no end date. */
+export const instituteEntry = (e: Education) => ({
+  ...e,
+  meta: monthRange(e.start, e.end) || undefined,
+  status: e.start && !e.end ? 'current' : undefined,
+});

@@ -1,5 +1,5 @@
 ---
-/* Everything that isn't projects or writing. Linked from the nav only, not the home page. */
+/* Everything that isn't projects or writing. Linked from the nav only. Education (institutes) is on the home page. */
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import EntryIndex from '../components/EntryIndex.astro';
@@ -16,28 +16,23 @@ import Trips from '../components/Trips.astro';
 import { getTrips } from '../lib/trips';
 import LastSong from '../components/LastSong.astro';
 import { getLastSong } from '../lib/listening';
+import { monthRange } from '../lib/format';
 
-const [{ institutes, scores }, internships, publications, certificates, competitions, languages, skills, trips, song] = await Promise.all([
+const [{ scores }, internships, publications, certificates, competitions, languages, skills, trips, song] = await Promise.all([
   getEducation(), getInternships(), getPublications(), getCertificates(), getCompetitions(), getLanguages(), getSkills(), getTrips(),
   getLastSong(),
 ]);
 const month = (d: string) => d.slice(0, 7);
-const range = (start: string, end: string) => (start || end ? `${month(start) || '?'} → ${end ? month(end) : 'present'}` : '');
 
-const institute = (e: Education) => ({
-  ...e,
-  meta: range(e.start, e.end) || undefined,
-  status: e.start && !e.end ? 'current' : undefined,
-});
 const score = (e: Education) => ({ ...e, meta: e.start ? month(e.start) : undefined });
 const internship = (i: Internship) => ({
   ...i,
-  meta: [i.institute, i.type, range(i.start, i.end)].filter(Boolean).join(' · ') || undefined,
+  meta: [i.institute, i.type, monthRange(i.start, i.end)].filter(Boolean).join(' · ') || undefined,
   status: i.start && !i.end ? 'current' : undefined,
 });
 const publication = (p: Publication) => ({ ...p, meta: [p.journal, p.date].filter(Boolean).join(' · ') || undefined });
 ---
-<Base title="Misc" description="Education, internships, publications, test scores, certifications, competitions, skills and trips of Pranav Verma." section="misc">
+<Base title="Misc" description="Internships, publications, test scores, certifications, competitions, skills and trips of Pranav Verma." section="misc">
   <div class="page">
     <div class="title-block">
       <h1 class="display">Misc</h1>
@@ -49,10 +44,6 @@ const publication = (p: Publication) => ({ ...p, meta: [p.journal, p.date].filte
         <LastSong song={song} />
       </Section>
     )}
-
-    <Section label="Education" id="education">
-      {institutes.length ? <EntryIndex items={institutes.map(institute)} /> : <Empty />}
-    </Section>
 
     <Section label="Internships" id="internships">
       {internships.length ? <EntryIndex items={internships.map(internship)} collapse /> : <Empty />}

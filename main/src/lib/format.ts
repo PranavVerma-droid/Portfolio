@@ -5,6 +5,9 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 /** PocketBase dates look like "2026-10-02 00:00:00.000Z". */
 export const isoDate = (pb: string) => pb.slice(0, 10);
 export const year = (pb: string) => pb.slice(0, 4);
+/** "2024-06 → 2024-08", "2026-09 → present", or "" when there are no dates. */
+export const monthRange = (start: string, end: string) =>
+  start || end ? `${start.slice(0, 7) || '?'} → ${end ? end.slice(0, 7) : 'present'}` : '';
 export const monthDay = (pb: string) => `${MONTHS[Number(pb.slice(5, 7)) - 1]} ${pb.slice(8, 10)}`;
 
 /** One format per list: "Oct 02" when every date is in the same year, else the year. */
