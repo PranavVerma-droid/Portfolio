@@ -323,3 +323,11 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 .song-link:hover .song-title { color: var(--link-hover); text-decoration-color: var(--link-hover); }
 .song-link:hover .arrow { color: var(--signal); }
 .song-link:hover .song-cover { border-color: var(--link-hover); }
+
+/* ---------- tips ---------- */
+/* A small note with a notch pointing up at the line above it. Dismissed in JS; remembered in localStorage. */
+.hint { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); width: fit-content; max-width: 100%; margin: var(--space-2) 0 var(--space-1); padding: var(--space-2) var(--space-3); background: var(--paper-tint); border: var(--stroke-hairline) solid var(--rule-strong); border-radius: var(--radius-md); font-size: 15px; line-height: 22px; color: var(--ink); }
+.hint::before { content: ""; position: absolute; top: -6px; left: var(--space-4); width: 10px; height: 10px; background: var(--paper-tint); border-left: var(--stroke-hairline) solid var(--rule-strong); border-top: var(--stroke-hairline) solid var(--rule-strong); transform: rotate(45deg); }
+.hint-label { font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--signal); }
+.hint-close { margin-left: auto; padding: 0 6px; font-family: var(--font-mono); font-size: 12px; line-height: 18px; color: var(--ink-muted); background: transparent; border: var(--stroke-hairline) solid var(--rule-strong); border-radius: var(--radius-sm); cursor: pointer; }
+.hint-close:hover { color: var(--ink); }

@@ -1,12 +1,17 @@
 ---
-/* One row per project: year, name (linked to its write-up), status, description, tags, links. */
+/*
+  One row per project: year, name (linked to its write-up), status, description, tags, links.
+  With `hint`, the first project that has a write-up gets a dismissible tip pointing at its name.
+*/
 import TextLink from './TextLink.astro';
 import { projectHref, type Project } from '../lib/projects';
-interface Props { items: Project[] }
-const { items } = Astro.props;
+interface Props { items: Project[]; hint?: boolean }
+const { items, hint = false } = Astro.props;
+const hintAt = hint ? items.findIndex((p) => projectHref(p)) : -1;
+const HINT_KEY = 'pv-hint:project-writeups';
 ---
 <ol class="index">
-  {items.map((p) => {
+  {items.map((p, i) => {
     const href = projectHref(p);
     return (
       <li class="row">
@@ -16,6 +21,19 @@ const { items } = Astro.props;
             {href ? <TextLink href={href}>{p.name}</TextLink> : <span>{p.name}</span>}
             {p.inProgress && <span class="status">in progress</span>}
           </div>
+          {i === hintAt && (
+            <>
+              <div class="hint" role="note" data-hint={HINT_KEY}>
+                <span class="hint-label">tip</span>
+                <span class="hint-text">Click the name to read the project's write-up.</span>
+                <button type="button" class="hint-close" data-hint-close>dismiss</button>
+              </div>
+              {/* Runs before the tip is painted, so a dismissed tip never flashes. */}
+              <script is:inline define:vars={{ key: HINT_KEY }}>
+                try { if (localStorage.getItem(key)) document.querySelector('[data-hint="' + key + '"]')?.remove(); } catch (e) {}
+              </script>
+            </>
+          )}
           {p.description && <div class="row-desc rich" set:html={p.description} />}
           {p.tags.length > 0 && <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>}
           {p.links.length > 0 && (
@@ -28,3 +46,16 @@ const { items } = Astro.props;
     );
   })}
 </ol>
+
+{hintAt >= 0 && (
+  <script>
+    // Dismissing a tip remembers it in this browser, so it doesn't come back.
+    document.addEventListener('click', (e) => {
+      const button = (e.target as Element).closest('[data-hint-close]');
+      const tip = button?.closest<HTMLElement>('[data-hint]');
+      if (!tip) return;
+      try { localStorage.setItem(tip.dataset.hint!, '1'); } catch {}
+      tip.remove();
+    });
+  </script>
+)}
