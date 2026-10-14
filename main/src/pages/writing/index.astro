@@ -2,10 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import PostList from '../../components/PostList.astro';
 import Empty from '../../components/Empty.astro';
-import { getPosts } from '../../lib/posts';
+import { getAllPosts } from '../../lib/posts';
 import { byYear, monthDay } from '../../lib/format';
 
-const groups = byYear(await getPosts(), (p) => p.date);
+const groups = byYear(await getAllPosts(), (p) => p.date);
 ---
 <Base title="Writing" description="Notes and dev logs by Pranav Verma, newest first." section="writing">
   <div class="page">

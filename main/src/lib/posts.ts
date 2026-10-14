@@ -2,7 +2,7 @@
   Writing: `blogs_v2` and `devBlogs_v2`, merged into one list of posts.
 
   Drafts are never fetched. Posts in the "Project(s)" category are left out of the
-  Writing list (they're shown on their project's page) but keep their own URL.
+  home page list (they're on their project's page) but are listed, marked, on /writing/.
   The record types and dev-log builder here are shared with projects.ts.
 */
 import { list, type BaseRecord } from './pb';
@@ -109,7 +109,7 @@ export async function getAllPosts(): Promise<Post[]> {
     .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
 }
 
-/** Posts for the Writing list: everything except project posts. */
+/** Posts for the home page: everything except project posts. */
 export async function getPosts(): Promise<Post[]> {
   return (await getAllPosts()).filter((p) => !isProjectPost(p));
 }

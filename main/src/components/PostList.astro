@@ -2,7 +2,7 @@
 /* Dated list of posts. One date format per list: pass one, or it picks "Oct 02" or "2025" (see listDate). */
 import TextLink from './TextLink.astro';
 import { listDate } from '../lib/format';
-import { postHref, type Post } from '../lib/posts';
+import { postHref, isProjectPost, type Post } from '../lib/posts';
 interface Props { items: Post[]; dateFormat?: (date: string) => string }
 const { items } = Astro.props;
 const fmt = Astro.props.dateFormat ?? listDate(items.map((p) => p.date));
@@ -14,6 +14,7 @@ const fmt = Astro.props.dateFormat ?? listDate(items.map((p) => p.date));
       <span>
         <TextLink href={postHref(p)}>{p.title}</TextLink>
         {p.kind === 'devlog' && <span class="post-kind">dev log</span>}
+        {isProjectPost(p) && <span class="post-kind">project</span>}
       </span>
     </li>
   ))}
