@@ -331,3 +331,29 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 .hint-label { font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--signal); }
 .hint-close { margin-left: auto; padding: 0 6px; font-family: var(--font-mono); font-size: 12px; line-height: 18px; color: var(--ink-muted); background: transparent; border: var(--stroke-hairline) solid var(--rule-strong); border-radius: var(--radius-sm); cursor: pointer; }
 .hint-close:hover { color: var(--ink); }
+
+/* ---------- touch screens ---------- */
+/* Bigger tap targets (at least ~32px) without changing the desktop layout. */
+@media (pointer: coarse) {
+  html { -webkit-tap-highlight-color: transparent; }
+  .nav { gap: var(--space-2) var(--space-3); }
+  .navlink, .wordmark { display: inline-block; padding: 6px 0; }
+  .toggle, .hint-close { padding: 5px 10px; }
+  .row-links, .inline-links { gap: var(--space-1) var(--space-4); }
+  .row-links .link, .compact-link .link, .inline-links .link, .more-toggle > summary { display: inline-block; padding: 6px 0; }
+  .more-toggle > summary { font-size: 14px; }
+  .compact-line { row-gap: var(--space-1); }
+  .chips { gap: var(--space-2); }
+  .chip { padding: 6px 10px; font-size: 14px; }
+  .lb-btn { padding: 8px 14px; font-size: 14px; }
+  .tile { width: 112px; height: 112px; }
+  .social-icon { width: 18px; height: 18px; }
+}
+
+/* Narrow phones: give long rows a little more room. */
+@media (max-width: 420px) {
+  .row, .post, .compact-item { grid-template-columns: 44px minmax(0, 1fr); gap: var(--space-3); }
+  .lightbox[open] { padding-inline: var(--space-2); }
+  .lb-caption { font-size: 12px; }
+  .hint { width: auto; }
+}

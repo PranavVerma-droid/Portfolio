@@ -28,7 +28,7 @@ const range = (t: Trip) => (t.start || t.end ? `${t.start || '?'} → ${t.end ||
               return m.kind === 'image' ? (
                 <li>
                   <a class="tile" href={m.original} target="_blank" rel="noopener noreferrer" data-lightbox data-kind="image" data-full={m.full} aria-label={label}>
-                    <img src={m.tile} srcset={`${m.tile} 1x, ${m.tile2x} 2x`} width="96" height="96" loading="lazy" decoding="async" alt="" />
+                    <img src={m.tile} srcset={`${m.tile} 1x, ${m.tile2x} 2x, ${m.tile3x} 3x`} width="96" height="96" loading="lazy" decoding="async" alt="" />
                   </a>
                 </li>
               ) : (
