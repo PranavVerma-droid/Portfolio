@@ -1,0 +1,13 @@
+---
+/* Rendered when a page throws, usually because PocketBase is unreachable and nothing is cached yet. */
+import Base from '../layouts/Base.astro';
+---
+<Base title="Unavailable" description="The site could not load its content." section="none" noindex>
+  <div class="page">
+    <div class="title-block">
+      <p class="meta-line"><span>500</span></p>
+      <h1 class="display">Back in a moment</h1>
+      <p class="lede muted">The content store didn't answer. Try again in a minute.</p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,10 @@
+---
+/* Label / value facts at the top of a case study, or the /now list. */
+interface Props { items: { label: string; value: string }[] }
+const { items } = Astro.props;
+---
+<dl class="spec">
+  {items.map((s) => (
+    <div class="spec-row"><dt>{s.label}</dt><dd>{s.value}</dd></div>
+  ))}
+</dl>

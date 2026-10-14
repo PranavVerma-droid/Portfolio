@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import ProjectIndex from '../components/ProjectIndex.astro';
+import PostList from '../components/PostList.astro';
+import Elsewhere from '../components/Elsewhere.astro';
+import TextLink from '../components/TextLink.astro';
+import EntryIndex from '../components/EntryIndex.astro';
+import Empty from '../components/Empty.astro';
+import { getGeneral } from '../lib/general';
+import { getProjects } from '../lib/projects';
+import { getPosts } from '../lib/posts';
+import { getSocials, EMAILS } from '../lib/socials';
+import { getEducation, instituteEntry } from '../lib/education';
+import { url } from '../lib/url';
+
+const HOME_POSTS = 5;
+
+const [general, projects, posts, socials, { institutes }] = await Promise.all([
+  getGeneral(), getProjects(), getPosts(), getSocials(), getEducation(),
+]);
+const pinned = projects.filter((p) => p.pinned);
+const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
+---
+<Base description={description}>
+  <div class="page">
+    <h1 class="display">Pranav Verma</h1>
+
+    {general ? (
+      <Section label="About" id="about">
+        <div class="prose" set:html={general.about} />
+        {general.resume && (
+          <p class="more">
+            <a class="link" href={general.resume.href} download>Download résumé</a>
+            {general.resume.type && <span class="date"> {general.resume.type}</span>}
+          </p>
+        )}
+      </Section>
+    ) : <Empty />}
+
+    {institutes.length > 0 && (
+      <Section label="Education" id="education">
+        <EntryIndex items={institutes.map(instituteEntry)} />
+      </Section>
+    )}
+
+    {projects.length > 0 && (
+      <Section label="Projects" id="projects">
+        {pinned.length > 0 && <ProjectIndex items={pinned} />}
+        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href={url('/projects/')}>All projects →</TextLink></p>
+      </Section>
+    )}
+
+    {posts.length > 0 && (
+      <Section label="Writing" id="writing">
+        <PostList items={posts.slice(0, HOME_POSTS)} />
+        <p class="more"><TextLink href={url('/writing/')}>All writing →</TextLink></p>
+      </Section>
+    )}
+
+    <Section label="Elsewhere" id="elsewhere">
+      <Elsewhere socials={socials} emails={EMAILS} />
+    </Section>
+  </div>
+</Base>

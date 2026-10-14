@@ -1,34 +1,16 @@
-#    Copyright (C) 2024  Pranav Verma
-
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#    See a more apt description in LICENSE File Attached to the root of this
-#    project.
+#    Copyright (C) 2026  Pranav Verma
+#    Licensed under GNU AGPL v3. See LICENSE at the root of this project.
+#
+#    Runs the v3 site. Copy next to a .env (see .env.example) and run:
+#      docker compose pull && docker compose up -d
 
 name: pranavs-portfolio
-version: '3'
 services:
   web:
     image: ghcr.io/pranavverma-droid/portfolio-main:latest
-    container_name: pranavs-portfolio-main
+    container_name: portfolio-main
     ports:
-      - "${PORT}:8080"
-    restart: always
-
-  blogs:
-    image: ghcr.io/pranavverma-droid/portfolio-blogs:latest
-    container_name: pranavs-portfolio-blogs
-    ports:
-      - "${BLOGS_PORT}:8080"
+      - "${PORT:-5646}:8080"
+    environment:
+      PB_URL: ${PB_URL:-https://pb-1.pranavv.co.in}
     restart: always

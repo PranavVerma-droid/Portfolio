@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+<Base title="Not found" description="This page moved or never existed." section="none" noindex>
+  <div class="page">
+    <div class="title-block">
+      <p class="meta-line"><span>404</span></p>
+      <h1 class="display">Nothing here</h1>
+      <p class="lede muted">This page moved or never existed. The old site's sections were folded into the new one.</p>
+    </div>
+    <p><a class="link" href={url('/')}>Back to the index →</a></p>
+  </div>
+</Base>

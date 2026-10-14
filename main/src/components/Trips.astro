@@ -1,0 +1,161 @@
+---
+/*
+  Trips: one row per trip with a scrolling strip of square thumbnails.
+  Clicking a thumbnail opens the lightbox (a <dialog>); without JS it opens the original file.
+  Videos play muted and looped in the lightbox; tiles only load them when scrolled near.
+*/
+import TextLink from './TextLink.astro';
+import type { Trip } from '../lib/trips';
+interface Props { trips: Trip[] }
+const { trips } = Astro.props;
+const range = (t: Trip) => (t.start || t.end ? `${t.start || '?'} → ${t.end || 'present'}` : '');
+---
+<ol class="index">
+  {trips.map((t) => (
+    <li class="row">
+      <span class="date">{t.year}</span>
+      <div>
+        <div class="row-title"><span>{t.name}</span></div>
+        <p class="row-meta">{[t.country, range(t)].filter(Boolean).join(' · ')}</p>
+        {t.description && <div class="row-desc rich" set:html={t.description} />}
+        {t.links.length > 0 && (
+          <ul class="row-links">{t.links.map((l) => <li><TextLink href={l.href}>{l.label}</TextLink></li>)}</ul>
+        )}
+        {t.media.length > 0 && (
+          <ul class="strip" data-gallery data-title={t.name} aria-label={`Photos and videos from ${t.name}`}>
+            {t.media.map((m, i) => {
+              const label = `${m.kind === 'video' ? 'Video' : 'Photo'} ${i + 1} of ${t.media.length}, ${t.name}`;
+              return m.kind === 'image' ? (
+                <li>
+                  <a class="tile" href={m.original} target="_blank" rel="noopener noreferrer" data-lightbox data-kind="image" data-full={m.full} aria-label={label}>
+                    <img src={m.tile} srcset={`${m.tile} 1x, ${m.tile2x} 2x`} width="96" height="96" loading="lazy" decoding="async" alt="" />
+                  </a>
+                </li>
+              ) : (
+                <li>
+                  <a class="tile" href={m.src} target="_blank" rel="noopener noreferrer" data-lightbox data-kind="video" data-src={m.src} data-type={m.type} aria-label={label}>
+                    <video data-tile-src={`${m.src}#t=0.1`} muted playsinline preload="metadata" width="96" height="96" aria-hidden="true" tabindex="-1" />
+                    <span class="tile-badge">video</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <div class="lb-bar">
+    <span class="lb-caption"></span>
+    <span class="lb-count"></span>
+    <button type="button" class="lb-btn" data-lb="close">close</button>
+  </div>
+  <div class="lb-stage"></div>
+  <div class="lb-nav">
+    <button type="button" class="lb-btn" data-lb="prev">prev</button>
+    <button type="button" class="lb-btn" data-lb="next">next →</button>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+  if (dialog) {
+    const stage = dialog.querySelector('.lb-stage')!;
+    const caption = dialog.querySelector('.lb-caption')!;
+    const count = dialog.querySelector('.lb-count')!;
+    const nav = dialog.querySelector('.lb-nav') as HTMLElement;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let items: HTMLAnchorElement[] = [];
+    let index = 0;
+
+    const media = (a: HTMLAnchorElement): HTMLElement => {
+      if (a.dataset.kind === 'video') {
+        const v = document.createElement('video');
+        v.src = a.dataset.src!;
+        // Muted, looping, inline. With reduced motion it waits for the viewer to press play.
+        v.muted = true;
+        v.defaultMuted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('muted', '');
+        v.setAttribute('playsinline', '');
+        if (reduceMotion) v.controls = true;
+        else { v.autoplay = true; v.play().catch(() => {}); }
+        return v;
+      }
+      const img = new Image();
+      img.src = a.dataset.full!;
+      img.alt = a.getAttribute('aria-label') ?? '';
+      img.decoding = 'async';
+      return img;
+    };
+
+    const preload = (a: HTMLAnchorElement | undefined) => {
+      if (a?.dataset.kind === 'image') new Image().src = a.dataset.full!;
+    };
+
+    const show = () => {
+      const a = items[index];
+      const el = media(a);
+      el.className = 'lb-media';
+      stage.replaceChildren(el);
+      count.textContent = `${index + 1} / ${items.length}`;
+      nav.hidden = items.length < 2;
+      preload(items[(index + 1) % items.length]);
+      preload(items[(index - 1 + items.length) % items.length]);
+    };
+
+    const step = (d: number) => {
+      index = (index + d + items.length) % items.length;
+      show();
+    };
+
+    document.addEventListener('click', (e) => {
+      const a = (e.target as Element).closest<HTMLAnchorElement>('a[data-lightbox]');
+      if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const strip = a.closest<HTMLElement>('[data-gallery]')!;
+      items = [...strip.querySelectorAll<HTMLAnchorElement>('a[data-lightbox]')];
+      index = items.indexOf(a);
+      caption.textContent = strip.dataset.title ?? '';
+      show();
+      dialog.showModal();
+    });
+
+    dialog.addEventListener('click', (e) => {
+      const action = (e.target as Element).closest<HTMLElement>('[data-lb]')?.dataset.lb;
+      if (action === 'close') dialog.close();
+      else if (action === 'prev') step(-1);
+      else if (action === 'next') step(1);
+      else if (e.target === dialog || e.target === stage) dialog.close(); // click outside the photo
+    });
+
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+    });
+
+    let touchX = 0;
+    dialog.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50 && items.length > 1) step(dx < 0 ? 1 : -1);
+    });
+
+    // Closing removes the media, which also stops a playing video.
+    dialog.addEventListener('close', () => stage.replaceChildren());
+
+    // Tile videos only start loading when scrolled near, so the page doesn't fetch every clip up front.
+    const tiles = document.querySelectorAll<HTMLVideoElement>('video[data-tile-src]');
+    const load = (v: HTMLVideoElement) => { v.src = v.dataset.tileSrc!; v.removeAttribute('data-tile-src'); };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const entry of entries) if (entry.isIntersecting) { load(entry.target as HTMLVideoElement); io.unobserve(entry.target); }
+      }, { rootMargin: '200px' });
+      tiles.forEach((v) => io.observe(v));
+    } else tiles.forEach(load);
+  }
+</script>

@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import Empty from '../../components/Empty.astro';
+import { getAllPosts } from '../../lib/posts';
+import { byYear, monthDay } from '../../lib/format';
+
+const groups = byYear(await getAllPosts(), (p) => p.date);
+---
+<Base title="Writing" description="Notes and dev logs by Pranav Verma, newest first." section="writing">
+  <div class="page">
+    <div class="title-block">
+      <h1 class="display">Writing</h1>
+      <p class="lede muted">Notes and dev logs, newest first.</p>
+    </div>
+    {groups.length ? groups.map(([y, posts]) => (
+      <section aria-labelledby={`h-${y}`}>
+        <h2 class="label" id={`h-${y}`}>{y}</h2>
+        <PostList items={posts} dateFormat={monthDay} />
+      </section>
+    )) : <Empty />}
+  </div>
+</Base>

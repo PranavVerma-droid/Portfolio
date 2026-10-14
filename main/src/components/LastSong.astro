@@ -1,0 +1,18 @@
+---
+/* The last song from ListenBrainz: cover, title, artist and album, how long ago. Links to MusicBrainz. */
+import { timeAgo, type Song } from '../lib/listening';
+interface Props { song: Song }
+const { song } = Astro.props;
+const Tag = song.href ? 'a' : 'div';
+const linkProps = song.href ? { href: song.href, target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+<Tag class:list={['song', { 'song-link': song.href }]} {...linkProps}>
+  <span class="song-cover">
+    {song.cover && <img src={song.cover} width="64" height="64" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />}
+  </span>
+  <span class="song-text">
+    <span class="song-title">{song.track}{song.href && <span class="arrow" aria-label=" (opens in a new tab)">↗</span>}</span>
+    <span class="song-by">{[song.artist, song.album].filter(Boolean).join(' · ')}</span>
+    <time class="song-when" datetime={new Date(song.listenedAt * 1000).toISOString()}>{timeAgo(song.listenedAt)}</time>
+  </span>
+</Tag>

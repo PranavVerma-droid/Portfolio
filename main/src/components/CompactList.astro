@@ -1,0 +1,35 @@
+---
+/*
+  One tight line per item: year, title, status, links, and a "more" toggle when there's a description.
+  Opening the toggle drops the description onto its own line below.
+*/
+import TextLink from './TextLink.astro';
+interface Item {
+  id: string;
+  year: string;
+  title: string;
+  status?: string;
+  description: string;
+  links: { href: string; label: string }[];
+}
+interface Props { items: Item[] }
+const { items } = Astro.props;
+---
+<ol class="compact">
+  {items.map((c) => (
+    <li class="compact-item">
+      <span class="date">{c.year}</span>
+      <div class="compact-line">
+        <span>{c.title}</span>
+        {c.status && <span class="status">{c.status}</span>}
+        {c.links.map((l) => <span class="compact-link"><TextLink href={l.href}>{l.label}</TextLink></span>)}
+        {c.description && (
+          <details class="more-toggle compact-more">
+            <summary><span class="when-closed">more</span><span class="when-open">less</span></summary>
+            <div class="row-desc rich" set:html={c.description} />
+          </details>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

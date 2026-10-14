@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectIndex from '../../components/ProjectIndex.astro';
+import Empty from '../../components/Empty.astro';
+import { getProjects } from '../../lib/projects';
+
+const projects = await getProjects();
+---
+<Base title="Projects" description="Projects by Pranav Verma, newest first." section="projects">
+  <div class="page">
+    <div class="title-block">
+      <h1 class="display">Projects</h1>
+      <p class="lede muted">Everything I've built, newest first. Projects with a write-up link to it.</p>
+    </div>
+    {projects.length ? <ProjectIndex items={projects} hint /> : <Empty />}
+  </div>
+</Base>

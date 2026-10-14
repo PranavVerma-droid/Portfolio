@@ -1,26 +1,58 @@
-name: Test Docker Build (PR)
+name: Test Build (PR)
 
 on:
   pull_request:
     branches: [ "master" ]
 
 jobs:
-  test-blogs-build:
+  check:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: main
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Test build the Blogs Docker image
-      run: |
-        cd blogs
-        docker build . --tag ghcr.io/pranavverma-droid/portfolio-blogs:test
+    - uses: actions/checkout@v7
+
+    - uses: actions/setup-node@v6
+      with:
+        node-version: '24.20.0'
+        cache: npm
+        cache-dependency-path: main/package-lock.json
+
+    - name: Install dependencies
+      run: npm ci --no-audit --no-fund
+
+    - name: Type-check
+      run: npm run check
+
+    - name: Build
+      run: npm run build
 
   test-portfolio-build:
     runs-on: ubuntu-latest
+    needs: check
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Test build the Main Portfolio Docker image
+    - uses: actions/checkout@v7
+
+    - name: Test build the portfolio Docker image
+      run: docker build main --tag ghcr.io/pranavverma-droid/portfolio-main:test
+
+    - name: Smoke test the container
       run: |
-        cd main
-        docker build . --tag ghcr.io/pranavverma-droid/portfolio-main:test
+        docker run -d --name portfolio-test -p 8080:8080 ghcr.io/pranavverma-droid/portfolio-main:test
+        for i in $(seq 1 20); do
+          curl -fsS http://127.0.0.1:8080/robots.txt > /dev/null && break
+          sleep 1
+        done
+        curl -fsS http://127.0.0.1:8080/robots.txt
+        # Pages need PocketBase; they should render (200) or fall back to the error page (500), never crash the server.
+        code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/)
+        echo "home: $code"
+        [ "$code" = 200 ] || [ "$code" = 500 ]
+        curl -fsS http://127.0.0.1:8080/robots.txt > /dev/null
+
+    - name: Container logs
+      if: always()
+      run: docker logs portfolio-test || true

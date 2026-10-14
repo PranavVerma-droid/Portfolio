@@ -1,0 +1,21 @@
+---
+/* A dev log: the intro, then each dated log entry, then the final entry, separated by hairlines. */
+import type { DevLog } from '../lib/posts';
+interface Props { log: DevLog }
+const { log } = Astro.props;
+---
+<div class="log">
+  {log.intro && <div class="prose" set:html={log.intro} />}
+  {log.entries.map((e, i) => (
+    <section class="log-entry" aria-label={e.date ? `Log ${i + 1}, ${e.date}` : `Log ${i + 1}`}>
+      <p class="meta-line"><span>log {i + 1}</span>{e.date && <><span>·</span><time datetime={e.date}>{e.date}</time></>}</p>
+      <div class="prose" set:html={e.html} />
+    </section>
+  ))}
+  {log.final && (
+    <section class="log-entry" aria-label="Final log">
+      <p class="meta-line"><span>final</span>{log.final.date && <><span>·</span><time datetime={log.final.date}>{log.final.date}</time></>}</p>
+      <div class="prose" set:html={log.final.html} />
+    </section>
+  )}
+</div>

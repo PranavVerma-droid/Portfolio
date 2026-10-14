@@ -8,11 +8,11 @@ jobs:
   wait-for-builds:
     runs-on: ubuntu-selfhosted
     steps:
-      - name: Wait for Docker Builds
-        uses: actions/github-script@v7
+      - name: Wait for Docker Build
+        uses: actions/github-script@v9
         with:
           script: |
-            const workflows = ['docker-build-blogs.yml', 'docker-build-portfolio.yml'];
+            const workflows = ['docker-build-portfolio.yml'];
             const maxWaitTime = 600000; // 10 mins
             const startTime = Date.now();
             
@@ -41,18 +41,18 @@ jobs:
               
               if (allComplete) {
                 if (allSuccessful) {
-                  console.log('Both Docker builds completed successfully');
+                  console.log('Docker build completed successfully');
                   return;
                 } else {
-                  throw new Error('One or more Docker builds failed');
+                  throw new Error('Docker build failed');
                 }
               }
               
-              console.log('Waiting for Docker builds to complete...');
+              console.log('Waiting for Docker build to complete...');
               await new Promise(resolve => setTimeout(resolve, 10000));
             }
             
-            throw new Error('Timeout waiting for Docker builds to complete');
+            throw new Error('Timeout waiting for Docker build to complete');
 
   deploy:
     runs-on: db1
@@ -73,12 +73,24 @@ jobs:
           git fetch origin
           git reset --hard origin/master
 
-          echo "Pulling latest Docker images..."
+          echo "Pulling latest Docker image..."
           cd /data/services/db1/portfolio || exit 1
-          docker compose pull web blogs || exit 1
+          docker compose pull web || exit 1
 
-          echo "Starting containers..."
-          docker compose up -d web blogs || exit 1
+          echo "Starting container..."
+          docker compose up -d --remove-orphans web || exit 1
+
+          echo "Waiting for the site to respond..."
+          for i in $(seq 1 30); do
+            if docker compose exec -T web wget -qO- http://127.0.0.1:8080/robots.txt > /dev/null 2>&1; then
+              echo "Site is up."
+              break
+            fi
+            [ "$i" = 30 ] && { echo "Site did not come up"; docker compose logs --tail 50 web; exit 1; }
+            sleep 2
+          done
+
+          docker image prune -f
 
           echo "Deployment completed successfully"
         shell: bash
