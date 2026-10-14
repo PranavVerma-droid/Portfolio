@@ -1,10 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
+import ProjectIndex from '../components/ProjectIndex.astro';
+import TextLink from '../components/TextLink.astro';
 import Empty from '../components/Empty.astro';
 import { getGeneral } from '../lib/general';
+import { getProjects } from '../lib/projects';
 
-const general = await getGeneral();
+const HOME_PROJECTS = 4;
+
+const [general, projects] = await Promise.all([getGeneral(), getProjects()]);
 const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
 ---
 <Base description={description}>
@@ -20,5 +25,12 @@ const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds com
         )}
       </Section>
     ) : <Empty />}
+
+    {projects.length > 0 && (
+      <Section label="Projects" id="projects">
+        <ProjectIndex items={projects.slice(0, HOME_PROJECTS)} />
+        {projects.length > HOME_PROJECTS && <p class="more"><TextLink href="/work/">All work →</TextLink></p>}
+      </Section>
+    )}
   </div>
 </Base>

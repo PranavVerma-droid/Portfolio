@@ -1,0 +1,30 @@
+---
+/* One row per project: year, name (linked to its write-up), status, description, tags, links. */
+import TextLink from './TextLink.astro';
+import { projectHref, type Project } from '../lib/projects';
+interface Props { items: Project[] }
+const { items } = Astro.props;
+---
+<ol class="index">
+  {items.map((p) => {
+    const href = projectHref(p);
+    return (
+      <li class="row">
+        <span class="date">{p.year}</span>
+        <div>
+          <div class="row-title">
+            {href ? <TextLink href={href}>{p.name}</TextLink> : <span>{p.name}</span>}
+            {p.inProgress && <span class="status">in progress</span>}
+          </div>
+          {p.description && <div class="row-desc rich" set:html={p.description} />}
+          {p.tags.length > 0 && <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>}
+          {p.links.length > 0 && (
+            <ul class="row-links">
+              {p.links.map((l) => <li><TextLink href={l.href}>{l.label}</TextLink></li>)}
+            </ul>
+          )}
+        </div>
+      </li>
+    );
+  })}
+</ol>

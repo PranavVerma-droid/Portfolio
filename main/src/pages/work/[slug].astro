@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import TextLink from '../../components/TextLink.astro';
+import { getProjectBySlug } from '../../lib/projects';
+import { stripHtml } from '../../lib/format';
+
+const p = await getProjectBySlug(Astro.params.slug!);
+if (!p?.writeup) return Astro.rewrite('/404');
+const w = p.writeup;
+const dates = p.start || p.end ? `${p.start || '?'} → ${p.end || 'present'}` : '';
+const description = stripHtml(p.description).slice(0, 160) || p.name;
+---
+<Base title={p.name} description={description} section="work">
+  <article class="page">
+    <div class="title-block">
+      <p class="meta-line">
+        <span>{w.kind === 'devlog' ? 'dev log' : 'write-up'}</span>
+        {p.year && <><span>·</span><span>{p.year}</span></>}
+        {p.inProgress && <><span>·</span><span class="sample">in progress</span></>}
+      </p>
+      <h1 class="display">{p.name}</h1>
+      {p.description && <div class="lede muted rich" set:html={p.description} />}
+    </div>
+
+    <dl class="spec">
+      {p.role && <div class="spec-row"><dt>Role</dt><dd>{p.role}</dd></div>}
+      {dates && <div class="spec-row"><dt>Dates</dt><dd>{dates}</dd></div>}
+      {p.tags.length > 0 && (
+        <div class="spec-row"><dt>Tags</dt><dd><span class="tags spec-tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</span></dd></div>
+      )}
+      {p.links.length > 0 && (
+        <div class="spec-row"><dt>Links</dt><dd><ul class="row-links spec-links">{p.links.map((l) => <li><TextLink href={l.href}>{l.label}</TextLink></li>)}</ul></dd></div>
+      )}
+    </dl>
+
+    {w.kind === 'devlog' ? (
+      <div class="log">
+        {w.intro && <div class="prose" set:html={w.intro} />}
+        {w.entries.map((e, i) => (
+          <section class="log-entry" aria-label={e.date ? `Log ${i + 1}, ${e.date}` : `Log ${i + 1}`}>
+            <p class="meta-line"><span>log {i + 1}</span>{e.date && <><span>·</span><time datetime={e.date}>{e.date}</time></>}</p>
+            <div class="prose" set:html={e.html} />
+          </section>
+        ))}
+        {w.final && (
+          <section class="log-entry" aria-label="Final log">
+            <p class="meta-line"><span>final</span>{w.final.date && <><span>·</span><time datetime={w.final.date}>{w.final.date}</time></>}</p>
+            <div class="prose" set:html={w.final.html} />
+          </section>
+        )}
+      </div>
+    ) : (
+      <div class="prose" set:html={w.html} />
+    )}
+
+    <p><TextLink href="/work/">All work</TextLink></p>
+  </article>
+</Base>

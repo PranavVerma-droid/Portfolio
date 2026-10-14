@@ -224,3 +224,17 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .prose table { border-collapse: collapse; width: 100%; font-size: 16px; line-height: 24px; }
 .prose th, .prose td { text-align: left; padding: var(--space-2) var(--space-3) var(--space-2) 0; border-bottom: var(--stroke-hairline) solid var(--rule); }
 .prose th { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* ---------- projects ---------- */
+.row-desc.rich > * { margin: 0; }
+.row-desc.rich > * + * { margin-top: var(--space-1); }
+.row-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); margin: var(--space-2) 0 0; padding: 0; list-style: none; font-family: var(--font-mono); font-size: 13px; line-height: 20px; }
+.row-links .link { color: var(--ink-muted); }
+.row-links .link:hover { color: var(--link-hover); }
+.spec-links { margin: 0; font-size: 14px; line-height: 24px; }
+.spec-tags { margin: 0; padding-top: 3px; }
+
+/* dev log: intro, then dated entries separated by hairlines */
+.log > * + * { margin-top: var(--space-8); }
+.log-entry { padding-top: var(--space-4); border-top: var(--stroke-hairline) solid var(--rule); }
+.log-entry > .meta-line { margin-bottom: var(--space-4); }
