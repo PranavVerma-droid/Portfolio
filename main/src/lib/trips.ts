@@ -23,7 +23,7 @@ interface TripRecord extends BaseRecord {
 }
 
 export type Media =
-  | { kind: 'image'; full: string; tile: string; tile2x: string; original: string }
+  | { kind: 'image'; full: string; tile: string; tile2x: string; tile3x: string; original: string }
   | { kind: 'video'; src: string; type: string };
 
 export interface Trip {
@@ -41,7 +41,7 @@ export interface Trip {
   media: Media[];
 }
 
-const TILE = 96;       // CSS px; tiles are square
+const TILE = 96;       // CSS px; tiles are square (112px on touch screens)
 const FULL = 1600;     // longest side in the viewer
 
 /* Decide by extension: some files' extensions don't match their contents, but videos are always .mp4/.mov/.webm. */
@@ -52,12 +52,13 @@ const videoType = (name: string) =>
 async function toMedia(r: TripRecord, name: string): Promise<Media> {
   const src = fileUrl(r, name);
   if (VIDEO.test(name)) return { kind: 'video', src, type: videoType(name) };
-  const [tile, tile2x, full] = await Promise.all([
+  const [tile, tile2x, tile3x, full] = await Promise.all([
     getImage({ src, width: TILE, height: TILE, fit: 'cover', format: 'webp' }),
     getImage({ src, width: TILE * 2, height: TILE * 2, fit: 'cover', format: 'webp' }),
+    getImage({ src, width: 336, height: 336, fit: 'cover', format: 'webp' }), // 112px at 3x
     getImage({ src, width: FULL, height: FULL, fit: 'inside', format: 'webp' }),
   ]);
-  return { kind: 'image', tile: tile.src, tile2x: tile2x.src, full: full.src, original: src };
+  return { kind: 'image', tile: tile.src, tile2x: tile2x.src, tile3x: tile3x.src, full: full.src, original: src };
 }
 
 export async function getTrips(): Promise<Trip[]> {
