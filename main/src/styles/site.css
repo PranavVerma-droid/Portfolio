@@ -239,3 +239,11 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .log > * + * { margin-top: var(--space-8); }
 .log-entry { padding-top: var(--space-4); border-top: var(--stroke-hairline) solid var(--rule); }
 .log-entry > .meta-line { margin-bottom: var(--space-4); }
+
+/* ---------- elsewhere ---------- */
+.social { display: inline-flex; align-items: baseline; gap: 6px; }
+/* Icons come from PocketBase as SVG data URLs; masking them over currentColor keeps them on-theme. */
+.social-icon { flex: none; align-self: center; width: 16px; height: 16px; background-color: var(--ink-muted); -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; transition: background-color 120ms; }
+.social:hover .social-icon { background-color: var(--link-hover); }
+.emails { margin-top: 0; }
+.emails.more { margin-top: var(--space-3); }

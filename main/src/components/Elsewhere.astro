@@ -1,0 +1,23 @@
+---
+/* Socials (icon + name, opening in a new tab) and email addresses. */
+import type { Social } from '../lib/socials';
+interface Props { socials: Social[]; emails: string[] }
+const { socials, emails } = Astro.props;
+---
+{socials.length > 0 && (
+  <ul class="inline-links socials">
+    {socials.map((s) => (
+      <li>
+        <a class="link social" href={s.href} target="_blank" rel="noopener noreferrer">
+          {s.icon && <span class="social-icon" style={`--icon: url("${s.icon}")`} aria-hidden="true" />}
+          {s.name}<span class="arrow" aria-label=" (opens in a new tab)">↗</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
+{emails.length > 0 && (
+  <ul class:list={['inline-links', 'emails', { more: socials.length > 0 }]}>
+    {emails.map((e) => <li><a class="link mono email" href={`mailto:${e}`}>{e}</a></li>)}
+  </ul>
+)}

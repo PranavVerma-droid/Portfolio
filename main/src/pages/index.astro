@@ -3,15 +3,17 @@ import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import ProjectIndex from '../components/ProjectIndex.astro';
 import PostList from '../components/PostList.astro';
+import Elsewhere from '../components/Elsewhere.astro';
 import TextLink from '../components/TextLink.astro';
 import Empty from '../components/Empty.astro';
 import { getGeneral } from '../lib/general';
 import { getProjects } from '../lib/projects';
 import { getPosts } from '../lib/posts';
+import { getSocials, EMAILS } from '../lib/socials';
 
 const HOME_POSTS = 5;
 
-const [general, projects, posts] = await Promise.all([getGeneral(), getProjects(), getPosts()]);
+const [general, projects, posts, socials] = await Promise.all([getGeneral(), getProjects(), getPosts(), getSocials()]);
 const pinned = projects.filter((p) => p.pinned);
 const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
 ---
@@ -42,5 +44,9 @@ const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds com
         <p class="more"><TextLink href="/writing/">All writing →</TextLink></p>
       </Section>
     )}
+
+    <Section label="Elsewhere" id="elsewhere">
+      <Elsewhere socials={socials} emails={EMAILS} />
+    </Section>
   </div>
 </Base>
