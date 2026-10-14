@@ -8,6 +8,7 @@ import ChipList from '../components/ChipList.astro';
 import { getEducation, type Education } from '../lib/education';
 import { getLanguages, getSkills } from '../lib/skills';
 import { getInternships, type Internship } from '../lib/internships';
+import { getSocialWork, type SocialWork } from '../lib/socialwork';
 import { getPublications, type Publication } from '../lib/publications';
 import { getCertificates } from '../lib/certificates';
 import { getCompetitions } from '../lib/competitions';
@@ -18,13 +19,18 @@ import LastSong from '../components/LastSong.astro';
 import { getLastSong } from '../lib/listening';
 import { monthRange } from '../lib/format';
 
-const [{ scores }, internships, publications, certificates, competitions, languages, skills, trips, song] = await Promise.all([
-  getEducation(), getInternships(), getPublications(), getCertificates(), getCompetitions(), getLanguages(), getSkills(), getTrips(),
+const [{ scores }, internships, socialWork, publications, certificates, competitions, languages, skills, trips, song] = await Promise.all([
+  getEducation(), getInternships(), getSocialWork(), getPublications(), getCertificates(), getCompetitions(), getLanguages(), getSkills(), getTrips(),
   getLastSong(),
 ]);
 const month = (d: string) => d.slice(0, 7);
 
 const score = (e: Education) => ({ ...e, meta: e.start ? month(e.start) : undefined });
+const volunteering = (v: SocialWork) => ({
+  ...v,
+  meta: [v.institute, monthRange(v.start, v.end)].filter(Boolean).join(' · ') || undefined,
+  status: v.start && !v.end ? 'current' : undefined,
+});
 const internship = (i: Internship) => ({
   ...i,
   meta: [i.institute, i.type, monthRange(i.start, i.end)].filter(Boolean).join(' · ') || undefined,
@@ -32,7 +38,7 @@ const internship = (i: Internship) => ({
 });
 const publication = (p: Publication) => ({ ...p, meta: [p.journal, p.date].filter(Boolean).join(' · ') || undefined });
 ---
-<Base title="Misc" description="Internships, publications, test scores, certifications, competitions, skills and trips of Pranav Verma." section="misc">
+<Base title="Misc" description="Internships, volunteering, publications, test scores, certifications, competitions, skills and trips of Pranav Verma." section="misc">
   <div class="page">
     <div class="title-block">
       <h1 class="display">Misc</h1>
@@ -47,6 +53,10 @@ const publication = (p: Publication) => ({ ...p, meta: [p.journal, p.date].filte
 
     <Section label="Internships" id="internships">
       {internships.length ? <EntryIndex items={internships.map(internship)} collapse /> : <Empty />}
+    </Section>
+
+    <Section label="Volunteering" id="volunteering">
+      {socialWork.length ? <EntryIndex items={socialWork.map(volunteering)} collapse /> : <Empty />}
     </Section>
 
     <Section label="Publications" id="publications">
