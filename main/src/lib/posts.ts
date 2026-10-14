@@ -118,4 +118,9 @@ export async function getPostBySlug(slug: string): Promise<Post | undefined> {
   return (await getAllPosts()).find((p) => p.slug === slug);
 }
 
+/** A post by its PocketBase record id (v2 records kept the old ids), for redirecting old links. */
+export async function getPostById(id: string): Promise<Post | undefined> {
+  return (await getAllPosts()).find((p) => p.id === id);
+}
+
 export const postHref = (p: Post) => `/writing/${p.slug}/`;
