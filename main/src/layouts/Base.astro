@@ -1,0 +1,51 @@
+---
+/* Page shell: head, header, footer. Copyright (C) 2026 Pranav Verma. Licensed under GNU AGPL v3. */
+import '../styles/site.css';
+import SiteHeader from '../components/SiteHeader.astro';
+
+interface Props {
+  title?: string;
+  description: string;
+  /** Which nav item is current. Omit on the home page, which has no nav. */
+  section?: 'work' | 'writing' | 'now' | 'infra' | 'none';
+  noindex?: boolean;
+}
+
+const { title, description, section, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} · pranavv` : 'pranavv';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{pageTitle}</title>
+  <meta name="description" content={description}>
+  <meta name="author" content="Pranav Verma">
+  <meta name="color-scheme" content="light dark">
+  {noindex ? <meta name="robots" content="noindex"> : <link rel="canonical" href={canonical}>}
+  <meta property="og:title" content={pageTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap">
+  <script is:inline>try{var t=localStorage.getItem('pv-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <script is:inline src="/theme.js" defer></script>
+  <slot name="head" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <SiteHeader section={section} />
+  <main id="main" tabindex="-1">
+    <slot />
+  </main>
+  <footer class="foot">
+    <span>© {new Date().getFullYear()} Pranav Verma</span>
+    <span><a href="https://github.com/PranavVerma-droid/Portfolio" target="_blank" rel="noopener noreferrer">source</a></span>
+  </footer>
+</div>
+</body>
+</html>

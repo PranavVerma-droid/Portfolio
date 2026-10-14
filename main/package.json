@@ -1,11 +1,21 @@
 {
-  "name": "portfolio-main",
-  "version": "1.0.0",
-  "description": "Pranav's Portfolio Main Site",
+  "name": "pranavv",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
-    "start": "npx http-server . -p 8080"
+    "dev": "astro dev",
+    "build": "astro build",
+    "start": "node ./dist/server/entry.mjs",
+    "check": "astro check"
   },
   "dependencies": {
-    "http-server": "^14.1.1"
+    "@astrojs/node": "10.1.4",
+    "astro": "6.4.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "5.9.3"
   }
 }

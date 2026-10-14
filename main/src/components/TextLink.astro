@@ -1,0 +1,8 @@
+---
+/* A link in running text. External links get the ↗ glyph and say so to screen readers. */
+interface Props { href: string; external?: boolean; class?: string }
+const { href, external = /^https?:\/\//.test(href), class: cls } = Astro.props;
+---
+{external
+  ? <a class:list={['link', cls]} href={href} target="_blank" rel="noopener noreferrer"><slot /><span class="arrow" aria-label=" (opens in a new tab)">↗</span></a>
+  : <a class:list={['link', cls]} href={href}><slot /></a>}
