@@ -7,18 +7,27 @@ import Empty from '../components/Empty.astro';
 import ChipList from '../components/ChipList.astro';
 import { getEducation, type Education } from '../lib/education';
 import { getLanguages, getSkills } from '../lib/skills';
+import { getInternships, type Internship } from '../lib/internships';
 
-const [{ institutes, scores }, languages, skills] = await Promise.all([getEducation(), getLanguages(), getSkills()]);
+const [{ institutes, scores }, internships, languages, skills] = await Promise.all([
+  getEducation(), getInternships(), getLanguages(), getSkills(),
+]);
 const month = (d: string) => d.slice(0, 7);
+const range = (start: string, end: string) => (start || end ? `${month(start) || '?'} → ${end ? month(end) : 'present'}` : '');
 
 const institute = (e: Education) => ({
   ...e,
-  meta: e.start || e.end ? `${month(e.start) || '?'} → ${e.end ? month(e.end) : 'present'}` : undefined,
+  meta: range(e.start, e.end) || undefined,
   status: e.start && !e.end ? 'current' : undefined,
 });
 const score = (e: Education) => ({ ...e, meta: e.start ? month(e.start) : undefined });
+const internship = (i: Internship) => ({
+  ...i,
+  meta: [i.institute, i.type, range(i.start, i.end)].filter(Boolean).join(' · ') || undefined,
+  status: i.start && !i.end ? 'current' : undefined,
+});
 ---
-<Base title="Misc" description="Education, test scores and other things about Pranav Verma." section="misc">
+<Base title="Misc" description="Education, internships, test scores and skills of Pranav Verma." section="misc">
   <div class="page">
     <div class="title-block">
       <h1 class="display">Misc</h1>
@@ -27,6 +36,10 @@ const score = (e: Education) => ({ ...e, meta: e.start ? month(e.start) : undefi
 
     <Section label="Education" id="education">
       {institutes.length ? <EntryIndex items={institutes.map(institute)} /> : <Empty />}
+    </Section>
+
+    <Section label="Internships" id="internships">
+      {internships.length ? <EntryIndex items={internships.map(internship)} collapse /> : <Empty />}
     </Section>
 
     <Section label="Test scores" id="scores">

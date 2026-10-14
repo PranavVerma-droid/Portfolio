@@ -262,3 +262,13 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .chip .arrow { font-size: .85em; }
 .chip-card { position: absolute; z-index: 5; top: calc(100% + var(--space-2)); left: 0; right: 0; padding: var(--space-2) var(--space-3); background: var(--paper); color: var(--ink); border: var(--stroke-hairline) solid var(--rule-strong); border-radius: var(--radius-md); font-family: var(--font-serif); font-size: 15px; line-height: 22px; text-wrap: pretty; visibility: hidden; opacity: 0; transition: opacity 120ms, visibility 120ms; pointer-events: none; }
 .chip-item:hover .chip-card, .chip:focus-visible + .chip-card, .chip:focus + .chip-card { visibility: visible; opacity: 1; }
+
+/* "view more" toggle for long descriptions (a native <details>, no JS) */
+.more-toggle { margin-top: 2px; }
+.more-toggle > summary { display: inline-block; list-style: none; cursor: pointer; font-family: var(--font-mono); font-size: 13px; line-height: 20px; color: var(--ink-muted); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; transition: color 120ms, text-decoration-color 120ms; }
+.more-toggle > summary::-webkit-details-marker { display: none; }
+.more-toggle > summary:hover { color: var(--link-hover); text-decoration-color: var(--link-hover); }
+.more-toggle > summary:focus-visible { outline: var(--stroke-focus) solid var(--focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+.more-toggle .when-open, .more-toggle[open] .when-closed { display: none; }
+.more-toggle[open] .when-open { display: inline; }
+.more-toggle[open] > summary { margin-bottom: var(--space-1); }

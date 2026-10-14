@@ -11,8 +11,12 @@ interface Entry {
   description: string;
   links: { href: string; label: string }[];
 }
-interface Props { items: Entry[] }
-const { items } = Astro.props;
+interface Props {
+  items: Entry[];
+  /** Hide descriptions behind a "view more" toggle. */
+  collapse?: boolean;
+}
+const { items, collapse = false } = Astro.props;
 ---
 <ol class="index">
   {items.map((e) => (
@@ -24,7 +28,12 @@ const { items } = Astro.props;
           {e.status && <span class="status">{e.status}</span>}
         </div>
         {e.meta && <p class="row-meta">{e.meta}</p>}
-        {e.description && <div class="row-desc rich" set:html={e.description} />}
+        {e.description && (collapse ? (
+          <details class="more-toggle">
+            <summary><span class="when-closed">view more</span><span class="when-open">view less</span></summary>
+            <div class="row-desc rich" set:html={e.description} />
+          </details>
+        ) : <div class="row-desc rich" set:html={e.description} />)}
         {e.links.length > 0 && (
           <ul class="row-links">
             {e.links.map((l) => <li><TextLink href={l.href}>{l.label}</TextLink></li>)}
