@@ -6,7 +6,8 @@ import { PB_URL as PB_URL_RAW } from 'astro:env/server';
 
 const PB_URL = PB_URL_RAW.replace(/\/$/, '');
 
-export interface BaseRecord { id: string; collectionId: string; created: string; updated: string }
+/* created/updated exist only if the collection has those autodate fields. */
+export interface BaseRecord { id: string; collectionId: string; created?: string; updated?: string }
 
 interface ListResponse<T> { items: T[] }
 

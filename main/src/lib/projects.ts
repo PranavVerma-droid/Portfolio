@@ -35,6 +35,7 @@ interface ProjectRecord extends BaseRecord {
   endDate: string;
   slugs: string;
   role: string;
+  pinned: boolean;
   linkedDevBlog: string;
   linkedBlog: string;
   expand?: { linkedDevBlog?: DevBlogRecord; linkedBlog?: BlogRecord };
@@ -63,6 +64,8 @@ export interface Project {
   end: string;
   /** No end date means the project is still going. */
   inProgress: boolean;
+  /** Shown on the home page and listed first. */
+  pinned: boolean;
   /** Year for the index column: the start year, else the end year. */
   year: string;
   writeup?: Writeup;
@@ -135,13 +138,15 @@ function toProject(r: ProjectRecord): Omit<Project, 'slug'> {
     start,
     end,
     inProgress: !end,
+    pinned: !!r.pinned,
     year: year(start || end),
     writeup: toWriteup(r),
   };
 }
 
-/* In progress first, then by end date, then start date, newest first. */
+/* Pinned first, then in progress, then by end date, then start date, newest first. */
 function compare(a: Omit<Project, 'slug'>, b: Omit<Project, 'slug'>): number {
+  if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
   if (a.inProgress !== b.inProgress) return a.inProgress ? -1 : 1;
   return b.end.localeCompare(a.end) || b.start.localeCompare(a.start) || a.name.localeCompare(b.name);
 }
@@ -149,9 +154,10 @@ function compare(a: Omit<Project, 'slug'>, b: Omit<Project, 'slug'>): number {
 export async function getProjects(): Promise<Project[]> {
   const records = await list<ProjectRecord>('projects_v2', { expand: 'linkedDevBlog,linkedBlog' });
   const taken = new Set<string>();
-  // Slugs are given oldest-first so an existing project keeps its URL when a same-named one is added.
+  // Same-named projects get -2, -3… in a fixed order (oldest first if the collection has `created`,
+  // else by id) so a project's URL doesn't change between requests.
   const bySlug = new Map<string, string>();
-  for (const r of [...records].sort((a, b) => a.created.localeCompare(b.created))) {
+  for (const r of [...records].sort((a, b) => (a.created ?? '').localeCompare(b.created ?? '') || a.id.localeCompare(b.id))) {
     let slug = slugify(r.name), n = 2;
     while (taken.has(slug)) slug = `${slugify(r.name)}-${n++}`;
     taken.add(slug);

@@ -211,6 +211,7 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .rich a { color: var(--link); text-decoration: underline; text-decoration-color: var(--rule-strong); text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 120ms, text-decoration-color 120ms; }
 .rich a:hover { color: var(--link-hover); text-decoration-color: var(--link-hover); }
 .more { margin: var(--space-6) 0 0; }
+.flush { margin: 0; }
 .email { font-size: 14px; }
 
 /* editor output inside case studies and essays */

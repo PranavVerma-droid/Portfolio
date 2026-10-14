@@ -7,9 +7,8 @@ import Empty from '../components/Empty.astro';
 import { getGeneral } from '../lib/general';
 import { getProjects } from '../lib/projects';
 
-const HOME_PROJECTS = 4;
-
 const [general, projects] = await Promise.all([getGeneral(), getProjects()]);
+const pinned = projects.filter((p) => p.pinned);
 const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
 ---
 <Base description={description}>
@@ -28,8 +27,8 @@ const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds com
 
     {projects.length > 0 && (
       <Section label="Projects" id="projects">
-        <ProjectIndex items={projects.slice(0, HOME_PROJECTS)} />
-        {projects.length > HOME_PROJECTS && <p class="more"><TextLink href="/work/">All work →</TextLink></p>}
+        {pinned.length > 0 && <ProjectIndex items={pinned} />}
+        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href="/work/">All work →</TextLink></p>
       </Section>
     )}
   </div>

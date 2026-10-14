@@ -50,7 +50,12 @@ const description = stripHtml(p.description).slice(0, 160) || p.name;
         )}
       </div>
     ) : (
-      <div class="prose" set:html={w.html} />
+      <div class="log">
+        <section class="log-entry" aria-label={w.date ? `Published ${w.date}` : 'Write-up'}>
+          {w.date && <p class="meta-line"><span>published</span><span>·</span><time datetime={w.date}>{w.date}</time></p>}
+          <div class="prose" set:html={w.html} />
+        </section>
+      </div>
     )}
 
     <p><TextLink href="/work/">All work</TextLink></p>
