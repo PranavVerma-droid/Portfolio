@@ -14,9 +14,12 @@ import { getCompetitions } from '../lib/competitions';
 import CompactList from '../components/CompactList.astro';
 import Trips from '../components/Trips.astro';
 import { getTrips } from '../lib/trips';
+import LastSong from '../components/LastSong.astro';
+import { getLastSong } from '../lib/listening';
 
-const [{ institutes, scores }, internships, publications, certificates, competitions, languages, skills, trips] = await Promise.all([
+const [{ institutes, scores }, internships, publications, certificates, competitions, languages, skills, trips, song] = await Promise.all([
   getEducation(), getInternships(), getPublications(), getCertificates(), getCompetitions(), getLanguages(), getSkills(), getTrips(),
+  getLastSong(),
 ]);
 const month = (d: string) => d.slice(0, 7);
 const range = (start: string, end: string) => (start || end ? `${month(start) || '?'} → ${end ? month(end) : 'present'}` : '');
@@ -40,6 +43,12 @@ const publication = (p: Publication) => ({ ...p, meta: [p.journal, p.date].filte
       <h1 class="display">Misc</h1>
       <p class="lede muted">Everything that isn't a project or a post.</p>
     </div>
+
+    {song && (
+      <Section label="Last listened" id="listening">
+        <LastSong song={song} />
+      </Section>
+    )}
 
     <Section label="Education" id="education">
       {institutes.length ? <EntryIndex items={institutes.map(institute)} /> : <Empty />}

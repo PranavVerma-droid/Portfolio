@@ -310,3 +310,16 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 .lb-btn { font-family: var(--font-mono); font-size: 13px; line-height: 20px; padding: 2px var(--space-2); color: #ebe9e3; background: transparent; border: var(--stroke-hairline) solid #6e6b64; border-radius: var(--radius-sm); cursor: pointer; }
 .lb-btn:hover { border-color: #ef8a5f; color: #ef8a5f; }
 .lb-btn:focus-visible { outline: var(--stroke-focus) solid #ef8a5f; outline-offset: 2px; }
+
+/* ---------- last listened ---------- */
+.song { display: flex; align-items: center; gap: var(--space-4); color: var(--ink); text-decoration: none; }
+.song-cover { flex: none; width: 64px; height: 64px; overflow: hidden; background: var(--paper-sunk); border: var(--stroke-hairline) solid var(--rule); border-radius: var(--radius-sm); }
+.song-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.song-text { display: flex; flex-direction: column; min-width: 0; }
+.song-title { font-size: 18px; line-height: 26px; }
+.song-by { font-size: 16px; line-height: 24px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.song-when { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.song-link .song-title { text-decoration: underline; text-decoration-color: var(--rule-strong); text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 120ms, text-decoration-color 120ms; }
+.song-link:hover .song-title { color: var(--link-hover); text-decoration-color: var(--link-hover); }
+.song-link:hover .arrow { color: var(--signal); }
+.song-link:hover .song-cover { border-color: var(--link-hover); }
