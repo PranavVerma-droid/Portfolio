@@ -2,30 +2,14 @@
   The `projects_v2` collection, with each project's write-up.
 
   A write-up comes from the linked dev blog (devBlogs_v2) or, failing that, the linked
-  blog (blogs). If both are linked the dev blog wins. Drafts count as not linked.
+  blog. If both are linked the dev blog wins. Drafts count as not linked.
 */
 import { list, type BaseRecord } from './pb';
 import { richText } from './richtext';
 import { isoDate, year } from './format';
+import { toDevLog, type BlogRecord, type DevBlogRecord, type DevLog } from './posts';
 
 /* ---------- PocketBase records ---------- */
-
-interface DevBlogRecord extends BaseRecord {
-  title: string;
-  pubDate: string;
-  isDraft: boolean;
-  introlog: string;
-  finalDate: string;
-  finallog: string;
-  [log: `log${number}` | `log${number}date`]: string;
-}
-
-interface BlogRecord extends BaseRecord {
-  title: string;
-  pubDateV2: string;
-  isDraft: boolean;
-  contentV2: string;
-}
 
 interface ProjectRecord extends BaseRecord {
   name: string;
@@ -43,10 +27,8 @@ interface ProjectRecord extends BaseRecord {
 
 /* ---------- what pages use ---------- */
 
-export interface LogEntry { date: string; html: string }
-
 export type Writeup =
-  | { kind: 'devlog'; title: string; intro: string; entries: LogEntry[]; final?: LogEntry }
+  | { kind: 'devlog'; title: string; log: DevLog }
   | { kind: 'blog'; title: string; date: string; html: string };
 
 export interface Project {
@@ -70,8 +52,6 @@ export interface Project {
   year: string;
   writeup?: Writeup;
 }
-
-const LOG_COUNT = 10;
 
 /* Short labels for the hosts that come up; anything else shows its domain. */
 const HOST_LABELS: Record<string, string> = {
@@ -103,21 +83,7 @@ function slugify(s: string): string {
 
 function toWriteup(r: ProjectRecord): Writeup | undefined {
   const dev = r.expand?.linkedDevBlog;
-  if (dev && !dev.isDraft) {
-    const entries: LogEntry[] = [];
-    for (let i = 1; i <= LOG_COUNT; i++) {
-      const html = richText(dev[`log${i}`]);
-      if (html) entries.push({ date: dev[`log${i}date`] ? isoDate(dev[`log${i}date`]) : '', html });
-    }
-    const finalHtml = richText(dev.finallog);
-    return {
-      kind: 'devlog',
-      title: dev.title,
-      intro: richText(dev.introlog),
-      entries,
-      final: finalHtml ? { date: dev.finalDate ? isoDate(dev.finalDate) : '', html: finalHtml } : undefined,
-    };
-  }
+  if (dev && !dev.isDraft) return { kind: 'devlog', title: dev.title, log: toDevLog(dev) };
   const blog = r.expand?.linkedBlog;
   if (blog && !blog.isDraft) {
     return { kind: 'blog', title: blog.title, date: blog.pubDateV2 ? isoDate(blog.pubDateV2) : '', html: richText(blog.contentV2) };

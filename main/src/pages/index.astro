@@ -2,12 +2,16 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import ProjectIndex from '../components/ProjectIndex.astro';
+import PostList from '../components/PostList.astro';
 import TextLink from '../components/TextLink.astro';
 import Empty from '../components/Empty.astro';
 import { getGeneral } from '../lib/general';
 import { getProjects } from '../lib/projects';
+import { getPosts } from '../lib/posts';
 
-const [general, projects] = await Promise.all([getGeneral(), getProjects()]);
+const HOME_POSTS = 5;
+
+const [general, projects, posts] = await Promise.all([getGeneral(), getProjects(), getPosts()]);
 const pinned = projects.filter((p) => p.pinned);
 const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
 ---
@@ -29,6 +33,13 @@ const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds com
       <Section label="Projects" id="projects">
         {pinned.length > 0 && <ProjectIndex items={pinned} />}
         <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href="/projects/">All projects →</TextLink></p>
+      </Section>
+    )}
+
+    {posts.length > 0 && (
+      <Section label="Writing" id="writing">
+        <PostList items={posts.slice(0, HOME_POSTS)} />
+        <p class="more"><TextLink href="/writing/">All writing →</TextLink></p>
       </Section>
     )}
   </div>

@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import TextLink from '../../components/TextLink.astro';
+import DevLog from '../../components/DevLog.astro';
+import { getPostBySlug } from '../../lib/posts';
+import { stripHtml } from '../../lib/format';
+
+const post = await getPostBySlug(Astro.params.slug!);
+if (!post) return Astro.rewrite('/404');
+const firstText = post.kind === 'blog' ? post.html : post.log.intro || post.log.entries[0]?.html || '';
+const description = stripHtml(firstText).slice(0, 160) || post.title;
+---
+<Base title={post.title} description={description} section="writing">
+  <article class="page">
+    <div class="title-block">
+      <p class="meta-line">
+        {post.date && <><time datetime={post.date}>{post.date}</time><span>·</span></>}
+        <span>{post.minutes} min</span>
+        {post.kind === 'devlog' && <><span>·</span><span>dev log</span></>}
+      </p>
+      <h1 class="display">{post.title}</h1>
+    </div>
+
+    {post.kind === 'blog' ? <div class="prose" set:html={post.html} /> : <DevLog log={post.log} />}
+
+    <p><TextLink href="/writing/">All writing</TextLink></p>
+  </article>
+</Base>

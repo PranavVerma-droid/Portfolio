@@ -73,7 +73,7 @@ img, svg { max-width: 100%; }
 main:focus { outline: none; }
 
 /* mono facts */
-.mono, .tag, .date, .label, .status, .wordmark, .navlink, .toggle, .fignum, .spec dt, .num, pre, code, .foot, .meta-line, .bar-label, .bar-val, .draft {
+.mono, .tag, .date, .label, .status, .wordmark, .navlink, .toggle, .fignum, .spec dt, .num, pre, code, .foot, .meta-line, .bar-label, .bar-val, .draft, .post-kind {
   font-family: var(--font-mono); font-variant-numeric: tabular-nums;
 }
 
@@ -124,7 +124,7 @@ main { display: block; }
 
 /* ---------- post list ---------- */
 .post { display: grid; grid-template-columns: var(--index-date) minmax(0, 1fr); gap: var(--space-4); padding: var(--space-1) 0; align-items: baseline; }
-.draft { font-size: 12px; color: var(--ink-muted); margin-left: var(--space-2); }
+.draft, .post-kind { font-size: 12px; color: var(--ink-muted); margin-left: var(--space-2); }
 
 /* ---------- spec list ---------- */
 .spec { margin: 0; border-top: var(--stroke-hairline) solid var(--rule); }

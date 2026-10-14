@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import TextLink from '../../components/TextLink.astro';
+import DevLog from '../../components/DevLog.astro';
 import { getProjectBySlug } from '../../lib/projects';
 import { stripHtml } from '../../lib/format';
 
@@ -34,21 +35,7 @@ const description = stripHtml(p.description).slice(0, 160) || p.name;
     </dl>
 
     {w.kind === 'devlog' ? (
-      <div class="log">
-        {w.intro && <div class="prose" set:html={w.intro} />}
-        {w.entries.map((e, i) => (
-          <section class="log-entry" aria-label={e.date ? `Log ${i + 1}, ${e.date}` : `Log ${i + 1}`}>
-            <p class="meta-line"><span>log {i + 1}</span>{e.date && <><span>·</span><time datetime={e.date}>{e.date}</time></>}</p>
-            <div class="prose" set:html={e.html} />
-          </section>
-        ))}
-        {w.final && (
-          <section class="log-entry" aria-label="Final log">
-            <p class="meta-line"><span>final</span>{w.final.date && <><span>·</span><time datetime={w.final.date}>{w.final.date}</time></>}</p>
-            <div class="prose" set:html={w.final.html} />
-          </section>
-        )}
-      </div>
+      <DevLog log={w.log} />
     ) : (
       <div class="log">
         <section class="log-entry" aria-label={w.date ? `Published ${w.date}` : 'Write-up'}>
