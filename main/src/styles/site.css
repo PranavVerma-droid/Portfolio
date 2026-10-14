@@ -272,3 +272,16 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .more-toggle .when-open, .more-toggle[open] .when-closed { display: none; }
 .more-toggle[open] .when-open { display: inline; }
 .more-toggle[open] > summary { margin-bottom: var(--space-1); }
+
+/* compact list: one line per item (competitions) */
+.compact { list-style: none; margin: 0; padding: 0; }
+.compact-item { display: grid; grid-template-columns: var(--index-date) minmax(0, 1fr); gap: var(--space-4); padding: var(--space-1) 0; align-items: baseline; }
+.compact-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-3); font-size: 16px; line-height: 24px; }
+.compact-link { font-family: var(--font-mono); font-size: 12px; line-height: 20px; }
+.compact-link .link { color: var(--ink-muted); }
+.compact-link .link:hover { color: var(--link-hover); }
+.compact-more { margin-top: 0; }
+.compact-more > summary { font-size: 12px; }
+/* Open: take the whole line so the description sits below the title, full width. */
+.compact-more[open] { flex-basis: 100%; }
+.compact-more[open] > summary { margin-bottom: var(--space-1); }
