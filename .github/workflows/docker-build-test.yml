@@ -12,9 +12,9 @@ jobs:
         working-directory: main
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
         node-version: '24.20.0'
         cache: npm
@@ -34,7 +34,7 @@ jobs:
     needs: check
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Test build the portfolio Docker image
       run: docker build main --tag ghcr.io/pranavverma-droid/portfolio-main:test

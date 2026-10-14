@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-selfhosted
     steps:
       - name: Wait for Docker Build
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const workflows = ['docker-build-portfolio.yml'];
