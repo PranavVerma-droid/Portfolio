@@ -1,0 +1,75 @@
+---
+/*
+  Placeholder for a section that loads after the page (a server island, see components/islands/).
+  Each kind copies the geometry of the list it stands in for, so nothing shifts when the content arrives.
+  Bars sit on paper-sunk and start a slow pulse only after 400ms, so a fast load never flickers.
+  Reduced motion keeps them still (see the motion block in site.css).
+*/
+export type SkeletonKind = 'index' | 'projects' | 'posts' | 'compact' | 'chips' | 'song' | 'links' | 'trips';
+interface Props { kind: SkeletonKind; label: string; rows?: number }
+const { kind, label } = Astro.props;
+const DEFAULT_ROWS: Record<SkeletonKind, number> = { index: 3, projects: 3, posts: 5, compact: 4, chips: 9, song: 1, links: 5, trips: 2 };
+const rows = Array.from({ length: Astro.props.rows ?? DEFAULT_ROWS[kind] }, (_, i) => i);
+// Fixed, uneven widths read as text; random ones would differ between renders.
+const W = ['62%', '46%', '71%', '54%', '66%', '40%', '58%'];
+const w = (i: number, shift = 0) => W[(i + shift) % W.length];
+const CHIP = ['72px', '96px', '56px', '120px', '84px', '64px', '104px', '48px', '88px'];
+---
+<div class="sk" role="status">
+  <span class="sr-only">Loading {label.toLowerCase()}…</span>
+  <noscript><p class="muted sk-noscript">This section loads with JavaScript.</p></noscript>
+
+  <div class="sk-body" aria-hidden="true">
+    {(kind === 'index' || kind === 'projects' || kind === 'trips') && (
+      <ol class="index">
+        {rows.map((i) => (
+          <li class="row sk-row">
+            <span class="sk-bar sk-date" />
+            <div>
+              <span class="sk-bar sk-title" style={`width:${w(i)}`} />
+              {kind === 'index' && <span class="sk-bar sk-meta" style={`width:${w(i, 3)}`} />}
+              {kind === 'trips' && <span class="sk-bar sk-meta" style={`width:${w(i, 3)}`} />}
+              {kind !== 'index' && <span class="sk-bar sk-desc" style={`width:${w(i, 2)}`} />}
+              {kind === 'projects' && (
+                <span class="sk-tags">{[40, 56, 32].map((t) => <span class="sk-bar sk-tag" style={`width:${t}px`} />)}</span>
+              )}
+              {kind === 'trips' && (
+                <span class="sk-strip">{[0, 1, 2, 3].map(() => <span class="sk-bar sk-tile" />)}</span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    )}
+
+    {(kind === 'posts' || kind === 'compact') && (
+      <ol class:list={[kind === 'posts' ? 'posts' : 'compact']}>
+        {rows.map((i) => (
+          <li class:list={[kind === 'posts' ? 'post' : 'compact-item']}>
+            <span class="sk-bar sk-date" />
+            <span class="sk-bar sk-line" style={`width:${w(i, 1)}`} />
+          </li>
+        ))}
+      </ol>
+    )}
+
+    {kind === 'chips' && (
+      <ul class="chips">{rows.map((i) => <li><span class="sk-bar sk-chip" style={`width:${CHIP[i % CHIP.length]}`} /></li>)}</ul>
+    )}
+
+    {kind === 'links' && (
+      <ul class="inline-links">{rows.map((i) => <li><span class="sk-bar sk-link" style={`width:${CHIP[(i + 2) % CHIP.length]}`} /></li>)}</ul>
+    )}
+
+    {kind === 'song' && (
+      <div class="song">
+        <span class="sk-bar sk-cover" />
+        <span class="song-text sk-song-text">
+          <span class="sk-bar sk-title" style="width:60%" />
+          <span class="sk-bar sk-desc" style="width:80%" />
+          <span class="sk-bar sk-when" />
+        </span>
+      </div>
+    )}
+  </div>
+</div>

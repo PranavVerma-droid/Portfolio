@@ -1,0 +1,66 @@
+---
+/*
+  One home page section, rendered as a server island (server:defer) so the name and About
+  show without waiting on every PocketBase query. index.astro gives each one a Skeleton fallback.
+  A section with no records renders nothing, as before; a failed fetch says so instead of hanging.
+*/
+import Section from '../Section.astro';
+import ProjectIndex from '../ProjectIndex.astro';
+import PostList from '../PostList.astro';
+import Elsewhere from '../Elsewhere.astro';
+import TextLink from '../TextLink.astro';
+import EntryIndex from '../EntryIndex.astro';
+import LoadError from '../LoadError.astro';
+import { getProjects } from '../../lib/projects';
+import { getPosts } from '../../lib/posts';
+import { getSocials, EMAILS } from '../../lib/socials';
+import { getEducation, instituteEntry } from '../../lib/education';
+import { attempt } from '../../lib/attempt';
+import { url } from '../../lib/url';
+
+export type HomeSectionId = 'education' | 'projects' | 'writing' | 'elsewhere';
+interface Props { id: HomeSectionId; label: string }
+const { id, label } = Astro.props;
+
+const HOME_POSTS = 5;
+
+const institutes = id === 'education' ? (await attempt(getEducation))?.institutes : undefined;
+const projects = id === 'projects' ? await attempt(getProjects) : undefined;
+const posts = id === 'writing' ? await attempt(getPosts) : undefined;
+const socials = id === 'elsewhere' ? await attempt(getSocials) : undefined;
+const pinned = projects?.filter((p) => p.pinned) ?? [];
+
+// undefined means the fetch failed; an empty list means there is nothing to show.
+const failed = { education: institutes, projects, writing: posts, elsewhere: socials }[id] === undefined;
+---
+{failed ? (
+  <Section label={label} id={id}><LoadError /></Section>
+) : (
+  <>
+    {institutes && institutes.length > 0 && (
+      <Section label={label} id={id}>
+        <EntryIndex items={institutes.map(instituteEntry)} />
+      </Section>
+    )}
+
+    {projects && projects.length > 0 && (
+      <Section label={label} id={id}>
+        {pinned.length > 0 && <ProjectIndex items={pinned} />}
+        <p class:list={[pinned.length > 0 ? 'more' : 'flush']}><TextLink href={url('/projects/')}>All projects →</TextLink></p>
+      </Section>
+    )}
+
+    {posts && posts.length > 0 && (
+      <Section label={label} id={id}>
+        <PostList items={posts.slice(0, HOME_POSTS)} />
+        <p class="more"><TextLink href={url('/writing/')}>All writing →</TextLink></p>
+      </Section>
+    )}
+
+    {socials && (
+      <Section label={label} id={id}>
+        <Elsewhere socials={socials} emails={EMAILS} />
+      </Section>
+    )}
+  </>
+)}

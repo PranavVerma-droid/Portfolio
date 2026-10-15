@@ -2,7 +2,7 @@
 import { defineConfig, envField } from 'astro/config';
 import node from '@astrojs/node';
 
-// Pages render on request so PocketBase content is always current (see src/lib/pb.ts).
+// Pages render on request, so PocketBase edits show within a minute (see the cache in src/lib/pb.ts).
 export default defineConfig({
   site: 'https://pranavv.co.in',
   output: 'server',

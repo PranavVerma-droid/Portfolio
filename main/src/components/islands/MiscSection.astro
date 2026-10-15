@@ -1,0 +1,76 @@
+---
+/*
+  One section of /misc, rendered as a server island (server:defer). Each section fetches on its own,
+  so a slow one (ListenBrainz, trips) never holds up the rest. misc.astro gives each a Skeleton fallback.
+*/
+import Section from '../Section.astro';
+import EntryIndex from '../EntryIndex.astro';
+import Empty from '../Empty.astro';
+import ChipList from '../ChipList.astro';
+import CompactList from '../CompactList.astro';
+import Trips from '../Trips.astro';
+import LastSong from '../LastSong.astro';
+import LoadError from '../LoadError.astro';
+import { getEducation, type Education } from '../../lib/education';
+import { getLanguages, getSkills } from '../../lib/skills';
+import { getInternships, type Internship } from '../../lib/internships';
+import { getSocialWork, type SocialWork } from '../../lib/socialwork';
+import { getPublications, type Publication } from '../../lib/publications';
+import { getCertificates } from '../../lib/certificates';
+import { getCompetitions } from '../../lib/competitions';
+import { getTrips } from '../../lib/trips';
+import { getLastSong } from '../../lib/listening';
+import { monthRange } from '../../lib/format';
+import { attempt } from '../../lib/attempt';
+
+export type MiscSectionId = 'listening' | 'internships' | 'volunteering' | 'publications' | 'scores' | 'certifications' | 'competitions' | 'languages' | 'skills' | 'trips';
+interface Props { id: MiscSectionId; label: string }
+const { id, label } = Astro.props;
+
+const month = (d: string) => d.slice(0, 7);
+const score = (e: Education) => ({ ...e, meta: e.start ? month(e.start) : undefined });
+const volunteering = (v: SocialWork) => ({
+  ...v,
+  meta: [v.institute, monthRange(v.start, v.end)].filter(Boolean).join(' · ') || undefined,
+  status: v.start && !v.end ? 'current' : undefined,
+});
+const internship = (i: Internship) => ({
+  ...i,
+  meta: [i.institute, i.type, monthRange(i.start, i.end)].filter(Boolean).join(' · ') || undefined,
+  status: i.start && !i.end ? 'current' : undefined,
+});
+const publication = (p: Publication) => ({ ...p, meta: [p.journal, p.date].filter(Boolean).join(' · ') || undefined });
+
+// Only the fetch this section needs runs. undefined means it failed (getLastSong never throws).
+const song = id === 'listening' ? await getLastSong() : undefined;
+const internships = id === 'internships' ? await attempt(getInternships) : undefined;
+const socialWork = id === 'volunteering' ? await attempt(getSocialWork) : undefined;
+const publications = id === 'publications' ? await attempt(getPublications) : undefined;
+const scores = id === 'scores' ? (await attempt(getEducation))?.scores : undefined;
+const certificates = id === 'certifications' ? await attempt(getCertificates) : undefined;
+const competitions = id === 'competitions' ? await attempt(getCompetitions) : undefined;
+const languages = id === 'languages' ? await attempt(getLanguages) : undefined;
+const skills = id === 'skills' ? await attempt(getSkills) : undefined;
+const trips = id === 'trips' ? await attempt(getTrips) : undefined;
+---
+{id === 'listening' ? (
+  song && (
+    <Section label={label} id={id}>
+      <LastSong song={song} />
+    </Section>
+  )
+) : (
+  <Section label={label} id={id}>
+    {id === 'internships' && (!internships ? <LoadError /> : internships.length ? <EntryIndex items={internships.map(internship)} collapse /> : <Empty />)}
+    {id === 'volunteering' && (!socialWork ? <LoadError /> : socialWork.length ? <EntryIndex items={socialWork.map(volunteering)} collapse /> : <Empty />)}
+    {id === 'publications' && (!publications ? <LoadError /> : publications.length ? <EntryIndex items={publications.map(publication)} collapse /> : <Empty />)}
+    {id === 'scores' && (!scores ? <LoadError /> : scores.length ? <EntryIndex items={scores.map(score)} /> : <Empty />)}
+    {id === 'certifications' && (!certificates ? <LoadError /> : certificates.length ? <ChipList items={certificates} id="cert" /> : <Empty />)}
+    {id === 'competitions' && (!competitions ? <LoadError /> : competitions.length
+      ? <CompactList items={competitions.map((c) => ({ ...c, status: c.won ? 'won' : undefined }))} />
+      : <Empty />)}
+    {id === 'languages' && (!languages ? <LoadError /> : languages.length ? <ChipList items={languages} id="lang" /> : <Empty />)}
+    {id === 'skills' && (!skills ? <LoadError /> : skills.length ? <ChipList items={skills} id="skill" /> : <Empty />)}
+    {id === 'trips' && (!trips ? <LoadError /> : trips.length ? <Trips trips={trips} /> : <Empty />)}
+  </Section>
+)}

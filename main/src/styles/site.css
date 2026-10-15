@@ -196,6 +196,33 @@ mark { background: var(--paper-tint); color: var(--ink); padding: 0 2px; border-
 .foot a { color: var(--ink-muted); }
 .foot a:hover { color: var(--link-hover); }
 
+/* ---------- loading skeletons ---------- */
+/* Stand-ins for sections that load after the page (Skeleton.astro). Each bar sits in the line box of
+   the text it replaces, so rows keep their real height. paper-sunk only, no shimmer, no spinner. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.sk-bar { display: block; background: var(--paper-sunk); border-radius: var(--radius-sm); animation: sk-pulse 1.6s var(--ease) 400ms infinite alternate; }
+@keyframes sk-pulse { to { background: var(--rule); } }
+.sk-row:hover { background: none; }
+.sk-date { width: 36px; height: 10px; margin: 5px 0; }
+.row .sk-date { margin-top: 10px; }
+.sk-title { height: 14px; margin: 8px 0; }
+.sk-meta { height: 10px; margin: 5px 0; }
+.sk-desc, .sk-line { height: 12px; margin: 6px 0; }
+.sk-line { margin: 9px 0; }
+.sk .post, .sk .compact-item { align-items: center; }
+.compact-item .sk-line { margin: 6px 0; }
+.sk-tags { display: flex; gap: var(--space-1); margin-top: var(--space-2); }
+.sk-tag { height: 20px; }
+.sk-strip { display: flex; gap: var(--space-1); margin-top: var(--space-3); }
+.sk-tile { flex: none; width: 96px; height: 96px; }
+.sk-chip { height: 26px; }
+.sk-link { height: 12px; margin: 9px 0; }
+.sk-cover { flex: none; width: 64px; height: 64px; }
+.sk-song-text { flex: 1; }
+.sk-song-text .sk-title { margin: 6px 0; }
+.sk-when { width: 64px; height: 10px; margin: 4px 0; }
+.sk-noscript { margin: 0 0 var(--space-3); font-size: 16px; line-height: 24px; }
+
 /* ---------- motion ---------- */
 @view-transition { navigation: auto; }
 ::view-transition-group(root) { animation-duration: 200ms; animation-timing-function: var(--ease); }
@@ -346,7 +373,8 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
   .chips { gap: var(--space-2); }
   .chip { padding: 6px 10px; font-size: 14px; }
   .lb-btn { padding: 8px 14px; font-size: 14px; }
-  .tile { width: 112px; height: 112px; }
+  .tile, .sk-tile { width: 112px; height: 112px; }
+  .sk-chip { height: 34px; }
   .social-icon { width: 18px; height: 18px; }
 }
 

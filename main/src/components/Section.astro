@@ -1,9 +1,9 @@
 ---
 /* A labelled homepage section. The label is the only uppercase text on the site. */
-interface Props { label: string; id: string }
-const { label, id } = Astro.props;
+interface Props { label: string; id: string; /** Set while a skeleton stands in for the content. */ busy?: boolean }
+const { label, id, busy } = Astro.props;
 ---
-<section aria-labelledby={`h-${id}`}>
+<section aria-labelledby={`h-${id}`} aria-busy={busy ? 'true' : undefined}>
   <h2 class="label" id={`h-${id}`}>{label}</h2>
   <slot />
 </section>
