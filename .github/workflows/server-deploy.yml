@@ -55,26 +55,28 @@ jobs:
             throw new Error('Timeout waiting for Docker build to complete');
 
   deploy:
-    runs-on: db1
+    runs-on: gh-runner-ubuntu-1
     needs: wait-for-builds
+    env:
+      REPO_DIR: /var/www/gh-runner-ubuntu-1/portfolio-1/files
     steps:
       - name: Deploy to server
         run: |
           echo "Starting deployment..."
 
-          git config --global --add safe.directory /data/services/db1/portfolio/portfolio
-          cd /data/services/db1/portfolio/portfolio || exit 1
+          git config --global --add safe.directory "$REPO_DIR"
+          cd "$REPO_DIR" || exit 1
 
           echo "Resetting local changes..."
           git reset --hard HEAD
-          git clean -fd
+          git clean -fd -e docker/.env
 
           echo "Pulling latest changes..."
           git fetch origin
           git reset --hard origin/master
 
           echo "Pulling latest Docker image..."
-          cd /data/services/db1/portfolio || exit 1
+          cd "$REPO_DIR/docker" || exit 1
           docker compose pull web || exit 1
 
           echo "Starting container..."
