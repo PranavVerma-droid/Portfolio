@@ -13,4 +13,6 @@ services:
       - "${PORT:-5646}:8080"
     environment:
       PB_URL: ${PB_URL:-https://pb-1.pranavv.co.in}
+      OLLAMA_URL: ${OLLAMA_URL:-https://ollama.pranavv.co.in}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-pranavv-now}
     restart: always

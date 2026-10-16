@@ -10,6 +10,7 @@ one narrow column, a serif for reading, a mono for facts, and one accent colour.
 | --- | --- |
 | [`main/`](main/) | The site (Astro 6, Node). See [`main/README.md`](main/README.md) for its layout. |
 | [`docker/`](docker/) | `docker-compose.yml` and `.env.example` for running the published image. |
+| [`ollama/`](ollama/) | `Modelfile` for `pranavv-now`, the model that writes the home page's Now note. |
 | [`.github/workflows/`](.github/workflows/) | Build, test and deploy pipelines. |
 
 ## Content
@@ -25,6 +26,22 @@ Everything on the site comes from the PocketBase instance at `https://pb-1.prana
 | `/misc/` | `internships`, `publications`, `education` (scores), `certificates`, `competitions`, `languages`, `skills`, `trips`, plus the last song from ListenBrainz |
 
 Edits in PocketBase show up on the next page load; there is no rebuild step.
+
+### Now
+
+The home page's Now note is written by a model on each page view. `/api/now` gathers everything
+current from the dated collections (no end date, or one in the future), plus whatever ended or
+happened in the last 45 days and starts in the next 30, and streams the model's 2-3 sentences into
+the page. The note is labelled as AI generated. If the model is busy or down, the last note is shown
+again; if there has never been one, the section says it couldn't be written.
+
+The model is `llama3.1:8b` with the system prompt and examples in [`ollama/Modelfile`](ollama/Modelfile).
+On the Ollama host:
+
+```bash
+ollama pull llama3.1:8b
+ollama create pranavv-now -f ollama/Modelfile
+```
 
 ## Run locally
 
@@ -59,6 +76,8 @@ for HTTPS.
 | --- | --- | --- |
 | `PORT` | `5646` | Host port the container is published on |
 | `PB_URL` | `https://pb-1.pranavv.co.in` | PocketBase instance to read content from |
+| `OLLAMA_URL` | `https://ollama.pranavv.co.in` | Ollama host that writes the Now note |
+| `OLLAMA_MODEL` | `pranavv-now` | Model built from `ollama/Modelfile` |
 
 The container runs as a non-root user, restarts automatically, and has a health check
 (`docker compose ps` shows `healthy` once it's serving).

@@ -1,0 +1,72 @@
+---
+/*
+  The home page's "Now" section: what I'm doing right now, written by a model from every dated
+  collection (lib/now.ts) and streamed in from /api/now on each page view. Three skeleton lines
+  hold its place until the first words arrive; the text never runs past three lines, so nothing
+  below it moves. The meta line says it is AI generated, and while it is still being written.
+*/
+import Section from './Section.astro';
+import { url } from '../lib/url';
+
+const W = ['94%', '88%', '52%'];
+---
+<Section label="Now" id="now">
+  <div class="now" data-now={url('/api/now')}>
+    <p class="now-text" aria-live="polite" aria-busy="true">
+      <span class="now-sk" aria-hidden="true">{W.map((w) => <span class="sk-bar sk-line" style={`width:${w}`} />)}</span>
+      <span class="sr-only now-pending">Writing what I'm doing now…</span>
+    </p>
+    <p class="meta-line now-meta">
+      <span>AI generated, may be false</span>
+      <span class="now-state">generating…</span>
+    </p>
+    <noscript>
+      <style is:inline>.now-text, .now-meta { display: none !important; }</style>
+      <p class="muted now-fallback">This section is written live and needs JavaScript.</p>
+    </noscript>
+  </div>
+</Section>
+
+<script>
+  /* Streams the note into place. On failure, says so in place of the skeleton. */
+  for (const root of document.querySelectorAll<HTMLElement>('[data-now]')) {
+    const text = root.querySelector<HTMLElement>('.now-text')!;
+    const state = root.querySelector<HTMLElement>('.now-state')!;
+    let started = false;
+
+    const fail = () => {
+      root.classList.add('now-failed');
+      if (!started) text.textContent = "Couldn't write this right now. Reload to try again.";
+      state.textContent = started ? 'stopped early' : '';
+      text.setAttribute('aria-busy', 'false');
+    };
+
+    (async () => {
+      const res = await fetch(root.dataset.now!, { cache: 'no-store' });
+      if (!res.ok || !res.body) return fail();
+      if (res.headers.get('x-now-source') === 'last') state.textContent = 'earlier note';
+      const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        if (!value) continue;
+        if (!started) { started = true; root.classList.add('now-started'); text.textContent = ''; }
+        text.append(value);
+      }
+      if (!started) return fail();
+      if (state.textContent === 'generating…') state.textContent = '';
+      text.setAttribute('aria-busy', 'false');
+    })().catch(fail);
+  }
+</script>
+
+<style>
+  /* Three body lines (30px each), reserved before and clamped after. */
+  .now-text { margin: 0; min-height: 90px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; text-wrap: pretty; }
+  .now-sk { display: block; width: 100%; }
+  .now-meta { margin-top: var(--space-2); }
+  .now-state:empty { display: none; }
+  .now-failed .now-text { color: var(--ink-muted); }
+  .now-failed:not(.now-started) .now-meta { display: none; }
+  .now-fallback { margin: 0; font-size: 16px; line-height: 24px; }
+</style>

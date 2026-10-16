@@ -4,11 +4,13 @@ import Section from '../components/Section.astro';
 import Empty from '../components/Empty.astro';
 import Skeleton, { type SkeletonKind } from '../components/Skeleton.astro';
 import HomeSection, { type HomeSectionId } from '../components/islands/HomeSection.astro';
+import NowSection from '../components/NowSection.astro';
 import { getGeneral } from '../lib/general';
 
 /*
   Only About renders with the page (it also feeds the meta description). The other sections
-  load after it as server islands, each behind a skeleton shaped like its list.
+  load after it as server islands, each behind a skeleton shaped like its list. Now sits before
+  Elsewhere and is written in the browser from /api/now (see NowSection).
 */
 const general = await getGeneral();
 const description = general?.aboutText.slice(0, 160) || 'Pranav Verma builds compilers, ML systems and the self-hosted infrastructure they run on.';
@@ -37,11 +39,14 @@ const sections: { id: HomeSectionId; label: string; skeleton: SkeletonKind }[] =
     ) : <Empty />}
 
     {sections.map((s) => (
-      <HomeSection server:defer id={s.id} label={s.label}>
-        <Section slot="fallback" label={s.label} id={s.id} busy>
-          <Skeleton kind={s.skeleton} label={s.label} />
-        </Section>
-      </HomeSection>
+      <>
+        {s.id === 'elsewhere' && <NowSection />}
+        <HomeSection server:defer id={s.id} label={s.label}>
+          <Section slot="fallback" label={s.label} id={s.id} busy>
+            <Skeleton kind={s.skeleton} label={s.label} />
+          </Section>
+        </HomeSection>
+      </>
     ))}
   </div>
 </Base>

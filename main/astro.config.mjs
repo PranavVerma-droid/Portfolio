@@ -16,6 +16,9 @@ export default defineConfig({
     schema: {
       // 'secret' so it is read at runtime, not inlined at build time.
       PB_URL: envField.string({ context: 'server', access: 'secret', url: true, default: 'https://pb-1.pranavv.co.in' }),
+      // The Ollama host that writes the home page's Now note, and the model built from ollama/Modelfile.
+      OLLAMA_URL: envField.string({ context: 'server', access: 'secret', url: true, default: 'https://ollama.pranavv.co.in' }),
+      OLLAMA_MODEL: envField.string({ context: 'server', access: 'secret', default: 'pranavv-now' }),
     },
   },
 });
