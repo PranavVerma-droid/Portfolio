@@ -121,9 +121,21 @@ export async function nowPrompt(): Promise<string | undefined> {
 
 /* ---------- streaming ---------- */
 
+/*
+  /api/now answers with Server-Sent Events, sent from the first moment so the page can show
+  progress while the model reads the prompt:
+    data: {"t":"Building"}            one per token, as the model writes it
+    event: done   data: {"source":"model"|"last"}
+    event: error  data: {}            nothing could be written
+  "last" means the model was busy or down and the previous note was sent instead.
+  Comment lines (": ping") keep proxies from closing the connection during a slow start.
+*/
+
 let running = 0;
 /** The last note that finished, served when the model is busy or down. */
 let lastNote: string | undefined;
+
+const PING_MS = 10_000;
 
 /** Text up to and including the MAX_SENTENCES-th sentence, and whether it got that far. */
 function clip(text: string): { text: string; full: boolean } {
@@ -132,93 +144,81 @@ function clip(text: string): { text: string; full: boolean } {
   return { text: text.slice(0, ends[MAX_SENTENCES - 1].index! + 1), full: true };
 }
 
-/**
-  The note as a stream of plain-text chunks, or undefined when there's nothing to say and no
-  earlier note to fall back on. Cancelling the stream (the visitor left) stops the generation.
-*/
-export async function streamNow(): Promise<{ body: ReadableStream<Uint8Array>; source: 'model' | 'last' } | undefined> {
-  const encode = (s: string) => new TextEncoder().encode(s);
-  const replay = () => {
-    const note = lastNote;
-    return note ? { body: new ReadableStream<Uint8Array>({ start(c) { c.enqueue(encode(note)); c.close(); } }), source: 'last' as const } : undefined;
-  };
-
-  if (running >= MAX_RUNNING) return replay();
-  const prompt = await attempt(nowPrompt);
-  if (!prompt) return replay();
-
-  running++;
-  let released = false;
-  const release = () => { if (!released) { released = true; running--; } };
-
+/** The note as an event stream. Cancelling it (the visitor left) stops the generation. */
+export function streamNow(): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
   const abort = new AbortController();
-  const timer = setTimeout(() => abort.abort(new Error('timed out')), TIMEOUT_MS);
-  let res: Response;
-  try {
-    res = await fetch(`${OLLAMA_URL}/api/generate`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model: OLLAMA_MODEL, prompt, stream: true, keep_alive: '30m' }),
-      signal: abort.signal,
-    });
-    if (!res.ok || !res.body) throw new Error(`Ollama ${res.status}`);
-  } catch (err) {
-    clearTimeout(timer);
-    release();
-    console.error(`[now] ${(err as Error).message}`);
-    return replay();
-  }
+  let closed = false;
+  let ping: ReturnType<typeof setInterval> | undefined;
 
-  const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
-  let pending = '';   // an NDJSON line not yet complete
-  let note = '';      // everything sent so far
-  const finish = () => { clearTimeout(timer); release(); };
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const send = (s: string) => { if (!closed) controller.enqueue(encoder.encode(s)); };
+      const token = (t: string) => send(`data: ${JSON.stringify({ t })}\n\n`);
+      const end = (event: 'done' | 'error', data: object) => {
+        send(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+        if (!closed) { closed = true; clearInterval(ping); controller.close(); }
+      };
+      const replay = () => {
+        if (!lastNote) return end('error', {});
+        for (const word of lastNote.split(/(?<= )/)) token(word);
+        end('done', { source: 'last' });
+      };
 
-  const body = new ReadableStream<Uint8Array>({
-    async pull(controller) {
+      send(': start\n\n');
+      ping = setInterval(() => send(': ping\n\n'), PING_MS);
+
+      if (running >= MAX_RUNNING) return replay();
+      running++;
+      const timer = setTimeout(() => abort.abort(new Error('timed out')), TIMEOUT_MS);
+      let note = '';
       try {
-        const { value, done } = await reader.read();
-        if (done) {
-          if (note.trim()) lastNote = note.trim();
-          finish();
-          controller.close();
-          return;
+        const prompt = await nowPrompt();
+        if (!prompt) return replay();
+        const res = await fetch(`${OLLAMA_URL}/api/generate`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ model: OLLAMA_MODEL, prompt, stream: true, keep_alive: '30m' }),
+          signal: abort.signal,
+        });
+        if (!res.ok || !res.body) throw new Error(`Ollama ${res.status}`);
+
+        let pending = '';   // an NDJSON line not yet complete
+        read: for await (const value of res.body.pipeThrough(new TextDecoderStream())) {
+          pending += value;
+          const lines = pending.split('\n');
+          pending = lines.pop()!;
+          for (const raw of lines) {
+            if (!raw.trim()) continue;
+            const msg = JSON.parse(raw) as { response?: string; done?: boolean; error?: string };
+            if (msg.error) throw new Error(msg.error);
+            // No leading whitespace, and nothing past the last allowed sentence.
+            const { text, full } = clip((note + (msg.response ?? '')).trimStart());
+            const next = text.slice(note.length);
+            note = text;
+            if (next) token(next);
+            if (full || msg.done) break read;
+          }
         }
-        pending += value;
-        const lines = pending.split('\n');
-        pending = lines.pop()!;
-        let chunk = '';
-        let stop = false;
-        for (const raw of lines) {
-          if (!raw.trim()) continue;
-          const msg = JSON.parse(raw) as { response?: string; done?: boolean; error?: string };
-          if (msg.error) throw new Error(msg.error);
-          chunk += msg.response ?? '';
-          if (msg.done) stop = true;
-        }
-        // No leading whitespace, and nothing past the last allowed sentence.
-        const { text, full } = clip((note + chunk).trimStart());
-        const next = text.slice(note.length);
-        if (next) controller.enqueue(encode(next));
-        note = text;
-        if (full || stop) {
-          if (note.trim()) lastNote = note.trim();
-          finish();
-          abort.abort();
-          controller.close();
-        }
+        if (!note.trim()) throw new Error('empty note');
+        lastNote = note.trim();
+        end('done', { source: 'model' });
       } catch (err) {
+        if (closed) return; // the visitor left
         console.error(`[now] ${(err as Error).message}`);
-        finish();
+        // Mid-note, keep what was sent; before any text, fall back to the last note.
+        if (note.trim()) end('done', { source: 'model' });
+        else replay();
+      } finally {
+        clearTimeout(timer);
+        running--;
         abort.abort();
-        controller.error(err);
       }
     },
     cancel() {
-      finish();
+      closed = true;
+      clearInterval(ping);
       abort.abort();
     },
   });
-
-  return { body, source: 'model' };
 }

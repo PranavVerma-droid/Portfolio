@@ -32,8 +32,14 @@ Edits in PocketBase show up on the next page load; there is no rebuild step.
 The home page's Now note is written by a model on each page view. `/api/now` gathers everything
 current from the dated collections (no end date, or one in the future), plus whatever ended or
 happened in the last 45 days and starts in the next 30, and streams the model's 2-3 sentences into
-the page. The note is labelled as AI generated. If the model is busy or down, the last note is shown
-again; if there has never been one, the section says it couldn't be written.
+the page as Server-Sent Events, one per token. The note is labelled as AI generated. If the model is
+busy or down, the last note is shown again; if there has never been one, the section says it
+couldn't be written.
+
+Tokens only arrive one at a time if nothing between the site and Ollama buffers them. Cloudflare's
+proxy does, so point `OLLAMA_URL` at Ollama directly (over Tailscale or the LAN, e.g.
+`http://100.x.y.z:11434`), or through an nginx `location` with `proxy_buffering off;` and a publicly
+trusted certificate.
 
 The model is `llama3.1:8b` with the system prompt and examples in [`ollama/Modelfile`](ollama/Modelfile).
 On the Ollama host:
@@ -76,7 +82,7 @@ for HTTPS.
 | --- | --- | --- |
 | `PORT` | `5646` | Host port the container is published on |
 | `PB_URL` | `https://pb-1.pranavv.co.in` | PocketBase instance to read content from |
-| `OLLAMA_URL` | `https://ollama.pranavv.co.in` | Ollama host that writes the Now note |
+| `OLLAMA_URL` | `https://ollama.pranavv.co.in` | Ollama host that writes the Now note. Use a direct, unproxied URL |
 | `OLLAMA_MODEL` | `pranavv-now` | Model built from `ollama/Modelfile` |
 
 The container runs as a non-root user, restarts automatically, and has a health check
