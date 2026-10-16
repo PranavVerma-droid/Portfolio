@@ -35,9 +35,15 @@ const W = ['94%', '88%', '52%'];
 </Section>
 
 <script>
-  /* Reads the event stream from /api/now (see lib/now.ts) and writes each token as it arrives. */
+  /*
+    Reads the event stream from /api/now (see lib/now.ts). Tokens arrive in bursts, so they go into
+    a queue that each animation frame drains at an even pace (faster when it backs up); every piece
+    fades in ahead of a cursor. Once the stream ends and the queue is empty, the pieces collapse
+    back into plain text. Reduced motion shows tokens as they arrive, with no fades or cursor pulse.
+  */
   const GLYPHS = ['·', '✢', '✳', '✶', '✻', '✽', '✻', '✶', '✳', '✢'];
   const WAITING = ['Thinking', 'Recalling', 'Checking dates', 'Pondering', 'Cross-referencing', 'Compiling'];
+  const STALL_MS = 3000;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   for (const root of document.querySelectorAll<HTMLElement>('[data-now]')) {
@@ -46,37 +52,78 @@ const W = ['94%', '88%', '52%'];
     const verb = root.querySelector<HTMLElement>('.now-verb')!;
     const count = root.querySelector<HTMLElement>('.now-count')!;
     const state = root.querySelector<HTMLElement>('.now-state')!;
+    const caret = document.createElement('span');
+    caret.className = 'now-caret';
+    caret.setAttribute('aria-hidden', 'true');
+
     const t0 = performance.now();
     let tokens = 0;
+    let lastToken = 0;
     let frame = 0;
+    let queue = '';             // received, not yet shown
+    let shown = '';             // on the page
+    let ended: string | undefined; // the stream's closing note, once it has ended
+    let finished = false;
 
     // The spinner: glyph every 120ms, verb every 2.4s until the first token, count every tick.
     const tick = () => {
       frame++;
       if (!reduce) glyph.textContent = GLYPHS[frame % GLYPHS.length];
+      const stalled = tokens > 0 && ended === undefined && performance.now() - lastToken > STALL_MS;
+      root.classList.toggle('now-stalled', stalled);
       if (!tokens) verb.textContent = `${WAITING[Math.floor(frame / 20) % WAITING.length]}…`;
+      else verb.textContent = stalled ? 'Waiting on the model…' : 'Writing…';
       const s = Math.floor((performance.now() - t0) / 1000);
       count.textContent = `(${s}s${tokens ? ` · ${tokens} token${tokens === 1 ? '' : 's'}` : ''})`;
     };
     tick();
     const timer = setInterval(tick, 120);
 
-    const stop = (note: string) => {
+    // Shows the next piece of the queue; once it's empty after the stream has ended, wraps up.
+    const draw = () => {
+      if (queue) {
+        const n = reduce ? queue.length : Math.max(1, Math.ceil(queue.length / 8));
+        const piece = document.createElement('span');
+        piece.className = 'now-in';
+        piece.textContent = queue.slice(0, n);
+        text.insertBefore(piece, caret);
+        shown += queue.slice(0, n);
+        queue = queue.slice(n);
+      }
+      if (!queue && ended !== undefined) return finish();
+      requestAnimationFrame(draw);
+    };
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
       clearInterval(timer);
+      root.classList.remove('now-stalled');
       root.classList.add('now-done');
-      state.textContent = note;
+      state.textContent = ended ?? '';
       text.setAttribute('aria-busy', 'false');
+      // Let the last fade and the cursor's fade-out play, then drop the pieces for plain text.
+      setTimeout(() => { text.textContent = shown; }, reduce ? 0 : 400);
     };
-    const fail = () => {
-      if (tokens) return stop('stopped early');
-      root.classList.add('now-failed');
-      text.textContent = "Couldn't write this right now. Reload to try again.";
-      stop('');
-    };
+
     const write = (t: string) => {
-      if (!tokens) { text.textContent = ''; verb.textContent = 'Writing…'; }
+      if (!tokens) {
+        text.textContent = '';
+        text.append(caret);
+        requestAnimationFrame(draw);
+      }
       tokens++;
-      text.append(t);
+      lastToken = performance.now();
+      queue += t;
+    };
+    // The stream ended; the queue still drains before the spinner goes.
+    const end = (note: string) => { if (ended === undefined) ended = note; };
+    const fail = () => {
+      if (tokens) return end('stopped early');
+      clearInterval(timer);
+      root.classList.add('now-failed', 'now-done');
+      text.textContent = "Couldn't write this right now. Reload to try again.";
+      text.setAttribute('aria-busy', 'false');
     };
 
     (async () => {
@@ -86,7 +133,7 @@ const W = ['94%', '88%', '52%'];
       let buffer = '';
       for (;;) {
         const { value, done } = await reader.read();
-        if (done) return tokens ? stop('') : fail();
+        if (done) return tokens ? end('') : fail();
         buffer += value;
         // Events end with a blank line; the last piece may be incomplete.
         const events = buffer.split('\n\n');
@@ -100,7 +147,7 @@ const W = ['94%', '88%', '52%'];
           if (!data) continue; // a ping
           const msg = JSON.parse(data);
           if (event === 'message') write(msg.t);
-          else if (event === 'done') return stop(msg.source === 'last' ? 'earlier note' : '');
+          else if (event === 'done') return end(msg.source === 'last' ? 'earlier note' : '');
           else return fail();
         }
       }
@@ -128,6 +175,18 @@ const W = ['94%', '88%', '52%'];
   }
   @keyframes now-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
   .now-done .now-spin { display: none; }
+  .now-stalled .now-glyph { color: var(--ink-muted); }
+
+  /* Streamed text: each piece fades in out of a slight blur, ahead of a softly pulsing cursor. */
+  .now-text :global(.now-in) { animation: now-in 320ms var(--ease) both; }
+  @keyframes now-in { from { opacity: 0; filter: blur(3px); } to { opacity: 1; filter: none; } }
+  .now-text :global(.now-caret) {
+    display: inline-block; width: .5em; height: 1.05em; margin-left: 2px; vertical-align: -.15em;
+    background: var(--signal); border-radius: var(--radius-sm);
+    animation: now-caret 900ms ease-in-out infinite alternate; transition: opacity 300ms;
+  }
+  @keyframes now-caret { from { opacity: 1; } to { opacity: .3; } }
+  .now-done .now-text :global(.now-caret) { animation: none; opacity: 0; }
 
   .now-failed .now-text { color: var(--ink-muted); }
   .now-failed .now-meta { display: none; }
