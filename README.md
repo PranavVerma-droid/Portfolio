@@ -41,11 +41,11 @@ proxy does, so point `OLLAMA_URL` at Ollama directly (over Tailscale or the LAN,
 `http://100.x.y.z:11434`), or through an nginx `location` with `proxy_buffering off;` and a publicly
 trusted certificate.
 
-The model is `llama3.1:8b` with the system prompt and examples in [`ollama/Modelfile`](ollama/Modelfile).
+The model is `llama3.2:3b` with the system prompt and examples in [`ollama/Modelfile`](ollama/Modelfile).
 On the Ollama host:
 
 ```bash
-ollama pull llama3.1:8b
+ollama pull llama3.2:3b
 ollama create pranavv-now -f ollama/Modelfile
 ```
 
