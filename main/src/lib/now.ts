@@ -6,7 +6,6 @@
   the next UPCOMING_DAYS, go in too, marked so the model can mention them briefly. The note is
   generated fresh for each page view and streamed as plain text by /api/now.
 */
-import { OLLAMA_URL as OLLAMA_URL_RAW, OLLAMA_MODEL } from 'astro:env/server';
 import { getProjects } from './projects';
 import { getEducation } from './education';
 import { getInternships } from './internships';
@@ -18,8 +17,7 @@ import { getAllPosts } from './posts';
 import { getGeneral } from './general';
 import { attempt } from './attempt';
 import { stripHtml } from './format';
-
-const OLLAMA_URL = OLLAMA_URL_RAW.replace(/\/$/, '');
+import { OLLAMA_URL, OLLAMA_MODEL, describe, ensureOk, record, timeoutError, type Failure } from './ollama';
 
 const RECENT_DAYS = 45;
 const UPCOMING_DAYS = 30;
@@ -125,9 +123,10 @@ export async function nowPrompt(): Promise<string | undefined> {
   /api/now answers with Server-Sent Events, sent from the first moment so the page can show
   progress while the model reads the prompt:
     data: {"t":"Building"}            one per token, as the model writes it
-    event: done   data: {"source":"model"|"last"}
-    event: error  data: {}            nothing could be written
-  "last" means the model was busy or down and the previous note was sent instead.
+    event: done   data: {"source":"model"|"last", "reason"?: Failure}
+    event: error  data: {"reason": Failure}   nothing could be written
+  "last" means the model was busy or down and the previous note was sent instead; "reason" says
+  why (a Failure from lib/ollama.ts: connection refused, timed out, the model's own error…).
   Comment lines (": ping") keep proxies from closing the connection during a slow start.
 */
 
@@ -155,33 +154,43 @@ export function streamNow(): ReadableStream<Uint8Array> {
     async start(controller) {
       const send = (s: string) => { if (!closed) controller.enqueue(encoder.encode(s)); };
       const token = (t: string) => send(`data: ${JSON.stringify({ t })}\n\n`);
-      const end = (event: 'done' | 'error', data: object) => {
+      const end = (event: 'done' | 'error', data: { source?: string; reason?: Failure }) => {
         send(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
         if (!closed) { closed = true; clearInterval(ping); controller.close(); }
       };
-      const replay = () => {
-        if (!lastNote) return end('error', {});
+      const replay = (reason: Failure) => {
+        if (!lastNote) return end('error', { reason });
         for (const word of lastNote.split(/(?<= )/)) token(word);
-        end('done', { source: 'last' });
+        end('done', { source: 'last', reason });
       };
 
       send(': start\n\n');
       ping = setInterval(() => send(': ping\n\n'), PING_MS);
 
-      if (running >= MAX_RUNNING) return replay();
+      if (running >= MAX_RUNNING) return replay({ code: 'BUSY', message: 'the model is busy writing other notes' });
       running++;
-      const timer = setTimeout(() => abort.abort(new Error('timed out')), TIMEOUT_MS);
+      const timer = setTimeout(() => abort.abort(timeoutError()), TIMEOUT_MS);
       let note = '';
       try {
         const prompt = await nowPrompt();
-        if (!prompt) return replay();
-        const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ model: OLLAMA_MODEL, prompt, stream: true, keep_alive: '30m' }),
-          signal: abort.signal,
-        });
-        if (!res.ok || !res.body) throw new Error(`Ollama ${res.status}`);
+        if (!prompt) return replay({ code: 'NO FACTS', message: 'nothing current to write about' });
+        let res: Response;
+        try {
+          res = await fetch(`${OLLAMA_URL}/api/generate`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ model: OLLAMA_MODEL, prompt, stream: true, keep_alive: '30m' }),
+            signal: abort.signal,
+          });
+        } catch (err) {
+          // A failed connection means the host is down. A timeout may only be a slow cold load
+          // (Ollama answers once the model is in memory), and a cancel is the visitor leaving.
+          if (!closed && (err as Error).name !== 'TimeoutError') record(false);
+          throw err;
+        }
+        record(res.status < 500);
+        await ensureOk(res);
+        if (!res.body) throw new Error('empty response');
 
         let pending = '';   // an NDJSON line not yet complete
         read: for await (const value of res.body.pipeThrough(new TextDecoderStream())) {
@@ -206,9 +215,10 @@ export function streamNow(): ReadableStream<Uint8Array> {
       } catch (err) {
         if (closed) return; // the visitor left
         console.error(`[now] ${(err as Error).message}`);
+        const reason = describe(err, TIMEOUT_MS);
         // Mid-note, keep what was sent; before any text, fall back to the last note.
-        if (note.trim()) end('done', { source: 'model' });
-        else replay();
+        if (note.trim()) end('done', { source: 'model', reason });
+        else replay(reason);
       } finally {
         clearTimeout(timer);
         running--;

@@ -5,6 +5,8 @@
   Three skeleton lines hold its place until the first words arrive; the text never runs past
   three lines, so nothing below it moves. While the model works, the meta line shows a spinner,
   a shimmering verb and a live (seconds · tokens) count; once it's done, the AI warning stays.
+  Below it, the model server's live status from /api/ollama (lib/ollama.ts): the model's specs
+  when it's up, and when it's down, why, since when, and when it was last up.
 */
 import Section from './Section.astro';
 import { url } from '../lib/url';
@@ -12,7 +14,7 @@ import { url } from '../lib/url';
 const W = ['94%', '88%', '52%'];
 ---
 <Section label="Now" id="now">
-  <div class="now" data-now={url('/api/now')}>
+  <div class="now" data-now={url('/api/now')} data-status={url('/api/ollama')}>
     <p class="now-text" aria-live="polite" aria-busy="true">
       <span class="now-sk" aria-hidden="true">{W.map((w) => <span class="sk-bar sk-line" style={`width:${w}`} />)}</span>
       <span class="sr-only">Writing what I'm doing now…</span>
@@ -27,8 +29,16 @@ const W = ['94%', '88%', '52%'];
       <span>Plus, this is a shitty model and a shitty server!</span>
       <span class="now-state"></span>
     </p>
+    <div class="meta-line now-host" data-state="checking">
+      <span class="now-dot" aria-hidden="true"></span>
+      <span class="now-host-line" aria-live="polite">Checking the model server…</span>
+      <details class="more-toggle compact-more now-specs" hidden>
+        <summary><span class="when-closed">details</span><span class="when-open">hide</span></summary>
+        <dl class="spec now-spec"></dl>
+      </details>
+    </div>
     <noscript>
-      <style is:inline>.now-text, .now-meta { display: none !important; }</style>
+      <style is:inline>.now-text, .now-meta, .now-host { display: none !important; }</style>
       <p class="muted now-fallback">This section is written live and needs JavaScript.</p>
     </noscript>
   </div>
@@ -40,10 +50,51 @@ const W = ['94%', '88%', '52%'];
     a queue that each animation frame drains at an even pace (faster when it backs up); every piece
     fades in ahead of a cursor. Once the stream ends and the queue is empty, the pieces collapse
     back into plain text. Reduced motion shows tokens as they arrive, with no fades or cursor pulse.
+
+    Alongside, /api/ollama is read once (and again every POLL_MS while the server is down), and the
+    status line under the note shows what it said. A cold model changes the waiting verb, since
+    the first token can then take a while.
   */
+  interface Failure { code: string; message: string }
+  interface Status {
+    state: 'up' | 'down' | 'no-model';
+    checkedAt: string; since?: string; lastUp?: string; latencyMs?: number;
+    failure?: Failure; version?: string;
+    model?: { name: string; base?: string; family?: string; parameters?: string; quantization?: string; format?: string; context?: number; maxContext?: number; temperature?: number; maxTokens?: number };
+    loaded?: { bytes: number; gpuPct: number; until?: string } | null;
+  }
+
   const GLYPHS = ['·', '✢', '✳', '✶', '✻', '✽', '✻', '✶', '✳', '✢'];
   const WAITING = ['Thinking', 'Recalling', 'Checking dates', 'Pondering', 'Cross-referencing', 'Compiling'];
   const STALL_MS = 3000;
+  const POLL_MS = 20_000;
+
+  const num = (n: number) => n.toLocaleString('en');
+  const clock = (iso: string) => {
+    const d = new Date(iso);
+    const time = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return d.toDateString() === new Date().toDateString() ? time : `${d.toLocaleDateString([], { day: 'numeric', month: 'short' })} ${time}`;
+  };
+  /** "3 min ago", "in 23 min"; undefined past a year (keep_alive -1 sets a far-off expiry). */
+  const relative = (iso: string) => {
+    const ms = Date.parse(iso) - Date.now();
+    const a = Math.abs(ms);
+    if (a > 365 * 86_400_000) return undefined;
+    const v = a < 60_000 ? 'under a minute' : a < 3_600_000 ? `${Math.round(a / 60_000)} min` : a < 86_400_000 ? `${Math.round(a / 3_600_000)} h` : `${Math.round(a / 86_400_000)} d`;
+    return ms < 0 ? `${v} ago` : `in ${v}`;
+  };
+  /** One sentence on why there's no note, by cause. */
+  const why = (f: Failure | undefined) => {
+    if (!f) return "Couldn't reach this site's server.";
+    switch (f.code) {
+      case 'BUSY': return 'The model is busy writing notes for other visitors.';
+      case 'NO FACTS': return 'Nothing current to write about.';
+      case 'TIMEOUT': return `The model gave no answer (${f.message}). It may still be loading into memory.`;
+      case 'NO MODEL': return `The model server is up, but ${f.message}.`;
+      case 'ERROR': return `The model failed: ${f.message}.`;
+      default: return `Can't reach the model server: ${f.message}.`;
+    }
+  };
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   for (const root of document.querySelectorAll<HTMLElement>('[data-now]')) {
@@ -52,6 +103,10 @@ const W = ['94%', '88%', '52%'];
     const verb = root.querySelector<HTMLElement>('.now-verb')!;
     const count = root.querySelector<HTMLElement>('.now-count')!;
     const state = root.querySelector<HTMLElement>('.now-state')!;
+    const host = root.querySelector<HTMLElement>('.now-host')!;
+    const hostLine = root.querySelector<HTMLElement>('.now-host-line')!;
+    const specs = root.querySelector<HTMLDetailsElement>('.now-specs')!;
+    const specList = root.querySelector<HTMLElement>('.now-spec')!;
     const caret = document.createElement('span');
     caret.className = 'now-caret';
     caret.setAttribute('aria-hidden', 'true');
@@ -64,6 +119,8 @@ const W = ['94%', '88%', '52%'];
     let shown = '';             // on the page
     let ended: string | undefined; // the stream's closing note, once it has ended
     let finished = false;
+    let failed = false;
+    let waitVerb: string | undefined; // replaces the cycling verbs, e.g. for a cold model
 
     // The spinner: glyph every 120ms, verb every 2.4s until the first token, count every tick.
     const tick = () => {
@@ -71,7 +128,7 @@ const W = ['94%', '88%', '52%'];
       if (!reduce) glyph.textContent = GLYPHS[frame % GLYPHS.length];
       const stalled = tokens > 0 && ended === undefined && performance.now() - lastToken > STALL_MS;
       root.classList.toggle('now-stalled', stalled);
-      if (!tokens) verb.textContent = `${WAITING[Math.floor(frame / 20) % WAITING.length]}…`;
+      if (!tokens) verb.textContent = `${waitVerb ?? WAITING[Math.floor(frame / 20) % WAITING.length]}…`;
       else verb.textContent = stalled ? 'Waiting on the model…' : 'Writing…';
       const s = Math.floor((performance.now() - t0) / 1000);
       count.textContent = `(${s}s${tokens ? ` · ${tokens} token${tokens === 1 ? '' : 's'}` : ''})`;
@@ -118,13 +175,100 @@ const W = ['94%', '88%', '52%'];
     };
     // The stream ended; the queue still drains before the spinner goes.
     const end = (note: string) => { if (ended === undefined) ended = note; };
-    const fail = () => {
-      if (tokens) return end('stopped early');
+    /** The note couldn't be written: say why, with the code, and offer a reload. */
+    const fail = (reason?: Failure) => {
+      if (tokens) return end(reason ? `stopped early: ${reason.message}` : 'stopped early');
       clearInterval(timer);
+      failed = true;
       root.classList.add('now-failed', 'now-done');
-      text.textContent = "Couldn't write this right now. Reload to try again.";
       text.setAttribute('aria-busy', 'false');
+      const code = document.createElement('span');
+      code.className = 'now-code';
+      code.textContent = reason ? reason.code : 'NETWORK';
+      const reload = document.createElement('a');
+      reload.className = 'link';
+      reload.href = '';
+      reload.textContent = 'Reload';
+      text.replaceChildren(`${why(reason)} `, code, ' ', reload, ' to try again.');
     };
+
+    /* ---------- the model server's status ---------- */
+
+    const row = (label: string, value: string) => {
+      const div = document.createElement('div');
+      div.className = 'spec-row';
+      const dt = document.createElement('dt');
+      dt.textContent = label;
+      const dd = document.createElement('dd');
+      dd.textContent = value;
+      div.append(dt, dd);
+      return div;
+    };
+    const join = (...parts: (string | number | false | null | undefined)[]) => parts.filter(Boolean).join(' · ');
+
+    const show = (s: Status) => {
+      const m = s.model;
+      const cold = s.state === 'up' && s.loaded === null;
+      host.dataset.state = s.state === 'up' ? (cold ? 'cold' : 'up') : s.state;
+      const rows: [string, string][] = [];
+
+      if (s.state === 'up' && m) {
+        const memory = s.loaded
+          ? `in memory, ${s.loaded.gpuPct ? `${s.loaded.gpuPct}% GPU` : 'CPU only'}`
+          : cold ? 'not in memory, cold start' : undefined;
+        hostLine.textContent = join(`${m.name} up`, join(m.parameters, m.quantization), memory, s.latencyMs !== undefined && `${s.latencyMs} ms`);
+        rows.push(['Model', join(m.name, m.base && `built on ${m.base}`)]);
+        rows.push(['Weights', join(m.family, m.parameters && `${m.parameters} parameters`, m.quantization, m.format)]);
+        if (m.context) rows.push(['Context', `${num(m.context)} tokens${m.maxContext ? ` of ${num(m.maxContext)} supported` : ''}`]);
+        if (m.temperature !== undefined || m.maxTokens) rows.push(['Sampling', join(m.temperature !== undefined && `temperature ${m.temperature}`, m.maxTokens && `up to ${m.maxTokens} tokens`)]);
+        if (s.loaded) {
+          const left = s.loaded.until && relative(s.loaded.until);
+          rows.push(['Memory', join(`${(s.loaded.bytes / 1e9).toFixed(1)} GB`, s.loaded.gpuPct ? `${s.loaded.gpuPct}% on GPU` : 'on CPU', left ? `unloads ${left}` : 'stays loaded')]);
+        } else if (cold) {
+          rows.push(['Memory', 'Not loaded. The next note waits while it loads from disk.']);
+        }
+        rows.push(['Server', join(s.version && `Ollama ${s.version}`, s.latencyMs !== undefined && `answered in ${s.latencyMs} ms`)]);
+      } else {
+        const f = s.failure ?? { code: 'ERROR', message: 'unknown error' };
+        hostLine.textContent = s.state === 'no-model'
+          ? join(s.version ? `Ollama ${s.version} up` : 'Ollama up', f.message)
+          : join('Model server down', f.message, s.since && `since ${clock(s.since)}`);
+        rows.push(['Status', `${s.state === 'no-model' ? 'Model missing' : 'Down'}: ${f.message} (${f.code})`]);
+        if (s.since) rows.push([s.state === 'no-model' ? 'Missing since' : 'Down since', join(clock(s.since), relative(s.since))]);
+        rows.push(['Last up', s.lastUp ? join(clock(s.lastUp), relative(s.lastUp)) : 'not since this site last started']);
+        if (s.version) rows.push(['Server', `Ollama ${s.version}`]);
+      }
+      rows.push(['Checked', join(clock(s.checkedAt), s.state !== 'up' && `again every ${POLL_MS / 1000}s`)]);
+
+      specList.replaceChildren(...rows.map(([l, v]) => row(l, v)));
+      specs.hidden = false;
+      // Down: open the details, since they are the explanation.
+      if (s.state !== 'up' && failed) specs.open = true;
+      if (cold && !tokens) waitVerb = 'Loading the model into memory';
+      // Back up after a failed note: say so.
+      if (s.state === 'up' && failed) {
+        const reload = document.createElement('a');
+        reload.className = 'link';
+        reload.href = '';
+        reload.textContent = 'Reload';
+        text.replaceChildren('The model server is back up. ', reload, ' to write a note.');
+      }
+    };
+
+    const check = async () => {
+      try {
+        const res = await fetch(root.dataset.status!, { cache: 'no-store' });
+        if (!res.ok) throw new Error(String(res.status));
+        const s = (await res.json()) as Status;
+        show(s);
+        if (s.state !== 'up') setTimeout(check, POLL_MS);
+      } catch {
+        host.dataset.state = 'down';
+        hostLine.textContent = "Couldn't check the model server";
+        setTimeout(check, POLL_MS);
+      }
+    };
+    check();
 
     (async () => {
       const res = await fetch(root.dataset.now!, { cache: 'no-store', headers: { accept: 'text/event-stream' } });
@@ -147,11 +291,14 @@ const W = ['94%', '88%', '52%'];
           if (!data) continue; // a ping
           const msg = JSON.parse(data);
           if (event === 'message') write(msg.t);
-          else if (event === 'done') return end(msg.source === 'last' ? 'earlier note' : '');
-          else return fail();
+          else if (event === 'done') {
+            if (msg.source === 'last') return end(msg.reason ? `earlier note: ${msg.reason.message}` : 'earlier note');
+            return end(msg.reason ? `stopped early: ${msg.reason.message}` : '');
+          }
+          else return fail(msg.reason);
         }
       }
-    })().catch(fail);
+    })().catch(() => fail());
   }
 </script>
 
@@ -190,6 +337,18 @@ const W = ['94%', '88%', '52%'];
 
   .now-failed .now-text { color: var(--ink-muted); }
   .now-failed .now-meta { display: none; }
+  .now-text :global(.now-code) { font-family: var(--font-mono); font-size: 13px; color: var(--signal); }
+
+  /* Model server status: a dot (filled up, hollow cold, signal down), a line, and the spec list. */
+  .now-host { margin-top: var(--space-1); align-items: baseline; }
+  .now-failed .now-host { margin-top: var(--space-2); }
+  .now-dot { flex: none; align-self: center; width: 8px; height: 8px; border-radius: 50%; border: var(--stroke-hairline) solid var(--ink-muted); background: var(--ink-muted); }
+  .now-host[data-state="checking"] .now-dot { background: none; border-color: var(--rule-strong); animation: sk-pulse 1.6s var(--ease) infinite alternate; }
+  .now-host[data-state="cold"] .now-dot { background: none; }
+  .now-host[data-state="down"] .now-dot, .now-host[data-state="no-model"] .now-dot { background: var(--signal); border-color: var(--signal); }
+  .now-host[data-state="down"] .now-host-line, .now-host[data-state="no-model"] .now-host-line { color: var(--ink); }
+  .now-specs[hidden] { display: none; }
+  .now-spec { margin-top: var(--space-2); }
   .now-fallback { margin: 0; font-size: 16px; line-height: 24px; }
 
   /* Reduced motion (site.css stops every animation): the glyph stays still and the verb is plain text. */
